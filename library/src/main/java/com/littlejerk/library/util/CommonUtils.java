@@ -12,7 +12,6 @@ import android.graphics.Color;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,8 +23,6 @@ import com.littlejerk.library.manager.log.UILog;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 
@@ -188,7 +185,7 @@ public class CommonUtils {
                     .getPackageManager()
                     .getApplicationInfo(AppUtils.getAppPackageName(), PackageManager.GET_META_DATA)
                     .metaData.getString(name);
-        } catch (PackageManager.NameNotFoundException ex) {
+        } catch (Exception ex) {
             UILog.e(TAG, ex.getMessage());
         }
         return meta;
