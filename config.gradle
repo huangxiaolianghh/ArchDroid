@@ -1,0 +1,97 @@
+ext {
+    android = [
+            compileSdkVersion: 30,
+            buildToolsVersion: "30.0.3",
+            minSdkVersion    : 21,
+            targetSdkVersion : 30,
+            versionCode      : 1,
+            versionName      : "1.0"
+    ]
+
+
+    // 第三方库管理
+    dependencies = [
+
+            "junit"                      : 'junit:junit:4.12',
+            "ext-junit"                  : 'androidx.test.ext:junit:1.1.2',
+            "espresso-core"              : 'androidx.test.espresso:espresso-core:3.3.0',
+
+            // google 官方支持库
+            appcompatV7                  : 'androidx.appcompat:appcompat:1.2.0',
+            supportV4                    : 'androidx.legacy:legacy-support-v4:1.0.0',
+            design                       : 'com.google.android.material:material:1.3.0',
+            recyclerview                 : 'androidx.recyclerview:recyclerview:1.1.0',
+            cardview                     : 'androidx.cardview:cardview:1.0.0',
+            constraintLayout             : 'androidx.constraintlayout:constraintlayout:2.0.4',
+            multidex                     : 'androidx.multidex:multidex:2.0.1',
+
+            // 第三方库
+            // --- UI相关
+            butterknife                  : "com.jakewharton:butterknife:10.2.1",
+            butterknifeCompile           : "com.jakewharton:butterknife-compiler:10.2.1",
+            baseRecyclerViewAdapterHelper: "com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.4",
+            ShadowLayout                 : 'com.github.lihangleo2:ShadowLayout:3.2.0',
+            //样式非常多的loading动画效果
+            aviDialog                    : 'com.wang.avi:library:2.1.3',
+            kprogresshud                 : 'com.kaopiz:kprogresshud:1.2.0',
+            //刷新控件，不用可去掉
+            refreshHorizontal            : 'com.scwang.smart:refresh-layout-horizontal:2.0.0',
+            refreshKernel                : 'com.scwang.smart:refresh-layout-kernel:2.0.1',
+            refreshHeaderClassics        : 'com.scwang.smart:refresh-header-classics:2.0.1',//经典刷新头
+            refreshHeaderMaterial        : 'com.scwang.smart:refresh-header-material:2.0.1',//谷歌刷新头
+
+            // --- 沉浸式状态栏
+            statusbarutil                : 'com.jaeger.statusbarutil:library:1.5.1',
+            statusBarCompat              : 'com.githang:status-bar-compat:0.7',
+
+            // --- 图片相关
+            glide                        : "com.github.bumptech.glide:glide:4.11.0",
+            glideCompiler                : 'com.github.bumptech.glide:compiler:4.11.0',
+            luban                        : "top.zibin:Luban:1.1.8",
+            photoView                    : "com.github.chrisbanes:PhotoView:2.1.0",
+            subsamplingScaleImageView    : "com.davemorrissey.labs:subsampling-scale-image-view:3.10.0",
+            // --- 网络相关
+            okhttp                       : "com.squareup.okhttp3:okhttp:3.8.1",
+            OKGO                         : 'com.lzy.net:okgo:3.0.4',
+            //okhttp的下载上传监听
+            progressmanager              : "me.jessyan:progressmanager:1.5.0",
+
+            // --- 数据相关
+            fastjson                     : "com.alibaba:fastjson:1.2.72",
+            greendao                     : "org.greenrobot:greendao:3.2.2",
+            // --- 检测内存泄漏
+            ReleaseLeakCanary            : 'com.squareup.leakcanary:leakcanary-android-no-op:1.6',
+            DebugAndTestLeakCanary       : 'com.squareup.leakcanary:leakcanary-android-no-op:1.6',
+            //DebugAndTestLeakCanary        : 'com.squareup.leakcanary:leakcanary-android:1.6',
+
+            // --- Logger
+            Logger                       : 'com.orhanobut:logger:2.2.0',
+            // --- 省去了写shape文件
+            FlycoRoundView_Lib           : 'com.flyco.roundview:FlycoRoundView_Lib:1.1.4@aar',
+            // --- 发粘性事件 而且修复ottoBUS的问题
+            EventBus                     : 'org.greenrobot:eventbus:3.2.0',
+            MultiType                    : 'me.drakeet.multitype:multitype:3.5.0',
+            rxbinding                    : 'com.jakewharton.rxbinding2:rxbinding:2.2.0',
+            //xposed root  虚拟机检测
+            easyProtector                : 'com.lahm.library:easy-protector-release:1.1.2',
+            PickerView                   : 'com.contrarywind:Android-PickerView:4.1.9',
+
+            //banner https://github.com/youth5201314/banner
+            banner                       : 'com.youth.banner:banner:2.1.0',
+            utilcode                     : 'com.blankj:utilcodex:1.30.6',
+            PictureSelector              : 'com.github.LuckSiege.PictureSelector:picture_library:v2.6.0',
+            //轮子哥的TitleBar
+            TitleBar                     : 'com.github.getActivity:TitleBar:8.6',
+            //titleBar、加载视图的框架
+            LoadingHelper                : 'com.github.DylanCaiCoding:LoadingHelper:2.2.0',
+            XRecyclerViewDivider         : 'com.github.HHotHeart:XRecyclerViewDivider:1.0.0',
+
+            //Activity、Fragment生命周期监听，会自动引用基础库与Android库（rxjava、rxAndroid）
+            lifecycle                    : 'androidx.lifecycle:lifecycle-common-java8:2.3.0',
+            rxlifecycle                  : 'com.trello.rxlifecycle4:rxlifecycle-components:4.0.2'
+
+
+    ]
+
+
+}

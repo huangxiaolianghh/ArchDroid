@@ -1,0 +1,95 @@
+plugins {
+    id 'com.android.library'
+}
+
+android {
+    compileSdkVersion rootProject.ext.android.compileSdkVersion
+    buildToolsVersion rootProject.ext.android.buildToolsVersion
+
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    defaultConfig {
+        minSdkVersion rootProject.ext.android.minSdkVersion
+        targetSdkVersion rootProject.ext.android.targetSdkVersion
+        versionCode rootProject.ext.android.versionCode
+        versionName rootProject.ext.android.versionName
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+}
+
+dependencies {
+
+    annotationProcessor rootProject.ext.dependencies.butterknifeCompile
+    annotationProcessor rootProject.ext.dependencies.glideCompiler
+    // google
+    api rootProject.ext.dependencies.appcompatV7
+    api rootProject.ext.dependencies.supportV4
+    api rootProject.ext.dependencies.design
+    api rootProject.ext.dependencies.multidex
+    api rootProject.ext.dependencies.recyclerview
+    api rootProject.ext.dependencies.cardview
+    api rootProject.ext.dependencies.constraintLayout
+
+
+    // UI相关
+    api rootProject.ext.dependencies.butterknife
+    api rootProject.ext.dependencies.baseRecyclerViewAdapterHelper
+    api rootProject.ext.dependencies.statusbarutil
+    api rootProject.ext.dependencies.statusBarCompat
+
+    api rootProject.ext.dependencies.ShadowLayout
+    api rootProject.ext.dependencies.aviDialog
+    api rootProject.ext.dependencies.kprogresshud
+    //下拉刷新
+    api rootProject.ext.dependencies.refreshHorizontal
+    api rootProject.ext.dependencies.refreshKernel
+    api rootProject.ext.dependencies.refreshHeaderClassics
+    api rootProject.ext.dependencies.refreshHeaderMaterial
+
+    // 图片相关
+    api rootProject.ext.dependencies.glide
+    api rootProject.ext.dependencies.luban
+    api rootProject.ext.dependencies.subsamplingScaleImageView
+    api rootProject.ext.dependencies.photoView
+
+    // 网络相关
+    api rootProject.ext.dependencies.OKGO
+    api rootProject.ext.dependencies.okhttp
+    api rootProject.ext.dependencies.progressmanager
+
+    // 数据相关
+    api rootProject.ext.dependencies.fastjson
+    api rootProject.ext.dependencies.greendao
+    // leakCanary
+    releaseApi rootProject.ext.dependencies.ReleaseLeakCanary
+    debugApi rootProject.ext.dependencies.DebugAndTestLeakCanary
+
+    // Logger
+    api rootProject.ext.dependencies.Logger
+    api rootProject.ext.dependencies.FlycoRoundView_Lib
+    api rootProject.ext.dependencies.EventBus
+    api rootProject.ext.dependencies.MultiType
+    api rootProject.ext.dependencies.rxbinding
+    api rootProject.ext.dependencies.easyProtector
+    api rootProject.ext.dependencies.PickerView
+    api rootProject.ext.dependencies.banner
+    api rootProject.ext.dependencies.utilcode
+    api rootProject.ext.dependencies.PictureSelector
+    api rootProject.ext.dependencies.TitleBar
+    api rootProject.ext.dependencies.LoadingHelper
+    api rootProject.ext.dependencies.XRecyclerViewDivider
+    api rootProject.ext.dependencies.lifecycle
+    api rootProject.ext.dependencies.rxlifecycle
+
+}

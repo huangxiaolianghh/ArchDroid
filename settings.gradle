@@ -1,0 +1,3 @@
+rootProject.name = "MVPArch"
+include ':app'
+include ':library'

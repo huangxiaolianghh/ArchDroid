@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.hjq.bar.TitleBar xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/title_bar"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/title_bar_height"
+    android:background="@color/colorAccent"
+    android:paddingHorizontal="16dp"
+    app:barStyle="light"
+    app:leftIcon="@drawable/ic_arrow_back_white"
+    app:lineColor="@color/color_99"
+    app:lineSize="0.5dp"
+    app:lineVisible="true"
+    app:titleColor="@color/white"
+    app:titleSize="@dimen/font_17" />
