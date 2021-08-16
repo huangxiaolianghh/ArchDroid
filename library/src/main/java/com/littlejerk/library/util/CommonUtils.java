@@ -186,34 +186,9 @@ public class CommonUtils {
                     .getApplicationInfo(AppUtils.getAppPackageName(), PackageManager.GET_META_DATA)
                     .metaData.getString(name);
         } catch (Exception ex) {
-            UILog.e(TAG, ex.getMessage());
+//            UILog.e(TAG, ex.getMessage());
         }
         return meta;
     }
 
-    /**
-     * 不同单位的值转px
-     *
-     * @param value
-     * @param unit
-     * @return
-     */
-    public static float applyDimension(final float value, final int unit) {
-        DisplayMetrics metrics = Resources.getSystem().getDisplayMetrics();
-        switch (unit) {
-            case TypedValue.COMPLEX_UNIT_PX:
-                return value;
-            case TypedValue.COMPLEX_UNIT_DIP:
-                return value * metrics.density;
-            case TypedValue.COMPLEX_UNIT_SP:
-                return value * metrics.scaledDensity;
-            case TypedValue.COMPLEX_UNIT_PT:
-                return value * metrics.xdpi * (1.0f / 72);
-            case TypedValue.COMPLEX_UNIT_IN:
-                return value * metrics.xdpi;
-            case TypedValue.COMPLEX_UNIT_MM:
-                return value * metrics.xdpi * (1.0f / 25.4f);
-        }
-        return 0;
-    }
 }

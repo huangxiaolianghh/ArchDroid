@@ -6,7 +6,6 @@ import android.view.View;
 
 import com.blankj.utilcode.util.Utils;
 import com.hjq.bar.OnTitleBarListener;
-import com.littlejerk.library.util.CommonUtils;
 
 import androidx.annotation.DimenRes;
 
@@ -85,7 +84,6 @@ public class TitleParam implements ITitleView {
         return this;
     }
 
-
     @Override
     public String getMiddleText() {
         return middleText;
@@ -103,14 +101,15 @@ public class TitleParam implements ITitleView {
     }
 
     @Override
-    public TitleParam setMiddleTextSize(float middleTextSize) {
-        this.middleTextSize = CommonUtils.applyDimension(middleTextSize, TypedValue.COMPLEX_UNIT_SP);
+    public TitleParam setMiddleTextSize(float spVal) {
+        this.middleTextSize = TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_SP, spVal, Resources.getSystem().getDisplayMetrics());
         return this;
     }
 
     @Override
-    public TitleParam setMiddleTextSize(@DimenRes int middleTextSizeRes) {
-        this.middleTextSize = Resources.getSystem().getDimension(middleTextSizeRes);
+    public TitleParam setMiddleTextSize(@DimenRes int spDimenId) {
+        this.middleTextSize = Utils.getApp().getResources().getDimension(spDimenId);
         return this;
     }
 
@@ -148,14 +147,15 @@ public class TitleParam implements ITitleView {
     }
 
     @Override
-    public TitleParam setRightTextSize(float rightTextSize) {
-        this.rightTextSize = CommonUtils.applyDimension(rightTextSize, TypedValue.COMPLEX_UNIT_SP);
+    public TitleParam setRightTextSize(float spVal) {
+        this.rightTextSize = TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_SP, spVal, Resources.getSystem().getDisplayMetrics());
         return this;
     }
 
     @Override
-    public TitleParam setRightTextSize(@DimenRes int rightTextSizeRes) {
-        this.rightTextSize = Utils.getApp().getResources().getDimension(rightTextSizeRes);
+    public TitleParam setRightTextSize(@DimenRes int spDimenId) {
+        this.rightTextSize = Utils.getApp().getResources().getDimension(spDimenId);
         return this;
     }
 
@@ -200,14 +200,16 @@ public class TitleParam implements ITitleView {
 
 
     @Override
-    public TitleParam setTitleBarHeight(float titleBarHeightDp) {
-        this.titleBarHeight = CommonUtils.applyDimension(titleBarHeightDp, TypedValue.COMPLEX_UNIT_DIP);
+    public TitleParam setTitleBarHeight(float dpVal) {
+        this.titleBarHeight = TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP, dpVal, Resources.getSystem().getDisplayMetrics());
         return this;
     }
 
     @Override
-    public TitleParam setTitleBarHeight(@DimenRes int titleBarHeightRes) {
-        this.titleBarHeight = Utils.getApp().getResources().getDimension(titleBarHeightRes);
+    public TitleParam setTitleBarHeight(@DimenRes int spDimenId) {
+        this.titleBarHeight = Utils.getApp().getResources().getDimension(spDimenId);
+        ;
         return this;
     }
 
@@ -228,14 +230,16 @@ public class TitleParam implements ITitleView {
     }
 
     @Override
-    public TitleParam setBottomLineHeight(float bottomLineHeightDp) {
-        this.bottomLineHeight = CommonUtils.applyDimension(bottomLineHeightDp, TypedValue.COMPLEX_UNIT_DIP);
+    public TitleParam setBottomLineHeight(float dpVal) {
+        this.bottomLineHeight = TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP, dpVal, Resources.getSystem().getDisplayMetrics());
         return this;
     }
 
     @Override
-    public TitleParam setBottomLineHeight(@DimenRes int bottomLineHeightRes) {
-        this.bottomLineHeight = Utils.getApp().getResources().getDimension(bottomLineHeightRes);
+    public TitleParam setBottomLineHeight(@DimenRes int dpDimenId) {
+        this.bottomLineHeight = Utils.getApp().getResources().getDimension(dpDimenId);
+        ;
         return this;
     }
 

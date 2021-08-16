@@ -2,6 +2,7 @@ package com.littlejerk.library.manager;
 
 import android.graphics.Color;
 
+import com.littlejerk.library.R;
 import com.littlejerk.library.manager.imageloader.IImageLoader;
 import com.littlejerk.library.manager.lcet.TitleParam;
 
@@ -45,6 +46,11 @@ public class MVPArchConfig {
     private int mStatusBarColor = Color.WHITE;
     private boolean mLightStatusBar = true;
 
+    /**
+     * UILog日志开关，默认开启
+     */
+    private boolean mIsLoggable = true;
+
     private MVPArchConfig() {
     }
 
@@ -84,6 +90,15 @@ public class MVPArchConfig {
      * @return 标题属性接口实现类{@link TitleParam}
      */
     public TitleParam getTitleParam() {
+        //默认Title属性
+        if (mTitleParam == null) {
+            mTitleParam = new TitleParam()
+                    .setLeftIcon(R.drawable.ic_arrow_back_black)
+                    .setTittleBarBgColor(Color.WHITE)
+                    .setTitleBarHeight(R.dimen.title_bar_height)
+                    .setMiddleTextSize(17f)
+                    .setMiddleTextColor(Color.BLACK);
+        }
         return mTitleParam;
     }
 
@@ -154,6 +169,26 @@ public class MVPArchConfig {
      */
     public MVPArchConfig setStatusBarColor(int statusBarColor) {
         mStatusBarColor = statusBarColor;
+        return this;
+    }
+
+    /**
+     * 获取UILog日志开关状态
+     *
+     * @return 是否开启UILog日志
+     */
+    public boolean isLoggable() {
+        return mIsLoggable;
+    }
+
+    /**
+     * 设置UILog日志开关
+     *
+     * @param loggable 开启UILog日志
+     * @return 建造者模式
+     */
+    public MVPArchConfig setLoggable(boolean loggable) {
+        mIsLoggable = loggable;
         return this;
     }
 }

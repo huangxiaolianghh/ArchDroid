@@ -13,6 +13,7 @@ import com.littlejerk.library.manager.lcet.GEmptyAdapter;
 import com.littlejerk.library.manager.lcet.GErrorAdapter;
 import com.littlejerk.library.manager.lcet.GLoadingAdapter;
 import com.littlejerk.library.manager.lcet.TitleParam;
+import com.littlejerk.mvparch.BuildConfig;
 import com.littlejerk.mvparch.R;
 import com.scwang.smart.refresh.footer.ClassicsFooter;
 import com.scwang.smart.refresh.header.ClassicsHeader;
@@ -54,13 +55,15 @@ public class MVPArchAPP extends Application {
     public void onCreate() {
         super.onCreate();
 
-        MVPArchConfig.getInstance().setLightStatusBar(false)
+        MVPArchConfig.getInstance()
+                .setLoggable(BuildConfig.DEBUG)
+                .setLightStatusBar(false)
                 .setStatusBarColor(Color.BLACK)
                 .setTitleParam(new TitleParam()
                         .setLeftIcon(R.drawable.ic_arrow_back_black)
                         .setMiddleTextSize(17f)
                         .setMiddleTextColor(Color.BLACK)
-                        .setTitleBarHeight(60f)
+                        .setTitleBarHeight(R.dimen.title_bar_height)
                         .setTittleBarBgColor(Color.WHITE)
                         .setRightIconVisible(false)
                         .setBottomLineColor(Color.LTGRAY)

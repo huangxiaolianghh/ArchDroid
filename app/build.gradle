@@ -36,7 +36,67 @@ dependencies {
     androidTestImplementation rootProject.ext.dependencies["ext-junit"]
     androidTestImplementation rootProject.ext.dependencies["espresso-core"]
 
-    implementation project(':library')
-    annotationProcessor rootProject.ext.dependencies.butterknifeCompile
+    // google
+    implementation rootProject.ext.dependencies.appcompatV7
+    implementation rootProject.ext.dependencies.supportV4
+    implementation rootProject.ext.dependencies.design
+    implementation rootProject.ext.dependencies.multidex
+    implementation rootProject.ext.dependencies.recyclerview
+    implementation rootProject.ext.dependencies.cardview
+    implementation rootProject.ext.dependencies.constraintLayout
 
+    //下拉刷新
+    implementation rootProject.ext.dependencies.refreshHorizontal
+    implementation rootProject.ext.dependencies.refreshKernel
+    implementation rootProject.ext.dependencies.refreshHeaderClassics
+    implementation rootProject.ext.dependencies.refreshHeaderMaterial
+
+    //图片相关
+    implementation rootProject.ext.dependencies.luban
+    implementation rootProject.ext.dependencies.subsamplingScaleImageView
+    implementation rootProject.ext.dependencies.photoView
+
+    // 网络相关
+    implementation rootProject.ext.dependencies.OKGO
+    implementation rootProject.ext.dependencies.okhttp
+    implementation rootProject.ext.dependencies.progressmanager
+
+    // 数据相关
+    implementation rootProject.ext.dependencies.fastjson
+    implementation rootProject.ext.dependencies.greendao
+    // leakCanary
+    releaseImplementation rootProject.ext.dependencies.ReleaseLeakCanary
+    debugImplementation rootProject.ext.dependencies.DebugAndTestLeakCanary
+
+    implementation rootProject.ext.dependencies.baseRecyclerViewAdapterHelper
+    implementation rootProject.ext.dependencies.ShadowLayout
+    implementation rootProject.ext.dependencies.aviDialog
+    implementation rootProject.ext.dependencies.FlycoRoundView_Lib
+    implementation rootProject.ext.dependencies.EventBus
+    implementation rootProject.ext.dependencies.MultiType
+    implementation rootProject.ext.dependencies.rxbinding
+    implementation rootProject.ext.dependencies.easyProtector
+    implementation rootProject.ext.dependencies.PickerView
+    implementation rootProject.ext.dependencies.banner
+    implementation rootProject.ext.dependencies.PictureSelector
+
+//    MVPArch库引用了以下依赖
+//    implementation rootProject.ext.dependencies.butterknife
+//    annotationProcessor rootProject.ext.dependencies.butterknifeCompile
+//    implementation rootProject.ext.dependencies.glide
+//    annotationProcessor rootProject.ext.dependencies.glideCompiler
+//    implementation rootProject.ext.dependencies.statusbarutil
+//    implementation rootProject.ext.dependencies.statusBarCompat
+//    implementation rootProject.ext.dependencies.kprogresshud
+//    implementation rootProject.ext.dependencies.Logger
+//    implementation rootProject.ext.dependencies.utilcode
+//    implementation rootProject.ext.dependencies.TitleBar
+//    implementation rootProject.ext.dependencies.LoadingHelper
+//    implementation rootProject.ext.dependencies.XRecyclerViewDivider
+//    implementation rootProject.ext.dependencies.lifecycle
+//    implementation rootProject.ext.dependencies.rxlifecycle
+
+    //尽管三方库依赖了ui绑定库，但还是需要需要引用此库
+    annotationProcessor rootProject.ext.dependencies.butterknifeCompile
+    implementation project(':library')
 }

@@ -25,7 +25,6 @@ ext {
             constraintLayout             : 'androidx.constraintlayout:constraintlayout:2.0.4',
             multidex                     : 'androidx.multidex:multidex:2.0.1',
 
-            // 第三方库
             // --- UI相关
             butterknife                  : "com.jakewharton:butterknife:10.2.1",
             butterknifeCompile           : "com.jakewharton:butterknife-compiler:10.2.1",

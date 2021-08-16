@@ -1,6 +1,6 @@
 package com.littlejerk.library.manager.log;
 
-import com.littlejerk.library.BuildConfig;
+import com.littlejerk.library.manager.MVPArchConfig;
 import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.FormatStrategy;
 import com.orhanobut.logger.Logger;
@@ -27,7 +27,7 @@ public class UILogDelegate implements UILog.LogDelegate {
         Logger.addLogAdapter(new AndroidLogAdapter(formatStrategy) {
             @Override
             public boolean isLoggable(int priority, @Nullable String tag) {
-                return BuildConfig.DEBUG;
+                return MVPArchConfig.getInstance().isLoggable();
             }
         });
         return this;
