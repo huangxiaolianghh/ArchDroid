@@ -20,7 +20,7 @@ public class TestNormalActivity extends BaseActivity {
 
     @Override
     protected void initContentView(@Nullable Bundle savedInstanceState) {
-        setContentView(R.layout.activity_test_narmal);
+        setContentView(R.layout.activity_test_narmal,"TestNormalActivity");
     }
 
     @Override

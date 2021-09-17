@@ -4,6 +4,7 @@ package com.littlejerk.library.mvp;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import com.littlejerk.library.manager.event.EventManager;
 import com.littlejerk.library.manager.lcet.ILCEView;
 import com.littlejerk.library.manager.lcet.ITitleView;
 import com.littlejerk.library.manager.lcet.LCEDelegate;
+import com.littlejerk.library.manager.lcet.TitleParam;
 import com.littlejerk.library.util.ClassLoadUtils;
 import com.littlejerk.library.util.CommonUtils;
 import com.trello.rxlifecycle4.components.support.RxFragment;
@@ -147,8 +149,25 @@ public abstract class BaseFragment extends RxFragment implements IFragment {
      * @param layoutId 布局id
      */
     public void setContentView(@LayoutRes int layoutId) {
-        setContentView(layoutId, null);
+        setContentView(layoutId, (ITitleView) null);
     }
+
+    /**
+     * 设置布局、标题相关属性
+     *
+     * @param layoutId 布局id
+     * @param title    标题
+     */
+    public void setContentView(@LayoutRes int layoutId, String title) {
+        if (layoutId == 0) {
+            throw new IllegalArgumentException("must set layoutId");
+        }
+        this.mLayoutId = layoutId;
+        if (!TextUtils.isEmpty(title)) {
+            this.mITitleView = new TitleParam(title);
+        }
+    }
+
 
     /**
      * 设置布局、标题相关属性
