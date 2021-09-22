@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".activity.testmvp.TestMvpActivity">
+    tools:context=".activity.mvp.MvpDemoActivity">
 
     <ImageView
         android:id="@+id/imageView1"

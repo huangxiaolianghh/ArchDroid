@@ -1,7 +1,8 @@
-package com.littlejerk.mvparch.util;
+package com.littlejerk.mvparch.activity.mvp;
 
 import com.littlejerk.library.manager.log.UILog;
-import com.littlejerk.library.mvp.IView;
+import com.littlejerk.library.manager.toast.UIToast;
+import com.littlejerk.library.mvp.BaseModel;
 import com.littlejerk.mvparch.listener.NetCallback;
 
 import java.util.concurrent.TimeUnit;
@@ -14,19 +15,25 @@ import io.reactivex.rxjava3.disposables.Disposable;
 
 /**
  * @Author : HHotHeart
- * @Time : 2021/6/8 10:51
+ * @Time : 2021/6/11 15:46
  * @Description : 描述
  */
-public class HttpUtils {
+public class MvpDemoActivityModel extends BaseModel implements AContract.MyActivityModel {
 
-    public static void requestNet(IView view, NetCallback<Long> netCallback) {
+    @Override
+    protected void initData() {
+        UIToast.showLong("测试TestModel");
+    }
+
+    @Override
+    public void requestNet(NetCallback<Long> netCallback) {
         Observable.timer(2, TimeUnit.SECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<Long>() {
                     @Override
                     public void onSubscribe(@NonNull Disposable d) {
-                        if (view != null) {
-                            view.addDispose(d);
+                        if (netCallback != null) {
+                            netCallback.onSubscribe(d);
                         }
                     }
 
@@ -49,5 +56,7 @@ public class HttpUtils {
                         UILog.e("onComplete()");
                     }
                 });
+
     }
+
 }

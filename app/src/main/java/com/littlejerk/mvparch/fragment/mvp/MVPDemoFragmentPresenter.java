@@ -1,61 +1,47 @@
-package com.littlejerk.mvparch.fragment;
+package com.littlejerk.mvparch.fragment.mvp;
 
 
 import com.littlejerk.library.manager.log.UILog;
+import com.littlejerk.library.manager.toast.UIToast;
 import com.littlejerk.library.mvp.BasePresenter;
+import com.littlejerk.mvparch.listener.NetCallback;
 import com.littlejerk.mvparch.util.HttpUtils;
 
 import org.jetbrains.annotations.NotNull;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LifecycleOwner;
+import io.reactivex.rxjava3.disposables.Disposable;
 
 /**
  * @Author : HHotHeart
  * @Time : 2021/6/11 11:53
- * @Description : 描述
+ * @Description : Fragment Presenter
  */
-public class TestFragmentPresenter extends BasePresenter<TestFragmentModel, FContract.MyFragmentView>
+public class MVPDemoFragmentPresenter extends BasePresenter<MVPDemoFragmentModel, FContract.MyFragmentView>
         implements FContract.MyFragmentPresenter {
-    private static final String TAG = "TestPresenter";
+    private static final String TAG = "MVPDemoFragmentPresenter";
 
     @Override
     public void loadData() {
         UILog.d(TAG, TAG + " onResume被调用");
         getV().stateLoadingView();
-        HttpUtils.requestSuccess(new HttpUtils.Callback() {
+        getM().requestNet(new NetCallback<Long>() {
             @Override
-            public void onSuccess() {
+            public void onSubscribe(Disposable d) {
+                getV().addDispose(d);
+            }
+
+            @Override
+            public void onSuccess(Long aLong) {
                 getV().stateErrorView();
-                getV().loadingDialogDismiss();
                 getV().showToast();
-
             }
 
             @Override
-            public void onFailure() {
+            public void onFailure(String msg) {
                 getV().stateErrorView();
-                getV().loadingDialogDismiss();
-
-            }
-        });
-    }
-
-    @Override
-    public void onReload() {
-        getV().loadingDialogShow();
-        getV().stateLoadingView();
-        HttpUtils.requestSuccess(new HttpUtils.Callback() {
-            @Override
-            public void onSuccess() {
-                getV().stateContentView();
-                getV().loadingDialogDismiss();
-            }
-
-            @Override
-            public void onFailure() {
-                getV().stateErrorView();
-                getV().loadingDialogDismiss();
+                UIToast.showShort(msg);
             }
         });
     }

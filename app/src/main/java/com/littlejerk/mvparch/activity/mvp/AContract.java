@@ -1,7 +1,8 @@
-package com.littlejerk.mvparch.activity.testmvp;
+package com.littlejerk.mvparch.activity.mvp;
 
 
 import com.littlejerk.library.mvp.IView;
+import com.littlejerk.mvparch.listener.NetCallback;
 
 /**
  * @author : HHotHeart
@@ -11,7 +12,7 @@ import com.littlejerk.library.mvp.IView;
 public class AContract {
 
     public interface MyActivityModel {
-        void requestNet();
+        void requestNet(NetCallback<Long> netCallback);
     }
 
     public interface MyActivityView extends IView {

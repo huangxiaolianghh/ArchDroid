@@ -1,62 +1,69 @@
-package com.littlejerk.mvparch.activity.testmvp;
+package com.littlejerk.mvparch.activity.mvp;
 
 
 import com.littlejerk.library.manager.log.UILog;
+import com.littlejerk.library.manager.toast.UIToast;
 import com.littlejerk.library.mvp.BasePresenter;
-import com.littlejerk.mvparch.util.HttpUtils;
+import com.littlejerk.mvparch.listener.NetCallback;
 
 import org.jetbrains.annotations.NotNull;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LifecycleOwner;
+import io.reactivex.rxjava3.disposables.Disposable;
 
 /**
  * @Author : HHotHeart
  * @Time : 2021/6/11 11:53
- * @Description : 描述
+ * @Description : Activity Presenter
  */
-public class TestActivityPresenter extends BasePresenter<TestActivityModel, AContract.MyActivityView>
+public class MvpDemoActivityPresenter extends BasePresenter<MvpDemoActivityModel, AContract.MyActivityView>
         implements AContract.MyActivityPresenter {
-    private static final String TAG = "TestPresenter";
+    private static final String TAG = "MvpDemoActivityPresenter";
 
 
     @Override
     public void loadData() {
-        UILog.d(TAG, TAG + " onResume被调用");
         getV().stateLoadingView();
-        HttpUtils.requestSuccess(new HttpUtils.Callback() {
+        getM().requestNet(new NetCallback<Long>() {
             @Override
-            public void onSuccess() {
-                getV().stateContentView();
-                getV().loadingDialogDismiss();
-                getV().showToast();
-
+            public void onSubscribe(Disposable d) {
+                getV().addDispose(d);
             }
 
             @Override
-            public void onFailure() {
-                getV().stateErrorView();
-                getV().loadingDialogDismiss();
+            public void onSuccess(Long o) {
+                getV().stateContentView();
+                getV().showToast();
+            }
 
+            @Override
+            public void onFailure(String msg) {
+                getV().stateErrorView();
+                UIToast.showShort(msg);
             }
         });
     }
 
     @Override
     public void onReload() {
-        getV().loadingDialogShow();
         getV().stateLoadingView();
-        HttpUtils.requestSuccess(new HttpUtils.Callback() {
+        getM().requestNet(new NetCallback<Long>() {
             @Override
-            public void onSuccess() {
-                getV().stateContentView();
-                getV().loadingDialogDismiss();
+            public void onSubscribe(Disposable d) {
+                getV().addDispose(d);
             }
 
             @Override
-            public void onFailure() {
+            public void onSuccess(Long aLong) {
+                getV().stateContentView();
+
+            }
+
+            @Override
+            public void onFailure(String msg) {
                 getV().stateErrorView();
-                getV().loadingDialogDismiss();
+                UIToast.showShort(msg);
             }
         });
     }

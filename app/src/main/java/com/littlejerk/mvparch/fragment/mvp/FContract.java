@@ -1,7 +1,8 @@
-package com.littlejerk.mvparch.fragment;
+package com.littlejerk.mvparch.fragment.mvp;
 
 
 import com.littlejerk.library.mvp.IView;
+import com.littlejerk.mvparch.listener.NetCallback;
 
 /**
  * @author : HHotHeart
@@ -11,7 +12,8 @@ import com.littlejerk.library.mvp.IView;
 public class FContract {
 
     public interface MyFragmentModel {
-        void requestNet();
+        void requestNet(NetCallback<Long> netCallback);
+
     }
 
     public interface MyFragmentView extends IView {

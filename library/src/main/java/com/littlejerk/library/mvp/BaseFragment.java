@@ -27,6 +27,8 @@ import org.json.JSONObject;
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import io.reactivex.rxjava3.disposables.CompositeDisposable;
+import io.reactivex.rxjava3.disposables.Disposable;
 
 /**
  * @author : HHotHeart
@@ -61,6 +63,11 @@ public abstract class BaseFragment extends RxFragment implements IFragment {
      * 加载视图等代理
      */
     private ILCEView mLceDelegate = null;
+
+    /**
+     * 订阅关系Disposable组合
+     */
+    private CompositeDisposable mCompositeDisposable;
 
     /**
      * 懒加载实现参考 https://github.com/AndyJennifer/AndroidxLazyLoad
@@ -366,6 +373,34 @@ public abstract class BaseFragment extends RxFragment implements IFragment {
     }
 
     /**
+     * 添加RxJava任务、
+     * 已使用 {@link com.trello.rxlifecycle4.RxLifecycle} 避免内存泄漏,此方法可不用
+     *
+     * @param disposable 订阅关系
+     */
+    @Override
+    public void addDispose(Disposable disposable) {
+        if (disposable == null) return;
+        if (mCompositeDisposable == null) {
+            mCompositeDisposable = new CompositeDisposable();
+        }
+        //将所有 Disposable 放入容器集中处理
+        mCompositeDisposable.add(disposable);
+    }
+
+    /**
+     * 停止集合中正在执行的 RxJava 任务
+     */
+    @Override
+    public void unDispose() {
+        if (mCompositeDisposable != null) {
+            //保证 Activity 结束时取消所有正在执行的订阅
+            mCompositeDisposable.clear();
+        }
+    }
+
+
+    /**
      * 控件的隐藏（占用空间）
      *
      * @param view 控件View
@@ -512,6 +547,7 @@ public abstract class BaseFragment extends RxFragment implements IFragment {
         }
         mITitleView = null;
         mLayoutId = 0;
+        unDispose();
         release();
         if (useEventBus()) {
             EventManager.getBus().unregister(this);

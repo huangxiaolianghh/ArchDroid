@@ -6,6 +6,7 @@ import android.view.View;
 import com.littlejerk.library.manager.lcet.ILCEView;
 
 import androidx.annotation.IdRes;
+import io.reactivex.rxjava3.disposables.Disposable;
 
 /**
  * @Author : HHotHeart
@@ -29,5 +30,9 @@ public interface IView extends ILCEView {
     <V extends View> V findView(@IdRes int viewId);
 
     <V extends View> V findView(@IdRes int viewId, View.OnClickListener l);
+
+    void addDispose(Disposable disposable);
+
+    void unDispose();
 
 }

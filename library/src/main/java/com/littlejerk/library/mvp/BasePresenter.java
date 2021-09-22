@@ -11,8 +11,6 @@ import java.util.Objects;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.DefaultLifecycleObserver;
 import androidx.lifecycle.LifecycleOwner;
-import io.reactivex.rxjava3.disposables.CompositeDisposable;
-import io.reactivex.rxjava3.disposables.Disposable;
 
 /**
  * @Author : HHotHeart
@@ -26,7 +24,7 @@ public abstract class BasePresenter<M extends BaseModel, V extends IView> implem
     private WeakReference<V> v;
     private M m;
 
-    private CompositeDisposable mCompositeDisposable;
+//    private CompositeDisposable mCompositeDisposable;
 
 
     /**
@@ -109,32 +107,33 @@ public abstract class BasePresenter<M extends BaseModel, V extends IView> implem
         detachV();
         m.onDestroy();
         m = null;
-        unDispose();
-        this.mCompositeDisposable = null;
+//        unDispose();
+//        this.mCompositeDisposable = null;
         UILog.d(TAG, TAG + " onDestroy被调用");
     }
 
-    /**
-     * 添加RxJava任务、
-     * 已使用 {@link com.trello.rxlifecycle4.RxLifecycle} 避免内存泄漏,此方法可不用
-     *
-     * @param disposable
-     */
-    public void addDispose(Disposable disposable) {
-        if (mCompositeDisposable == null) {
-            mCompositeDisposable = new CompositeDisposable();
-        }
-        mCompositeDisposable.add(disposable);//将所有 Disposable 放入容器集中处理
-    }
-
-    /**
-     * 停止集合中正在执行的 RxJava 任务
-     */
-    private void unDispose() {
-        if (mCompositeDisposable != null) {
-            mCompositeDisposable.clear();//保证 Activity 结束时取消所有正在执行的订阅
-        }
-    }
+//    /**
+//     * 添加RxJava任务、
+//     * 已使用 {@link com.trello.rxlifecycle4.RxLifecycle} 避免内存泄漏,此方法可不用
+//     *
+//     * @param disposable
+//     */
+//    public void addDispose(Disposable disposable) {
+//        if (disposable == null) return;
+//        if (mCompositeDisposable == null) {
+//            mCompositeDisposable = new CompositeDisposable();
+//        }
+//        mCompositeDisposable.add(disposable);//将所有 Disposable 放入容器集中处理
+//    }
+//
+//    /**
+//     * 停止集合中正在执行的 RxJava 任务
+//     */
+//    private void unDispose() {
+//        if (mCompositeDisposable != null) {
+//            mCompositeDisposable.clear();//保证 Activity 结束时取消所有正在执行的订阅
+//        }
+//    }
 
 
 //    @OnLifecycleEvent(Lifecycle.Event.ON_START)

@@ -6,10 +6,13 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:name=".app.MVPArchAPP"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:name=".app.MVPArchAPP"
         android:theme="@style/Theme.MVPArch">
+        <activity android:name=".activity.LoadingDialogActivity"></activity>
+        <activity android:name=".activity.LazyLoadActivity" />
+        <activity android:name=".activity.ReloadDemoActivity" />
 
         <meta-data
             android:name="MVPArch.LCEDelegate"
@@ -22,13 +25,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".activity.testmvp.TestMvpActivity"/>
-        <activity android:name=".activity.TestNormalActivity" />
+        <activity android:name=".activity.mvp.MvpDemoActivity" />
+        <activity android:name=".activity.TitleDemoActivity" />
         <activity
-            android:name=".activity.TestHostActivity"
-            android:label="测试" />
-
+            android:label="测试"
+            android:name=".activity.FragmentMvpHostActivity" />
     </application>
 
 </manifest>

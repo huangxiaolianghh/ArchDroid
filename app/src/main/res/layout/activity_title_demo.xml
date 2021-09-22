@@ -1,29 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/content_view"
-    android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:id="@+id/content_view"
     android:orientation="vertical"
-    tools:context=".activity.TestHostActivity">
+    tools:context=".activity.FragmentMvpHostActivity">
 
     <ImageView
-        android:id="@+id/imageView1"
+        android:layout_height="200dp"
         android:layout_width="match_parent"
-        android:layout_height="200dp" />
+        android:id="@+id/imageView1" />
 
     <LinearLayout
-        android:id="@+id/ll_content"
-        android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:id="@+id/ll_content"
         android:orientation="vertical">
 
         <TextView
-            android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_width="match_parent"
             android:gravity="center"
-            android:text="内容"
-            android:textSize="15sp" />
+            android:id="@+id/tv_content"
+            android:text="Title Fragment的内容"
+            android:textColor="@color/black"
+            android:textSize="30sp" />
 
     </LinearLayout>
 

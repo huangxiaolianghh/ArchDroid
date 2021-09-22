@@ -25,6 +25,8 @@ import org.json.JSONObject;
 
 import androidx.annotation.LayoutRes;
 import androidx.annotation.Nullable;
+import io.reactivex.rxjava3.disposables.CompositeDisposable;
+import io.reactivex.rxjava3.disposables.Disposable;
 
 /**
  * @Author : HHotHeart
@@ -47,6 +49,12 @@ public abstract class BaseActivity extends RxAppCompatActivity implements IActiv
      * 标题相关属性
      */
     private ITitleView mITitleView = null;
+
+    /**
+     * 订阅关系Disposable组合
+     */
+    private CompositeDisposable mCompositeDisposable;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -419,6 +427,33 @@ public abstract class BaseActivity extends RxAppCompatActivity implements IActiv
     }
 
     /**
+     * 添加RxJava任务、
+     * 已使用 {@link com.trello.rxlifecycle4.RxLifecycle} 避免内存泄漏,此方法可不用
+     *
+     * @param disposable
+     */
+    @Override
+    public void addDispose(Disposable disposable) {
+        if (disposable == null) return;
+        if (mCompositeDisposable == null) {
+            mCompositeDisposable = new CompositeDisposable();
+        }
+        //将所有 Disposable 放入容器集中处理
+        mCompositeDisposable.add(disposable);
+    }
+
+    /**
+     * 停止集合中正在执行的 RxJava 任务
+     */
+    @Override
+    public void unDispose() {
+        if (mCompositeDisposable != null) {
+            //保证 Activity 结束时取消所有正在执行的订阅
+            mCompositeDisposable.clear();
+        }
+    }
+
+    /**
      * 是否需要防止截屏功能  默认不需要
      *
      * @return 是否需要防截屏
@@ -432,6 +467,7 @@ public abstract class BaseActivity extends RxAppCompatActivity implements IActiv
     protected void onDestroy() {
         super.onDestroy();
         mITitleView = null;
+        unDispose();
         release();
         if (useEventBus()) {
             EventManager.getBus().unregister(this);
