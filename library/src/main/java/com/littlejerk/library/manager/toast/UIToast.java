@@ -128,8 +128,8 @@ public class UIToast {
         return sDelegate;
     }
 
-    public static void setDelegate(ToastDelegate mDelegate) {
-        sDelegate = mDelegate;
+    public static void setDelegate(UIToast.ToastDelegate delegate) {
+        sDelegate = delegate;
     }
 
     public interface ToastDelegate {

@@ -19,7 +19,7 @@ import butterknife.BindView;
  * @Description : 描述
  */
 public class MVPDemoFragment extends BaseMVPFragment<MVPDemoFragmentPresenter> implements FContract.MyFragmentView {
-    private static final String TAG = "TestMVPFragment";
+    private static final String TAG = "MVPDemoFragment";
 
     @BindView(R.id.imageView1)
     ImageView mImageView1;

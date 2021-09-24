@@ -28,7 +28,7 @@ public class MvpDemoActivity extends BaseMVPActivity<MvpDemoActivityPresenter> i
 
     @Override
     protected void initContentView(@Nullable Bundle savedInstanceState) {
-        setContentView(R.layout.activity_test_mvp, new TitleParam("TestMvpActivity"));
+        setContentView(R.layout.activity_test_mvp, new TitleParam("Activity MVP模式"));
     }
 
     @Override

@@ -10,7 +10,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MVPArch">
-        <activity android:name=".activity.LoadingDialogActivity"></activity>
+        <activity android:name=".activity.CustomLCEActivity"></activity>
+        <activity android:name=".activity.LoadingDialogActivity" />
         <activity android:name=".activity.LazyLoadActivity" />
         <activity android:name=".activity.ReloadDemoActivity" />
 

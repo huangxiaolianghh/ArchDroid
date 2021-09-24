@@ -48,4 +48,11 @@
         android:layout_width="wrap_content"
         android:id="@+id/btn_dialog_loading"
         android:text="加载Dialog样式" />
+
+    <Button
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_width="wrap_content"
+        android:id="@+id/btn_content_loading"
+        android:text="自定义LoadingView" />
 </LinearLayout>

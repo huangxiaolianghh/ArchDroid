@@ -13,8 +13,10 @@ import com.littlejerk.library.manager.lcet.GEmptyAdapter;
 import com.littlejerk.library.manager.lcet.GErrorAdapter;
 import com.littlejerk.library.manager.lcet.GLoadingAdapter;
 import com.littlejerk.library.manager.lcet.TitleParam;
+import com.littlejerk.library.manager.toast.UIToast;
 import com.littlejerk.mvparch.BuildConfig;
 import com.littlejerk.mvparch.R;
+import com.littlejerk.mvparch.util.CustomToastDelegate;
 import com.scwang.smart.refresh.footer.ClassicsFooter;
 import com.scwang.smart.refresh.header.ClassicsHeader;
 import com.scwang.smart.refresh.layout.SmartRefreshLayout;
@@ -76,6 +78,9 @@ public class MVPArchAPP extends Application {
             adapterPool.register(ViewType.EMPTY, new GEmptyAdapter());
             return Unit.INSTANCE;
         });
+
+//        UILog.setDelegate(new CustomLogDelegate().init());
+//        UIToast.setDelegate(new CustomToastDelegate().init());
 
         //设置全局sp文件名
         SPStaticUtils.setDefaultSPUtils(SPUtils.getInstance(MVPArchConfig.SP_TAG));

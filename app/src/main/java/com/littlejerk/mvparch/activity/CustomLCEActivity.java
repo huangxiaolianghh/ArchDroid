@@ -1,71 +1,42 @@
 package com.littlejerk.mvparch.activity;
 
 import android.os.Bundle;
-import android.widget.TextView;
 
 import com.dylanc.loadinghelper.LoadingHelper;
+import com.dylanc.loadinghelper.ViewType;
 import com.littlejerk.library.manager.toast.UIToast;
 import com.littlejerk.library.mvp.BaseActivity;
 import com.littlejerk.mvparch.R;
+import com.littlejerk.mvparch.adapter.CLoadingAdapter;
 import com.littlejerk.mvparch.listener.NetCallback;
 import com.littlejerk.mvparch.util.CustomLCEDelegate;
 import com.littlejerk.mvparch.util.HttpUtils;
-import com.trello.rxlifecycle4.android.ActivityEvent;
 
 import androidx.annotation.Nullable;
-import butterknife.BindView;
 
 /**
  * @Author : HHotHeart
- * @Time : 2021/9/21 22:56
- * @Description : 内容重新加载Demo
+ * @Time : 2021/9/23 10:39
+ * @Description : 自定义加载布局Demo
  */
-public class ReloadDemoActivity extends BaseActivity implements LoadingHelper.OnReloadListener {
-
-
-    @BindView(R.id.tv_content)
-    TextView mTvContent;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
+public class CustomLCEActivity extends BaseActivity {
 
     @Override
     protected void initContentView(@Nullable Bundle savedInstanceState) {
-        setContentView(R.layout.activity_reload_demo, "Reload Demo");
-
+        setContentView(R.layout.activity_custom_lce, "自定义LCE");
     }
 
     @Override
     public void doPreBusiness() {
-        super.doPreBusiness();
         LoadingHelper loadingHelper = ((CustomLCEDelegate) getLCEDelegate()).getLoadingHelper();
-        loadingHelper.setOnReloadListener(this::onReload);
-        findView(R.id.tv_content, v -> UIToast.showLong("重新加载的内容"));
+        loadingHelper.register(ViewType.LOADING, new CLoadingAdapter());
+//        loadingHelper.register(ViewType.ERROR, "自定义的错误布局");
+//        loadingHelper.register(ViewType.EMPTY, "自定义的空布局");
 
     }
 
     @Override
     protected void doBusiness(Bundle savedInstanceState) {
-        stateLoadingView();
-        HttpUtils.requestNet(this, new NetCallback<Long>() {
-            @Override
-            public void onSuccess(Long aLong) {
-                stateErrorView();
-            }
-
-            @Override
-            public void onFailure(String msg) {
-                stateErrorView();
-                UIToast.showShort(msg);
-
-            }
-        });
-    }
-
-    @Override
-    public void onReload() {
         stateLoadingView();
         HttpUtils.requestNet(this, new NetCallback<Long>() {
             @Override
@@ -77,9 +48,7 @@ public class ReloadDemoActivity extends BaseActivity implements LoadingHelper.On
             public void onFailure(String msg) {
                 stateErrorView();
                 UIToast.showShort(msg);
-
             }
         });
     }
-
 }

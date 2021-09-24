@@ -39,7 +39,6 @@ public class TitleDemoActivity extends BaseActivity {
 
     @Override
     protected void doBusiness(Bundle savedInstanceState) {
-//        UIStatusBar.setTransparentForImageView(this, findViewById(R.id.ll_content));
         ILFactory.getLoader().loadNet(findViewById(R.id.imageView1),
                 "https://dss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=218024201,1599297029&fm=26&gp=0.jpg",
                 IImageLoader.HOptions.defaultOptions());

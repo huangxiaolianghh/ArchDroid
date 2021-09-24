@@ -34,5 +34,8 @@ public class MainActivity extends BaseActivity {
         findView(R.id.btn_lazy_load, mView -> startActivity(new Intent(getContext(), LazyLoadActivity.class)));
         findView(R.id.btn_dialog_loading, mView -> startActivity(new Intent(getContext(), LoadingDialogActivity.class)));
 
+        findView(R.id.btn_content_loading, mView -> startActivity(new Intent(getContext(), CustomLCEActivity.class)));
+
+
     }
 }

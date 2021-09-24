@@ -3,6 +3,7 @@ package com.littlejerk.mvparch.util;
 import com.littlejerk.library.manager.log.UILog;
 import com.littlejerk.library.mvp.IView;
 import com.littlejerk.mvparch.listener.NetCallback;
+import com.trello.rxlifecycle4.android.ActivityEvent;
 
 import java.util.concurrent.TimeUnit;
 
