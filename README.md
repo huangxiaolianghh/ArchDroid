@@ -11,7 +11,7 @@
  - 沉浸式状态栏及状态栏颜色设置
  - 封装了Log、Toast，可自定义代理实现自己的Log、Toast
  - 封装了图片加载器、事件通知管理器，可通过配置切换
- 
+
 
 ## 项目引入该库
 
@@ -29,11 +29,11 @@ allprojects {
 
 ```java
 dependencies {
-	        implementation 'com.github.HHotHeart:MVPArch:v1.0.2-beta1'
+	        implementation 'com.github.HHotHeart:MVPArch:v1.0.2-beta2'
 	}
 ```
 ## 效果图
-  
+
 <table>
     <tr>
         <td ><center><img src="https://img-blog.csdnimg.cn/3547e6c032fa46ef834dddeec3a5d2aa.jpg"  width="50%" ></center></td>
@@ -56,7 +56,7 @@ dependencies {
 </table>
 
 ## 功能实现
- 
+
  1. UILog、UIToast
 
  框架默认实现了UILog、UIToast的代理[UILogDelegate](https://github.com/HHotHeart/MVPArch/blob/master/library/src/main/java/com/littlejerk/library/manager/log/UILogDelegate.java)、[UIToastDelegate](https://github.com/HHotHeart/MVPArch/blob/master/library/src/main/java/com/littlejerk/library/manager/toast/UIToastDelegate.java)，如果不满足需求，可实现自己定义的代理(实现UILog.LogDelegate、UIToast.ToastDelegate即可)，具体可参考框架的实现，这里简单实现了CustomLogDelegate
@@ -157,10 +157,11 @@ Toast的代理设置也一样，如
 
  2. EventManager、ILFactory
 
-框架默认实现了[EventBusImpl](https://github.com/HHotHeart/MVPArch/blob/master/library/src/main/java/com/littlejerk/library/manager/event/EventBusImpl.java)事件通知和[GlideLoader](https://github.com/HHotHeart/MVPArch/blob/master/library/src/main/java/com/littlejerk/library/manager/imageloader/GlideLoader.java)图片加载器，可以自由切换（实现IEventBus、IImageLoader接口即可），实现了之后可通过MVPArchConfig配置，如替换GlideLoader
+框架默认实现了[EventBusImpl](https://github.com/HHotHeart/MVPArch/blob/master/library/src/main/java/com/littlejerk/library/manager/event/EventBusImpl.java)事件通知和[GlideLoader](https://github.com/HHotHeart/MVPArch/blob/master/library/src/main/java/com/littlejerk/library/manager/imageloader/GlideLoader.java)图片加载器，可以自由切换（实现IEventBus、IImageLoader接口即可），实现了之后可通过MVPArchConfig配置，如替换GlideLoader、EventBusImpl
 
 ```java
      MVPArchConfig.getInstance().setImageLoader(IImageLoader imageLoader)
+     MVPArchConfig.getInstance().setEventBus(IEventBus eventBus);
 ```
 
 两者调用方式
