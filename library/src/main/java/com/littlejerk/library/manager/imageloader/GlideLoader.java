@@ -38,12 +38,12 @@ import androidx.fragment.app.Fragment;
  * @Time : 2021/6/1 16:36
  * @Description : 图片加载器实现类
  */
-final class GlideLoader implements IImageLoader {
+public final class GlideLoader implements IImageLoader {
 
     private GlideLoader() {
     }
 
-    public static GlideLoader get() {
+    protected static GlideLoader get() {
         return Holder.instance;
     }
 

@@ -7,13 +7,12 @@ import org.greenrobot.eventbus.EventBus;
  * @date : 2021/6/7 21:49
  * @desc : 通知事件实现类
  */
-final class EventBusImpl implements IEventBus {
-
+public final class EventBusImpl implements IEventBus {
 
     private EventBusImpl() {
     }
 
-    public static EventBusImpl get() {
+    protected static EventBusImpl get() {
         return Holder.instance;
     }
 

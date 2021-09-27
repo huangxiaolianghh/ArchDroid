@@ -3,6 +3,7 @@ package com.littlejerk.library.manager;
 import android.graphics.Color;
 
 import com.littlejerk.library.R;
+import com.littlejerk.library.manager.event.IEventBus;
 import com.littlejerk.library.manager.imageloader.IImageLoader;
 import com.littlejerk.library.manager.lcet.TitleParam;
 
@@ -35,11 +36,18 @@ public class MVPArchConfig {
      * 图片加载引擎
      */
     private IImageLoader mImageLoader;
+
+    /**
+     * 事件通知器
+     */
+    private IEventBus mEventBus;
+
     /**
      * TitleBar相关元素
      */
     private TitleParam mTitleParam;
     private int mTitleLayoutId;
+
     /**
      * 默认状态栏为白底黑字
      */
@@ -66,7 +74,7 @@ public class MVPArchConfig {
      * 获取图片加载器，初始化工厂{@link com.littlejerk.library.manager.imageloader.ILFactory}
      * 默认使用框架的{@link com.littlejerk.library.manager.imageloader.GlideLoader}
      *
-     * @return 图片加载器{@link IImageLoader}
+     * @return 图片加载器
      */
     public IImageLoader getImageLoader() {
         return mImageLoader;
@@ -85,9 +93,30 @@ public class MVPArchConfig {
     }
 
     /**
+     * 获取事件通知器，初始化事件管理器{@link com.littlejerk.library.manager.event.EventManager}
+     * 默认使用框架的{@link com.littlejerk.library.manager.event.EventBusImpl}
+     *
+     * @return 事件通知器
+     */
+    public IEventBus getEventBus() {
+        return mEventBus;
+    }
+
+    /**
+     * 设置事件通知器
+     *
+     * @param eventBus 事件通知器{@link IEventBus}
+     * @return 建造者模式
+     */
+    public MVPArchConfig setEventBus(IEventBus eventBus) {
+        mEventBus = eventBus;
+        return this;
+    }
+
+    /**
      * 获取全局标题
      *
-     * @return 标题属性接口实现类{@link TitleParam}
+     * @return 标题属性接口实现类
      */
     public TitleParam getTitleParam() {
         //默认Title属性
