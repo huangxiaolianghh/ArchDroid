@@ -28,9 +28,9 @@ allprojects {
 在你的 Module build.gradle文件中添加：  
 
 ```java
-dependencies {
-	        implementation 'com.github.HHotHeart:MVPArch:v1.0.2-beta2'
-	}
+	dependencies {
+        implementation 'com.github.HHotHeart:MVPArch:1.0.3'
+        }
 ```
 ## 效果图
 
@@ -59,15 +59,15 @@ dependencies {
 
  1. UILog、UIToast
 
- 框架默认实现了UILog、UIToast的代理[UILogDelegate](https://github.com/HHotHeart/MVPArch/blob/master/library/src/main/java/com/littlejerk/library/manager/log/UILogDelegate.java)、[UIToastDelegate](https://github.com/HHotHeart/MVPArch/blob/master/library/src/main/java/com/littlejerk/library/manager/toast/UIToastDelegate.java)，如果不满足需求，可实现自己定义的代理(实现UILog.LogDelegate、UIToast.ToastDelegate即可)，具体可参考框架的实现，这里简单实现了CustomLogDelegate
+ 框架默认实现了UILog、UIToast的代理[UILogDelegate](https://github.com/HHotHeart/MVPArch/blob/master/library/src/main/java/com/huangxiaoliang/mvplib/manager/log/UILogDelegate.java)、[UIToastDelegate](https://github.com/HHotHeart/MVPArch/blob/master/library/src/main/java/com/huangxiaoliang/mvplib/manager/toast/UIToastDelegate.java)，如果不满足需求，可实现自己定义的代理(实现UILog.LogDelegate、UIToast.ToastDelegate即可)，具体可参考框架的实现，这里简单实现了CustomLogDelegate
 
 ```java
-package com.littlejerk.mvparch.util;
+package com.huangxiaoliang.mvparchdemo.util;
 
 import android.util.Log;
 
-import com.littlejerk.library.manager.MVPArchConfig;
-import com.littlejerk.library.manager.log.UILog;
+import com.huangxiaoliang.mvplib.manager.MVPArchConfig;
+import com.huangxiaoliang.mvplib.manager.log.UILog;
 
 /**
  * @author : HHotHeart
@@ -157,7 +157,7 @@ Toast的代理设置也一样，如
 
  2. EventManager、ILFactory
 
-框架默认实现了[EventBusImpl](https://github.com/HHotHeart/MVPArch/blob/master/library/src/main/java/com/littlejerk/library/manager/event/EventBusImpl.java)事件通知和[GlideLoader](https://github.com/HHotHeart/MVPArch/blob/master/library/src/main/java/com/littlejerk/library/manager/imageloader/GlideLoader.java)图片加载器，可以自由切换（实现IEventBus、IImageLoader接口即可），实现了之后可通过MVPArchConfig配置，如替换GlideLoader、EventBusImpl
+框架默认实现了[EventBusImpl](https://github.com/HHotHeart/MVPArch/blob/master/library/src/main/java/com/huangxiaoliang/mvplib/manager/event/EventBusImpl.java)事件通知和[GlideLoader](https://github.com/HHotHeart/MVPArch/blob/master/library/src/main/java/com/huangxiaoliang/mvplib/manager/imageloader/GlideLoader.java)图片加载器，可以自由切换（实现IEventBus、IImageLoader接口即可），实现了之后可通过MVPArchConfig配置，如替换GlideLoader、EventBusImpl
 
 ```java
      MVPArchConfig.getInstance().setImageLoader(IImageLoader imageLoader)
@@ -202,11 +202,11 @@ Toast的代理设置也一样，如
 ```java
         <meta-data
             android:name="MVPArch.LCEDelegate"
-            android:value="com.littlejerk.mvparch.util.CustomLCEDelegate" />
+            android:value="com.huangxiaoliang.mvparchdemo.util.CustomLCEDelegate" />
 ```
 
 ```java
-package com.littlejerk.mvparch.util;
+package com.huangxiaoliang.mvparchdemo.util;
 
 import android.content.Context;
 import android.text.TextUtils;
@@ -214,10 +214,10 @@ import android.view.View;
 
 import com.dylanc.loadinghelper.LoadingHelper;
 import com.dylanc.loadinghelper.ViewType;
+import com.huangxiaoliang.mvplib.manager.lcet.ITitleView;
+import com.huangxiaoliang.mvplib.manager.lcet.TitleBarAdapter;
 import com.kaopiz.kprogresshud.KProgressHUD;
-import com.littlejerk.library.manager.lcet.ITitleView;
-import com.littlejerk.library.manager.lcet.TitleBarAdapter;
-import com.littlejerk.library.manager.lcet.ILCEView;
+import com.huangxiaoliang.mvplib.manager.lcet.ILCEView;
 
 import org.json.JSONObject;
 
@@ -403,7 +403,7 @@ public class TitleDemoActivity extends BaseActivity {
     }
 
     @Override
-    protected void doBusiness(Bundle savedInstanceState) {
+    protected void onBusiness(Bundle savedInstanceState) {
         ILFactory.getLoader().loadNet(findViewById(R.id.imageView1),
                 "https://dss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=218024201,1599297029&fm=26&gp=0.jpg",
                 IImageLoader.HOptions.defaultOptions());
@@ -428,7 +428,7 @@ public class CustomLCEActivity extends BaseActivity {
     }
 
     @Override
-    public void doPreBusiness() {
+    public void onBeforeBusiness(@Nullable Bundle savedInstanceState) {
         LoadingHelper loadingHelper = ((CustomLCEDelegate) getLCEDelegate()).getLoadingHelper();
         loadingHelper.register(ViewType.LOADING, new CLoadingAdapter());
 //        loadingHelper.register(ViewType.ERROR, "自定义的错误布局");
@@ -437,7 +437,7 @@ public class CustomLCEActivity extends BaseActivity {
     }
 
     @Override
-    protected void doBusiness(Bundle savedInstanceState) {
+    protected void onBusiness(Bundle savedInstanceState) {
         stateLoadingView();
         HttpUtils.requestNet(this, new NetCallback<Long>() {
             @Override
@@ -590,7 +590,7 @@ public class MvpDemoActivity extends BaseMVPActivity<MvpDemoActivityPresenter> i
     }
 
     @Override
-    protected void doBusiness(Bundle savedInstanceState) {
+    protected void onBusiness(Bundle savedInstanceState) {
         ILFactory.getLoader().loadNet(mImageView1,
                 "https://dss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=218024201,1599297029&fm=26&gp=0.jpg",
                 IImageLoader.HOptions.defaultOptions());
