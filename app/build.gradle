@@ -8,7 +8,7 @@ android {
     buildToolsVersion "30.0.3"
 
     defaultConfig {
-        applicationId "com.littlejerk.mvparch"
+        applicationId "com.huangxiaoliang.mvparchdemo"
         minSdkVersion 21
         targetSdkVersion 30
         versionCode 1
@@ -71,7 +71,6 @@ dependencies {
     implementation rootProject.ext.dependencies.baseRecyclerViewAdapterHelper
     implementation rootProject.ext.dependencies.ShadowLayout
     implementation rootProject.ext.dependencies.aviDialog
-    implementation rootProject.ext.dependencies.FlycoRoundView_Lib
     implementation rootProject.ext.dependencies.EventBus
     implementation rootProject.ext.dependencies.MultiType
     implementation rootProject.ext.dependencies.rxbinding
@@ -95,6 +94,7 @@ dependencies {
 //    implementation rootProject.ext.dependencies.XRecyclerViewDivider
 //    implementation rootProject.ext.dependencies.lifecycle
 //    implementation rootProject.ext.dependencies.rxlifecycle
+//    implementation rootProject.ext.dependencies.FlycoRoundView_Lib
 
     //尽管三方库依赖了ui绑定库，但还是需要需要引用此库
     annotationProcessor rootProject.ext.dependencies.butterknifeCompile

@@ -6,7 +6,7 @@
     android:layout_height="@dimen/title_bar_height"
     android:background="@color/colorAccent"
     android:paddingHorizontal="16dp"
-    app:barStyle="light"
+    app:barStyle="ripple"
     app:leftIcon="@drawable/ic_arrow_back_white"
     app:lineColor="@color/color_99"
     app:lineSize="0.5dp"

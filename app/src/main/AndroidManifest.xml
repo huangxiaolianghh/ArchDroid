@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.littlejerk.mvparch">
+    package="com.huangxiaoliang.mvparchdemo">
 
     <application
         android:allowBackup="true"
@@ -17,7 +17,7 @@
 
         <meta-data
             android:name="MVPArch.LCEDelegate"
-            android:value="com.littlejerk.mvparch.util.CustomLCEDelegate" />
+            android:value="com.huangxiaoliang.mvparchdemo.util.CustomLCEDelegate" />
 
         <activity android:name=".activity.MainActivity">
             <intent-filter>

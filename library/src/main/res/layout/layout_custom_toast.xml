@@ -13,11 +13,11 @@
         android:gravity="center"
         android:maxWidth="290dp"
         android:minHeight="36dp"
-        android:paddingBottom="@dimen/dp_10"
         android:paddingLeft="12dp"
+        android:paddingTop="10dp"
         android:paddingRight="12dp"
-        android:paddingTop="@dimen/dp_10"
+        android:paddingBottom="10dp"
         android:textColor="@color/white"
-        android:textSize="@dimen/sp_14" />
+        android:textSize="@dimen/font_14" />
 
 </LinearLayout>
