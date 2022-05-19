@@ -77,7 +77,7 @@ public class CustomLogDelegate implements UILog.LogDelegate {
     }
 
     @Override
-    public void printErrStackTrace(String tag, Throwable throwable, Object... obj) {
+    public void printErrStackTrace(String tag, Throwable throwable) {
         //自己的Log库
 
     }

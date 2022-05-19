@@ -12,8 +12,8 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:text=" Failured to load"
-        android:textColor="@color/color_66"
-        android:textSize="16sp"
+        android:textColor="#666666"
+        android:textSize="@dimen/font_17"
         app:layout_constraintBottom_toTopOf="@+id/btn_reload"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_chainStyle="packed"
@@ -37,7 +37,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_error_text"
         app:rv_cornerRadius="2dp"
-        app:rv_strokeColor="@color/color_66"
+        app:rv_strokeColor="#666666"
         app:rv_strokeWidth="1dp" />
 
     <ImageView

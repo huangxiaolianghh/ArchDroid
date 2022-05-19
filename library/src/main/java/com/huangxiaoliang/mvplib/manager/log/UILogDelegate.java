@@ -1,5 +1,7 @@
 package com.huangxiaoliang.mvplib.manager.log;
 
+import android.util.Log;
+
 import com.huangxiaoliang.mvplib.manager.MVPArchConfig;
 import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.FormatStrategy;
@@ -80,8 +82,8 @@ public class UILogDelegate implements UILog.LogDelegate {
     }
 
     @Override
-    public void printErrStackTrace(String tag, Throwable throwable, Object... obj) {
-        Logger.t(tag).e(throwable, "", obj);
+    public void printErrStackTrace(String tag, Throwable throwable) {
+        Logger.t(tag).e(Log.getStackTraceString(throwable));
 
     }
 }

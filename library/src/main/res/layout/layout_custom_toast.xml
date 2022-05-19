@@ -17,7 +17,7 @@
         android:paddingTop="10dp"
         android:paddingRight="12dp"
         android:paddingBottom="10dp"
-        android:textColor="@color/white"
+        android:textColor="@color/toast_text"
         android:textSize="@dimen/font_14" />
 
 </LinearLayout>

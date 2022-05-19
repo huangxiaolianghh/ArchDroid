@@ -10,6 +10,8 @@ import com.huangxiaoliang.mvplib.manager.lcet.TitleParam;
 import com.huangxiaoliang.mvplib.R;
 import com.huangxiaoliang.mvplib.manager.event.IEventBus;
 import com.huangxiaoliang.mvplib.manager.imageloader.IImageLoader;
+import com.huangxiaoliang.mvplib.manager.log.UILog;
+import com.huangxiaoliang.mvplib.manager.log.UILogDelegate;
 
 import androidx.annotation.LayoutRes;
 
@@ -61,6 +63,10 @@ public class MVPArchConfig {
     private int mStatusBarColor = Color.WHITE;
     private boolean mLightStatusBar = true;
 
+    /**
+     * Log
+     */
+    private UILog.LogDelegate mLogDelegate;
     /**
      * UILog日志开关，默认开启
      */
@@ -205,6 +211,29 @@ public class MVPArchConfig {
      */
     public MVPArchConfig setStatusBarColor(int statusBarColor) {
         mStatusBarColor = statusBarColor;
+        return this;
+    }
+
+    /**
+     * 获取Log代理类，默认实现框架的Log
+     *
+     * @return log代理类
+     */
+    public UILog.LogDelegate getLogDelegate() {
+        if (mLogDelegate == null) {
+            mLogDelegate = new UILogDelegate().init();
+        }
+        return mLogDelegate;
+    }
+
+    /**
+     * 设置Log代理类
+     *
+     * @param logDelegate Log代理类
+     * @return 建造者模式
+     */
+    public MVPArchConfig setLogDelegate(UILog.LogDelegate logDelegate) {
+        mLogDelegate = logDelegate;
         return this;
     }
 

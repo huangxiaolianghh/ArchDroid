@@ -10,4 +10,70 @@
 
     <color name="little_grey_color">#449E9E9E</color>
 
+    <color name="colorPrimary">#FFFFFF</color>
+    <color name="colorPrimaryDark">#FFFFFF</color>
+    <color name="colorAccent">#FFFFFF</color>
+
+    <color name="colorHint">#546E7A</color>
+
+    <color name="color_cd">#CDCDCD</color>
+    <color name="color_cc">#CCCCCC</color>
+    <color name="color_ea">#EAEAEA</color>
+
+    <color name="color_11">#111111</color>
+    <color name="color_22">#222222</color>
+    <color name="color_33">#333333</color>
+    <color name="color_44">#444444</color>
+    <color name="color_55">#555555</color>
+    <color name="color_66">#666666</color>
+    <color name="color_77">#777777</color>
+    <color name="color_88">#888888</color>
+    <color name="color_99">#999999</color>
+
+    <color name="color_window_background">#121b3c</color>
+
+    <color name="placeholder_grey">#d71345</color>
+    <color name="placeholder_grey_20">#20d71345</color>
+
+    <color name="c_d71345">#d71345</color>
+    <color name="c_a330ff">#a330ff</color>
+    <color name="c_3ec88e">#24b484</color>
+    <color name="c_24b484">#3ec88e</color>
+
+    <color name="c_ffa81f">#ffa81f</color>
+    <color name="c_9e9e9e">#9e9e9e</color>
+    <color name="c_ff7918">#ff7918</color>
+
+    <color name="c1">#f37fcc</color>
+    <color name="blue_color">#4192e3</color>
+    <color name="c2">#aa92e3</color>
+    <color name="c3">#aacce3</color>
+    <color name="c4">#badd11</color>
+
+    <color name="c_F9A54A">#F9A54A</color>
+    <color name="c_898B8D">#898B8D</color>
+    <color name="c_F35E66">#F35E66</color>
+    <color name="c_48A5D9">#48A5D9</color>
+    <color name="c_48C67A">#48C67A</color>
+    <color name="c_817699">#817699</color>
+    <color name="c_A78B7A">#A78B7A</color>
+    <color name="c_D36E8F">#D36E8F</color>
+    <color name="c_8B8197">#8B8197</color>
+    <color name="c_de4930">#DE4930</color>
+
+    <color name="blue">#FF3a80d2</color>
+    <color name="grey">#ff7b828b</color>
+    <color name="title_bg_color">#1D2228</color>
+
+    <color name="translucent_background">#00000000</color>
+
+    <!-- Gear -->
+    <color name="red">#DC152B</color>
+    <color name="red_dark">#A91E2C</color>
+    <color name="red_transition">#C71325</color>
+    <color name="red_transition_dark">#AAB11020</color>
+    <color name="shadow_black">#24000000</color>
+
+
+
 </resources>

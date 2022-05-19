@@ -1,8 +1,13 @@
 package com.huangxiaoliang.mvplib.manager;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
+import android.os.Build;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 
 import com.githang.statusbar.StatusBarCompat;
 import com.jaeger.library.StatusBarUtil;
@@ -142,6 +147,52 @@ public class UIStatusBar {
         StatusBarUtil.setTransparent(activity);
     }
 
+    /**
+     * 内容侵入透明状态栏并且兼容有虚拟按键的手机
+     *
+     * @param activity activity
+     */
+    public static void setTransparentWithoutNav(Activity activity) {
+        setTransparentWithoutNav(activity, false);
+    }
+
+    /**
+     * 内容侵入透明状态栏并且兼容有虚拟按键的手机
+     *
+     * @param activity           activity
+     * @param showLightStatusBar 状态栏是否黑色字体、图标等（如果设置了WindowBackground，布局会覆盖导航栏）
+     */
+    @SuppressWarnings("deprecation")
+    @SuppressLint("ObsoleteSdkInt")
+    public static void setTransparentWithoutNav(Activity activity, boolean showLightStatusBar) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
+            return;
+        }
+        //Android4.4(API 19) - Android 5.0(API 21)
+        final Window window = activity.getWindow();
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            WindowManager.LayoutParams attributes = window.getAttributes();
+            int flagTranslucentStatus = WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
+            attributes.flags |= flagTranslucentStatus;
+            window.setAttributes(attributes);
+            return;
+        }
+        //Android 6.0(API 23)
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS
+                | WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        if (showLightStatusBar && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                    | View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                    | View.SYSTEM_UI_FLAG_LAYOUT_STABLE ^ View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+        } else {
+            window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                    | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
+        }
+        window.setStatusBarColor(Color.TRANSPARENT);
+    }
 
     /**
      * 获取状态栏高度
