@@ -2,24 +2,44 @@ plugins {
     id 'com.android.application'
 }
 
+/**
+ * app属性相关配置
+ */
+def appConfig = rootProject.ext.android
+
+/**
+ * 签名配置
+ */
+def signConfig = rootProject.ext.signConfig
 
 android {
-    compileSdkVersion 30
-    buildToolsVersion "30.0.3"
+    compileSdkVersion appConfig.compileSdkVersion
+    buildToolsVersion appConfig.buildToolsVersion
 
     defaultConfig {
-        applicationId "com.huangxiaoliang.mvparchdemo"
-        minSdkVersion 21
-        targetSdkVersion 30
-        versionCode 1
-        versionName "1.0"
+        applicationId appConfig.applicationId
+        minSdkVersion appConfig.minSdkVersion
+        targetSdkVersion appConfig.targetSdkVersion
+        versionCode appConfig.versionCode
+        versionName appConfig.versionName
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    signingConfigs {
+        release {
+            keyAlias signConfig.keyAlias
+            keyPassword signConfig.keyPassword
+            storeFile file(signConfig.storeFile)
+            storePassword signConfig.storePassword
+        }
     }
 
     buildTypes {
         release {
             minifyEnabled false
+            debuggable false
+            signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }

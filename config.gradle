@@ -1,5 +1,6 @@
 ext {
     android = [
+            applicationId    : "com.huangxiaoliang.mvparchdemo",
             compileSdkVersion: 30,
             buildToolsVersion: "30.0.3",
             minSdkVersion    : 21,
@@ -8,6 +9,14 @@ ext {
             versionName      : "1.0"
     ]
 
+    def signMap = getSignConfig()
+    // 打包签名配置
+    signConfig = [
+            keyAlias     : signMap.keyAlias,
+            keyPassword  : signMap.keyPassword,
+            storeFile    : signMap.storeFile,
+            storePassword: signMap.storePassword
+    ]
 
     // 第三方库管理
     dependencies = [
@@ -94,4 +103,32 @@ ext {
     ]
 
 
+}
+
+
+/**
+ * 获取签名信息
+ * @return 返回Map
+ */
+def getSignConfig() {
+    Properties properties = new Properties()
+    InputStream inputStream = project.rootProject.file('local.properties').newDataInputStream();
+    properties.load(inputStream)
+    def keyAlias, keyPassword, storeFile, storePassword
+    keyAlias = properties.getProperty('keyAlias')
+    keyPassword = properties.getProperty('keyPassword')
+    storeFile = properties.getProperty('storeFile')
+    storePassword = properties.getProperty('storePassword')
+    // 提示用户
+    if (keyAlias == null || keyPassword == null || storeFile == null || storePassword == null) {
+        def ANSI_RED = "\u001B[31m", ANSI_RESET = "\u001B[0m"
+        println "${ANSI_RED}please set sign-info in local.properties${ANSI_RESET}"
+    }
+    def map = ["keyAlias": "", "keyPassword": "", "storeFile": "", "storePassword": ""]
+    map.keyAlias = keyAlias
+    map.keyPassword = keyPassword
+    map.storeFile = storeFile
+    map.storePassword = storePassword
+    println(map.toString())
+    return map
 }
