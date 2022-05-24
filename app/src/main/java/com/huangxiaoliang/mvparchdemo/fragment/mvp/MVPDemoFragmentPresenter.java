@@ -24,22 +24,22 @@ public class MVPDemoFragmentPresenter extends BasePresenter<MVPDemoFragmentModel
     @Override
     public void loadData() {
         UILog.d(TAG, TAG + " onResume被调用");
-        getV().stateLoadingView();
-        getM().requestNet(new NetCallback<Long>() {
+        getMvpView().stateLoadingView();
+        getMvpModel().requestNet(new NetCallback<Long>() {
             @Override
             public void onSubscribe(Disposable d) {
-                getV().addDispose(d);
+                getMvpView().addDispose(d);
             }
 
             @Override
             public void onSuccess(Long aLong) {
-                getV().stateErrorView();
-                getV().showToast();
+                getMvpView().stateErrorView();
+                getMvpView().showToast();
             }
 
             @Override
             public void onFailure(String msg) {
-                getV().stateErrorView();
+                getMvpView().stateErrorView();
                 UIToast.showShort(msg);
             }
         });

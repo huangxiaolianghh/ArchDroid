@@ -23,6 +23,14 @@ public class MVPDemoFragment extends BaseMVPFragment<MVPDemoFragmentPresenter> i
     @BindView(R.id.imageView1)
     ImageView mImageView1;
 
+    public static MVPDemoFragment newInstance(String data) {
+        MVPDemoFragment demoFragment = new MVPDemoFragment();
+        Bundle args = new Bundle();
+        args.putString("MVP_DATA", data);
+        demoFragment.setArguments(args);
+        return demoFragment;
+    }
+
     @Override
     protected void initContentView(@Nullable Bundle savedInstanceState) {
         setContentView(R.layout.fragment_test_mvp);
@@ -33,7 +41,7 @@ public class MVPDemoFragment extends BaseMVPFragment<MVPDemoFragmentPresenter> i
         ILFactory.getLoader().loadNet(mImageView1,
                 "https://dss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=218024201,1599297029&fm=26&gp=0.jpg",
                 IImageLoader.HOptions.defaultOptions());
-        getP().loadData();
+        getMvpPresenter().loadData();
 
     }
 

@@ -40,7 +40,7 @@ public class MvpDemoActivity extends BaseMVPActivity<MvpDemoActivityPresenter> i
         findView(R.id.btn_test, v -> UIToast.showLong("测试Toast"));
         UILog.e(TAG, "isVisible：" + isVisible(findView(R.id.btn_test)));
 
-        getP().loadData();
+        getMvpPresenter().loadData();
     }
 
 

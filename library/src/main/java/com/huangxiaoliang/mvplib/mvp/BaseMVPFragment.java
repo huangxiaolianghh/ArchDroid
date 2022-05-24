@@ -27,8 +27,9 @@ public abstract class BaseMVPFragment<P extends BasePresenter> extends BaseFragm
         mPresenter = ClassLoadUtils.getT(this, 0);
         Objects.requireNonNull(mPresenter, "p can not be null");
         mPresenter.attachV(this);
-        mPresenter.getM().setContext(getContext());
-        mPresenter.getM().setArgs(getArguments());
+        mPresenter.getMvpModel().setContext(getContext());
+        mPresenter.getMvpModel().setArgs(getArguments());
+        mPresenter.getMvpModel().initData();
         //Activity与presenter生命周期绑定
         getLifecycle().addObserver(mPresenter);
     }
@@ -38,10 +39,9 @@ public abstract class BaseMVPFragment<P extends BasePresenter> extends BaseFragm
      *
      * @return see {@link BasePresenter}
      */
-    public P getP() {
+    public P getMvpPresenter() {
         return mPresenter;
     }
-
 
     /**
      * 在此之前会调用{@link BasePresenter#onDestroy(LifecycleOwner)}

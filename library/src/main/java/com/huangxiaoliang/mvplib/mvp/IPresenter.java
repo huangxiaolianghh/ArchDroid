@@ -22,6 +22,7 @@ public interface IPresenter<V> {
      */
     boolean isAttachV();
 
+
 //    /**
 //     * 在框架中 {@link Activity#onStart()}  时会默认调用 {@link IPresenter#onStart()}
 //     */

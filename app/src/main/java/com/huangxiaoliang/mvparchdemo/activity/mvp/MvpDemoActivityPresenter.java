@@ -24,22 +24,22 @@ public class MvpDemoActivityPresenter extends BasePresenter<MvpDemoActivityModel
 
     @Override
     public void loadData() {
-        getV().stateLoadingView();
-        getM().requestNet(new NetCallback<Long>() {
+        getMvpView().stateLoadingView();
+        getMvpModel().requestNet(new NetCallback<Long>() {
             @Override
             public void onSubscribe(Disposable d) {
-                getV().addDispose(d);
+                getMvpView().addDispose(d);
             }
 
             @Override
             public void onSuccess(Long o) {
-                getV().stateContentView();
-                getV().showToast();
+                getMvpView().stateContentView();
+                getMvpView().showToast();
             }
 
             @Override
             public void onFailure(String msg) {
-                getV().stateErrorView();
+                getMvpView().stateErrorView();
                 UIToast.showShort(msg);
             }
         });
@@ -47,22 +47,22 @@ public class MvpDemoActivityPresenter extends BasePresenter<MvpDemoActivityModel
 
     @Override
     public void onReload() {
-        getV().stateLoadingView();
-        getM().requestNet(new NetCallback<Long>() {
+        getMvpView().stateLoadingView();
+        getMvpModel().requestNet(new NetCallback<Long>() {
             @Override
             public void onSubscribe(Disposable d) {
-                getV().addDispose(d);
+                getMvpView().addDispose(d);
             }
 
             @Override
             public void onSuccess(Long aLong) {
-                getV().stateContentView();
+                getMvpView().stateContentView();
 
             }
 
             @Override
             public void onFailure(String msg) {
-                getV().stateErrorView();
+                getMvpView().stateErrorView();
                 UIToast.showShort(msg);
             }
         });

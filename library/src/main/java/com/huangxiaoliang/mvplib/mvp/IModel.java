@@ -1,5 +1,7 @@
 package com.huangxiaoliang.mvplib.mvp;
 
+import androidx.lifecycle.LifecycleOwner;
+
 /**
  * @author : HHotHeart
  * @date : 2021/6/11 00:04
@@ -7,7 +9,7 @@ package com.huangxiaoliang.mvplib.mvp;
  */
 public interface IModel {
     /**
-     * 在框架中 {@link IPresenter#onDestroy()} 时会默认调用 {@link IModel#onDestroy()}
+     * 在框架中 {@link BasePresenter#onDestroy(LifecycleOwner)} 时会默认调用 {@link IModel#onDestroy()}
      */
     void onDestroy();
 }

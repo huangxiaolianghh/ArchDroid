@@ -1,9 +1,10 @@
 package com.huangxiaoliang.mvparchdemo.fragment.mvp;
 
+import com.blankj.utilcode.util.StringUtils;
+import com.huangxiaoliang.mvparchdemo.listener.NetCallback;
+import com.huangxiaoliang.mvplib.manager.log.UILog;
 import com.huangxiaoliang.mvplib.manager.toast.UIToast;
 import com.huangxiaoliang.mvplib.mvp.BaseModel;
-import com.huangxiaoliang.mvplib.manager.log.UILog;
-import com.huangxiaoliang.mvparchdemo.listener.NetCallback;
 
 import java.util.concurrent.TimeUnit;
 
@@ -18,11 +19,12 @@ import io.reactivex.rxjava3.disposables.Disposable;
  * @Time : 2021/6/11 15:46
  * @Description : 描述
  */
-public class MVPDemoFragmentModel extends BaseModel implements FContract.MyFragmentModel{
+public class MVPDemoFragmentModel extends BaseModel implements FContract.MyFragmentModel {
 
     @Override
     protected void initData() {
-        UIToast.showLong("测试TestModel");
+        String data = getArgs().getString("MVP_DATA");
+        UIToast.showLong(StringUtils.isEmpty(data) ? "测试TestModel" : data);
     }
 
     @Override

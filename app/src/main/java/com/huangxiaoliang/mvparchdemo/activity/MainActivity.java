@@ -24,7 +24,11 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onBusiness(Bundle savedInstanceState) {
 
-        findView(R.id.btn_mvp_activity, mView -> startActivity(new Intent(getContext(), MvpDemoActivity.class)));
+        findView(R.id.btn_mvp_activity, mView -> {
+            Intent intent = new Intent(getContext(), MvpDemoActivity.class);
+            intent.putExtra("MVP_DATA","MvpDemoActivity");
+            startActivity(intent);
+        });
         findView(R.id.btn_mvp_fragment, mView -> startActivity(new Intent(getContext(), FragmentMvpHostActivity.class)));
 
         findView(R.id.btn_reload_demo, mView -> startActivity(new Intent(getContext(), ReloadDemoActivity.class)));

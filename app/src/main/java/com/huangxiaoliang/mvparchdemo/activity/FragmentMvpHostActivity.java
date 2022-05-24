@@ -24,7 +24,7 @@ public class FragmentMvpHostActivity extends BaseActivity {
     @Override
     public void onBeforeBusiness(@Nullable Bundle savedInstanceState) {
         final FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.add(R.id.fragment_content, new MVPDemoFragment());
+        transaction.add(R.id.fragment_content, MVPDemoFragment.newInstance("MVPDemoFragment"));
         transaction.commit();
     }
 

@@ -27,8 +27,9 @@ public abstract class BaseMVPActivity<P extends BasePresenter> extends BaseActiv
         mPresenter = ClassLoadUtils.getT(this, 0);
         Objects.requireNonNull(mPresenter, "p can not be null");
         mPresenter.attachV(this);
-        mPresenter.getM().setContext(getContext());
-        mPresenter.getM().setIntent(getIntent());
+        mPresenter.getMvpModel().setContext(getContext());
+        mPresenter.getMvpModel().setIntent(getIntent());
+        mPresenter.getMvpModel().initData();
         //Activity与presenter生命周期绑定
         getLifecycle().addObserver(mPresenter);
         super.onCreate(savedInstanceState);
@@ -40,10 +41,9 @@ public abstract class BaseMVPActivity<P extends BasePresenter> extends BaseActiv
      *
      * @return see {@link BasePresenter}
      */
-    public P getP() {
+    public P getMvpPresenter() {
         return mPresenter;
     }
-
 
     /**
      * 在此之前会调用{@link BasePresenter#onDestroy(LifecycleOwner)}

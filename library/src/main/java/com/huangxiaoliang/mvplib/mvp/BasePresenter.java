@@ -43,7 +43,7 @@ public abstract class BasePresenter<M extends BaseModel, V extends IView> implem
      *
      * @return
      */
-    protected V getV() {
+    protected V getMvpView() {
         if (v != null && v.get() != null) {
             return v.get();
         }
@@ -55,7 +55,7 @@ public abstract class BasePresenter<M extends BaseModel, V extends IView> implem
      *
      * @return
      */
-    protected M getM() {
+    protected M getMvpModel() {
         return m;
     }
 
