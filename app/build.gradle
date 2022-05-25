@@ -7,10 +7,10 @@ plugins {
  */
 def appConfig = rootProject.ext.android
 
-/**
- * 签名配置
- */
-def signConfig = rootProject.ext.signConfig
+///**
+// * 签名配置
+// */
+//def signConfig = rootProject.ext.signConfig
 
 android {
     compileSdkVersion appConfig.compileSdkVersion
@@ -26,20 +26,20 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
-    signingConfigs {
-        release {
-            keyAlias signConfig.keyAlias
-            keyPassword signConfig.keyPassword
-            storeFile file(signConfig.storeFile)
-            storePassword signConfig.storePassword
-        }
-    }
+//    signingConfigs {
+//        release {
+//            keyAlias signConfig.keyAlias
+//            keyPassword signConfig.keyPassword
+//            storeFile file(signConfig.storeFile)
+//            storePassword signConfig.storePassword
+//        }
+//    }
 
     buildTypes {
         release {
             minifyEnabled false
-            debuggable false
-            signingConfig signingConfigs.release
+//            debuggable false
+//            signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
