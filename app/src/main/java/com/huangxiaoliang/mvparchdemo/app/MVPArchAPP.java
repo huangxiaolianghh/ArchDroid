@@ -9,6 +9,7 @@ import com.blankj.utilcode.util.SPUtils;
 import com.dylanc.loadinghelper.LoadingHelper;
 import com.dylanc.loadinghelper.ViewType;
 import com.huangxiaoliang.mvparchdemo.R;
+import com.huangxiaoliang.mvparchdemo.util.CustomLogDelegate;
 import com.huangxiaoliang.mvplib.manager.MVPArchConfig;
 import com.huangxiaoliang.mvplib.manager.lcet.TitleParam;
 import com.huangxiaoliang.mvplib.manager.lcet.GEmptyAdapter;
@@ -56,6 +57,7 @@ public class MVPArchAPP extends Application {
         super.onCreate();
 
         MVPArchConfig.getInstance()
+                .setLogDelegate(new CustomLogDelegate().init())
                 .setLoggable(BuildConfig.DEBUG)
                 .setLightStatusBar(false)
                 .setStatusBarColor(Color.BLACK)
@@ -77,7 +79,6 @@ public class MVPArchAPP extends Application {
             return Unit.INSTANCE;
         });
 
-//        UILog.setDelegate(new CustomLogDelegate().init());
 //        UIToast.setDelegate(new CustomToastDelegate().init());
 //        MVPArchConfig.getInstance().setImageLoader(CustomGlideLoader.get());
 //        MVPArchConfig.getInstance().setEventBus(CustomEventBusImpl.get());

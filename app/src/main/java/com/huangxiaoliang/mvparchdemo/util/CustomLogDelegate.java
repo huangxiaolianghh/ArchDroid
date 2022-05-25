@@ -2,7 +2,6 @@ package com.huangxiaoliang.mvparchdemo.util;
 
 import android.util.Log;
 
-import com.huangxiaoliang.mvplib.manager.MVPArchConfig;
 import com.huangxiaoliang.mvplib.manager.log.UILog;
 
 /**
@@ -11,7 +10,6 @@ import com.huangxiaoliang.mvplib.manager.log.UILog;
  * @desc : 自定义Log代理
  */
 public class CustomLogDelegate implements UILog.LogDelegate {
-    boolean isDebug = true;
 
     @Override
     public String getTag() {
@@ -20,48 +18,41 @@ public class CustomLogDelegate implements UILog.LogDelegate {
 
     @Override
     public UILog.LogDelegate init() {
-        //做一些初始化工作，如log日志的开关
-        isDebug = MVPArchConfig.getInstance().isLoggable();
+        //做一些初始化工作
         return this;
     }
 
     @Override
     public void v(String tag, String msg, Object... obj) {
-        if (isDebug) {
-            Log.v(tag, msg);
-        }
+        Log.v(tag, msg);
     }
 
     @Override
     public void d(String tag, String msg, Object... obj) {
         //自己的Log库
-        if (isDebug) {
-            Log.d(tag, msg);
-        }
+        Log.d(tag, msg);
+
     }
 
     @Override
     public void i(String tag, String msg, Object... obj) {
         //自己的Log库
-        if (isDebug) {
-            Log.i(tag, msg);
-        }
+        Log.i(tag, msg);
+
     }
 
     @Override
     public void w(String tag, String msg, Object... obj) {
         //自己的Log库
-        if (isDebug) {
-            Log.w(tag, msg);
-        }
+        Log.w(tag, msg);
+
     }
 
     @Override
     public void e(String tag, String msg, Object... obj) {
         //自己的Log库
-        if (isDebug) {
-            Log.e(tag, msg);
-        }
+        Log.e(tag, msg);
+
     }
 
     @Override

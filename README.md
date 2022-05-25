@@ -3,33 +3,33 @@
 
 一个可有效提高Android开发效率的MVP框架
 
- - 封装Activity/Fragment基类-BaseActivity/BaseFragment（Fragment懒加载开关配置）
- - 封装MVP模式Activity/Fragment基类-BaseMVPActivity/BaseMVPFragment，V与P层生命周期监听和绑定，解决诸多内存泄漏问题
- - 使用 <a href="https://github.com/DylanCaiCoding/LoadingHelper">LoadingHelper</a>实现可定制化的页面LCE视图
- - LoadingDialog加载框定制化，可随意切换
- - 使用<a href="https://github.com/getActivity/TitleBar">TitleBar </a>实现可全局配置、页面可定制化的Title，不用每个页面写繁琐的xml代码
- - 沉浸式状态栏及状态栏颜色设置
- - 封装了Log、Toast，可自定义代理实现自己的Log、Toast
- - 封装了图片加载器、事件通知管理器，可通过配置切换
+- 封装Activity/Fragment基类-BaseActivity/BaseFragment（Fragment懒加载开关配置）
+- 封装MVP模式Activity/Fragment基类-BaseMVPActivity/BaseMVPFragment，V与P层生命周期监听和绑定，解决诸多内存泄漏问题
+- 使用 <a href="https://github.com/DylanCaiCoding/LoadingHelper">LoadingHelper</a>实现可定制化的页面LCE视图
+- LoadingDialog加载框定制化，可随意切换
+- 使用<a href="https://github.com/getActivity/TitleBar">TitleBar </a>实现可全局配置、页面可定制化的Title，不用每个页面写繁琐的xml代码
+- 沉浸式状态栏及状态栏颜色设置
+- 封装了Log、Toast，可自定义代理实现自己的Log、Toast
+- 封装了图片加载器、事件通知管理器，可通过配置切换
 
 
 ## 项目引入该库
 
-在你的 Project build.gradle文件中添加：  
+在你的 Project build.gradle文件中添加：
 
 ```java
-allprojects {
+	allprojects {
 		repositories {
 			...
 			maven { url 'https://jitpack.io' }
 		}
 	}
 ```
-在你的 Module build.gradle文件中添加：  
+在你的 Module build.gradle文件中添加：
 
 ```java
 	dependencies {
-        implementation 'com.github.HHotHeart:MVPArch:1.0.3'
+        implementation 'com.github.HHotHeart:MVPArch:1.0.4-beta.2'
         }
 ```
 ## 效果图
@@ -57,9 +57,9 @@ allprojects {
 
 ## 功能实现
 
- 1. UILog、UIToast
+1. UILog、UIToast
 
- 框架默认实现了UILog、UIToast的代理[UILogDelegate](https://github.com/HHotHeart/MVPArch/blob/master/library/src/main/java/com/huangxiaoliang/mvplib/manager/log/UILogDelegate.java)、[UIToastDelegate](https://github.com/HHotHeart/MVPArch/blob/master/library/src/main/java/com/huangxiaoliang/mvplib/manager/toast/UIToastDelegate.java)，如果不满足需求，可实现自己定义的代理(实现UILog.LogDelegate、UIToast.ToastDelegate即可)，具体可参考框架的实现，这里简单实现了CustomLogDelegate
+框架默认实现了UILog、UIToast的代理[UILogDelegate](https://github.com/HHotHeart/MVPArch/blob/master/library/src/main/java/com/huangxiaoliang/mvplib/manager/log/UILogDelegate.java)、[UIToastDelegate](https://github.com/HHotHeart/MVPArch/blob/master/library/src/main/java/com/huangxiaoliang/mvplib/manager/toast/UIToastDelegate.java)，如果不满足需求，可实现自己定义的代理(实现UILog.LogDelegate、UIToast.ToastDelegate即可)，具体可参考框架的实现，这里简单实现了CustomLogDelegate
 
 ```java
 package com.huangxiaoliang.mvparchdemo.util;
@@ -75,7 +75,6 @@ import com.huangxiaoliang.mvplib.manager.log.UILog;
  * @desc : 自定义代理
  */
 public class CustomLogDelegate implements UILog.LogDelegate {
-    boolean isDebug = true;
 
     @Override
     public String getTag() {
@@ -84,38 +83,41 @@ public class CustomLogDelegate implements UILog.LogDelegate {
 
     @Override
     public UILog.LogDelegate init() {
-        //做一些初始化工作，如log日志的开关
-        isDebug = MVPArchConfig.getInstance().isLoggable();
+        //做一些初始化工作
         return this;
     }
 
     @Override
     public void v(String tag, String msg, Object... obj) {
-        if (isDebug) {
-            Log.v(tag, msg);
-        }
+        Log.v(tag, msg);
     }
 
     @Override
     public void d(String tag, String msg, Object... obj) {
         //自己的Log库
+        Log.d(tag, msg);
+
     }
 
     @Override
     public void i(String tag, String msg, Object... obj) {
         //自己的Log库
+        Log.i(tag, msg);
+
     }
 
     @Override
     public void w(String tag, String msg, Object... obj) {
         //自己的Log库
+        Log.w(tag, msg);
 
     }
 
     @Override
     public void e(String tag, String msg, Object... obj) {
         //自己的Log库
-
+        Log.e(tag, msg);
+        
     }
 
     @Override
@@ -131,7 +133,7 @@ public class CustomLogDelegate implements UILog.LogDelegate {
     }
 
     @Override
-    public void printErrStackTrace(String tag, Throwable throwable, Object... obj) {
+    public void printErrStackTrace(String tag, Throwable throwable) {
         //自己的Log库
 
     }
@@ -141,7 +143,7 @@ public class CustomLogDelegate implements UILog.LogDelegate {
 然后在Application中将代理设置给UILog
 
 ```java
-     UILog.setDelegate(new CustomLogDelegate().init());
+ 		 MVPArchConfig.getInstance().setLogDelegate(new CustomLogDelegate().init())
 ```
 
 Log日志开关可通过MVPArchConfig配置
@@ -149,13 +151,13 @@ Log日志开关可通过MVPArchConfig配置
 ```java
      MVPArchConfig.getInstance().setLoggable(BuildConfig.DEBUG)
 ```
-Toast的代理设置也一样，如
+Toast的代理设置，如
 
 ```java
      UIToast.setDelegate(UIToast.ToastDelegate delegate);
 ```
 
- 2. EventManager、ILFactory
+2. EventManager、ILFactory
 
 框架默认实现了[EventBusImpl](https://github.com/HHotHeart/MVPArch/blob/master/library/src/main/java/com/huangxiaoliang/mvplib/manager/event/EventBusImpl.java)事件通知和[GlideLoader](https://github.com/HHotHeart/MVPArch/blob/master/library/src/main/java/com/huangxiaoliang/mvplib/manager/imageloader/GlideLoader.java)图片加载器，可以自由切换（实现IEventBus、IImageLoader接口即可），实现了之后可通过MVPArchConfig配置，如替换GlideLoader、EventBusImpl
 
@@ -170,13 +172,14 @@ Toast的代理设置也一样，如
      EventManager.getBus().post(IEventBus.AbsEvent event);
      ILFactory.getLoader().loadNet(ImageView target, String url, IImageLoader.HOptions options);
 ```
- 3. LCE-T
+3. LCE-T
 
 框架实现了L（加载视图）、C（内容视图）、E（错误视图、空视图）、T（标题）的逻辑处理，这里主要使用了两个库<a href="https://github.com/DylanCaiCoding/LoadingHelper">LoadingHelper</a>和<a href="https://github.com/getActivity/TitleBar">TitleBar </a>，具体实现原理可去Github上看看，框架可全局配置LCE-T，如
 
 ```java
-        //设置状态栏颜色、标题属性
         MVPArchConfig.getInstance()
+                .setLogDelegate(new CustomLogDelegate().init())
+                .setLoggable(BuildConfig.DEBUG)
                 .setLightStatusBar(false)
                 .setStatusBarColor(Color.BLACK)
                 .setTitleParam(new TitleParam()
@@ -457,7 +460,7 @@ public class CustomLCEActivity extends BaseActivity {
 
 更多用法查看代码。
 
- 4. MVP模式
+4. MVP模式
 
 框架简易封装了MVP架构，使用了lifecycle管理Activity、Fragment和P层的生命周期，使用[RxLifecycle](https://github.com/trello/RxLifecycle)管理Rxjava和Activity、Fragment的生命周期，有效地避免内存泄漏和P层销毁，延时任务造成的空指针问题，Activity（Fragment同理）业务逻辑实现的AContract管理MVP契约类
 
@@ -504,22 +507,22 @@ public class MvpDemoActivityPresenter extends BasePresenter<MvpDemoActivityModel
 
     @Override
     public void loadData() {
-        getV().stateLoadingView();
-        getM().requestNet(new NetCallback<Long>() {
+        getMvpView().stateLoadingView();
+        getMvpModel().requestNet(new NetCallback<Long>() {
             @Override
             public void onSubscribe(Disposable d) {
-                getV().addDispose(d);
+                getMvpView().addDispose(d);
             }
 
             @Override
             public void onSuccess(Long o) {
-                getV().stateContentView();
-                getV().showToast();
+                getMvpView().stateContentView();
+                getMvpView().showToast();
             }
 
             @Override
             public void onFailure(String msg) {
-                getV().stateErrorView();
+                getMvpView().stateErrorView();
                 UIToast.showShort(msg);
             }
         });
@@ -527,22 +530,22 @@ public class MvpDemoActivityPresenter extends BasePresenter<MvpDemoActivityModel
 
     @Override
     public void onReload() {
-        getV().stateLoadingView();
-        getM().requestNet(new NetCallback<Long>() {
+        getMvpView().stateLoadingView();
+        getMvpModel().requestNet(new NetCallback<Long>() {
             @Override
             public void onSubscribe(Disposable d) {
-                getV().addDispose(d);
+                getMvpView().addDispose(d);
             }
 
             @Override
             public void onSuccess(Long aLong) {
-                getV().stateContentView();
+                getMvpView().stateContentView();
 
             }
 
             @Override
             public void onFailure(String msg) {
-                getV().stateErrorView();
+                getMvpView().stateErrorView();
                 UIToast.showShort(msg);
             }
         });
@@ -598,7 +601,7 @@ public class MvpDemoActivity extends BaseMVPActivity<MvpDemoActivityPresenter> i
         findView(R.id.btn_test, v -> UIToast.showLong("测试Toast"));
         UILog.e(TAG, "isVisible：" + isVisible(findView(R.id.btn_test)));
 
-        getP().loadData();
+        getMvpPresenter().loadData();
     }
 
 
@@ -664,7 +667,7 @@ public class MvpDemoActivityModel extends BaseModel implements AContract.MyActiv
 BaseActivity和BaseFragment实现了Disposable的管理，每执行一个Rxjava任务时，应手动调用方法
 
 ```java
- 		getV().addDispose(d);
+ 		getMvpView().addDispose(d);
 ```
 
 添加任务的Disposable，在页面销毁时会把任务中断。除此之外还可以调用
@@ -672,8 +675,8 @@ BaseActivity和BaseFragment实现了Disposable的管理，每执行一个Rxjava�
 ```java
 		observable.compose(bindUntilEvent(ActivityEvent event));
 ```
-将Rxjava任务与页面生命周期绑定，ActivityEvent对应Actiivity的生命周期，如ActivityEvent.DESTROY，具体可查看RxLifecycle的用法。  
+将Rxjava任务与页面生命周期绑定，ActivityEvent对应Actiivity的生命周期，如ActivityEvent.DESTROY，具体可查看RxLifecycle的用法。
 
-后续会实现网络请求相关模块，将其请求与页面和Presneter生命周期完美结合起来，敬请期待！！！  
+后续会实现网络请求相关模块，将其请求与页面和Presneter生命周期完美结合起来，敬请期待！！！
 
 <a href="https://blog.csdn.net/HHHceo">我的博客</a>
