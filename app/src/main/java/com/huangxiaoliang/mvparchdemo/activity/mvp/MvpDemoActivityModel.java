@@ -1,7 +1,5 @@
 package com.huangxiaoliang.mvparchdemo.activity.mvp;
 
-import android.content.Intent;
-
 import com.blankj.utilcode.util.StringUtils;
 import com.huangxiaoliang.mvparchdemo.listener.NetCallback;
 import com.huangxiaoliang.mvplib.manager.log.UILog;
@@ -21,7 +19,7 @@ import io.reactivex.rxjava3.disposables.Disposable;
  * @Time : 2021/6/11 15:46
  * @Description : 描述
  */
-public class MvpDemoActivityModel extends BaseModel<Intent> implements AContract.MyActivityModel {
+public class MvpDemoActivityModel extends BaseModel implements AContract.MyActivityModel {
 
 
     @Override

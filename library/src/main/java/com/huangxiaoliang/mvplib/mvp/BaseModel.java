@@ -9,7 +9,7 @@ import android.os.Bundle;
  * @Time : 2021/6/11 11:18
  * @Description : Model基类
  */
-public abstract class BaseModel<T> implements IModel {
+public abstract class BaseModel implements IModel {
 
     private Context mContext;
 
