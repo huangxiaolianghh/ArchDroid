@@ -34,21 +34,20 @@ dependencies {
     implementation rootProject.ext.dependencies.design
     implementation rootProject.ext.dependencies.constraintLayout
     // UI相关
-    api rootProject.ext.dependencies.butterknife
+    implementation rootProject.ext.dependencies.butterknife
     annotationProcessor rootProject.ext.dependencies.butterknifeCompile
-    api rootProject.ext.dependencies.statusbarutil
-    api rootProject.ext.dependencies.statusBarCompat
-    api rootProject.ext.dependencies.kprogresshud
+    implementation rootProject.ext.dependencies.kprogresshud
     // 图片相关
-    api rootProject.ext.dependencies.glide
+    implementation rootProject.ext.dependencies.glide
     annotationProcessor rootProject.ext.dependencies.glideCompiler
+    implementation rootProject.ext.dependencies.Logger
+    implementation rootProject.ext.dependencies.EventBus
+    implementation rootProject.ext.dependencies.statusbarutil
+    implementation rootProject.ext.dependencies.statusBarCompat
 
-    api rootProject.ext.dependencies.Logger
-    api rootProject.ext.dependencies.EventBus
     api rootProject.ext.dependencies.utilcode
     api rootProject.ext.dependencies.TitleBar
     api rootProject.ext.dependencies.LoadingHelper
-    api rootProject.ext.dependencies.XRecyclerViewDivider
     api rootProject.ext.dependencies.lifecycle
     api rootProject.ext.dependencies.rxlifecycle
     api rootProject.ext.dependencies.FlycoRoundView_Lib

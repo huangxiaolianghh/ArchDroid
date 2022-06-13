@@ -99,24 +99,23 @@ dependencies {
     implementation rootProject.ext.dependencies.banner
     implementation rootProject.ext.dependencies.PictureSelector
 
+    implementation rootProject.ext.dependencies.butterknife
+    annotationProcessor rootProject.ext.dependencies.butterknifeCompile
+    implementation rootProject.ext.dependencies.glide
+    annotationProcessor rootProject.ext.dependencies.glideCompiler
+    implementation rootProject.ext.dependencies.kprogresshud
+    implementation rootProject.ext.dependencies.XRecyclerViewDivider
+    implementation rootProject.ext.dependencies.Logger
+    implementation rootProject.ext.dependencies.statusbarutil
+    implementation rootProject.ext.dependencies.statusBarCompat
 //    MVPArch库引用了以下依赖
-//    implementation rootProject.ext.dependencies.butterknife
-//    annotationProcessor rootProject.ext.dependencies.butterknifeCompile
-//    implementation rootProject.ext.dependencies.glide
-//    annotationProcessor rootProject.ext.dependencies.glideCompiler
-//    implementation rootProject.ext.dependencies.statusbarutil
-//    implementation rootProject.ext.dependencies.statusBarCompat
-//    implementation rootProject.ext.dependencies.kprogresshud
-//    implementation rootProject.ext.dependencies.Logger
+
 //    implementation rootProject.ext.dependencies.utilcode
 //    implementation rootProject.ext.dependencies.TitleBar
 //    implementation rootProject.ext.dependencies.LoadingHelper
-//    implementation rootProject.ext.dependencies.XRecyclerViewDivider
 //    implementation rootProject.ext.dependencies.lifecycle
 //    implementation rootProject.ext.dependencies.rxlifecycle
 //    implementation rootProject.ext.dependencies.FlycoRoundView_Lib
 
-    //尽管三方库依赖了ui绑定库，但还是需要需要引用此库
-    annotationProcessor rootProject.ext.dependencies.butterknifeCompile
     implementation project(':library')
 }

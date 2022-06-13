@@ -29,7 +29,7 @@
 
 ```java
 	dependencies {
-            implementation 'com.github.HHotHeart:MVPArch:1.0.5'
+            implementation 'com.github.HHotHeart:MVPArch:1.0.7'
         }
 ```
 ## 效果图

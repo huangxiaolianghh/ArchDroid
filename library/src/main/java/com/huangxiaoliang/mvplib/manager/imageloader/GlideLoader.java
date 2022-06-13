@@ -8,6 +8,7 @@ import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.blankj.utilcode.util.ThreadUtils;
 import com.blankj.utilcode.util.Utils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
@@ -27,7 +28,6 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 import com.huangxiaoliang.mvplib.util.CommonUtils;
-import com.littlejerk.rvdivider.DividerHelper;
 
 import java.io.File;
 
@@ -234,19 +234,18 @@ public final class GlideLoader implements IImageLoader {
         getRequestManager(target)
                 .load(url)
                 .apply(getRequestOptions(options))
-                .transform(wrapTransformation(options, new RoundedCorners(DividerHelper.dp2px(radius))))
+                .transform(wrapTransformation(options, new RoundedCorners(CommonUtils.dp2px(radius))))
                 .into(target);
     }
 
     @Override
     public void clearMemoryCache(Context context) {
         Glide.get(context).clearMemory();
-
     }
 
     @Override
     public void clearDiskCache(Context context) {
-        new Thread(() -> Glide.get(context).clearDiskCache()).start();
+        ThreadUtils.getCachedPool().execute(() -> Glide.get(context).clearDiskCache());
     }
 
     @Override
