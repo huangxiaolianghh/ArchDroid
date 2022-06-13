@@ -23,6 +23,7 @@ android {
         versionCode appConfig.versionCode
         versionName appConfig.versionName
 
+        multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -104,7 +105,7 @@ dependencies {
     implementation rootProject.ext.dependencies.glide
     annotationProcessor rootProject.ext.dependencies.glideCompiler
     implementation rootProject.ext.dependencies.kprogresshud
-    implementation rootProject.ext.dependencies.XRecyclerViewDivider
+//    implementation rootProject.ext.dependencies.XRecyclerViewDivider
     implementation rootProject.ext.dependencies.Logger
     implementation rootProject.ext.dependencies.statusbarutil
     implementation rootProject.ext.dependencies.statusBarCompat
