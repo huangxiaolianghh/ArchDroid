@@ -5,7 +5,7 @@
 
 - 封装Activity/Fragment基类-BaseActivity/BaseFragment（Fragment懒加载开关配置）
 - 封装MVP模式Activity/Fragment基类-BaseMVPActivity/BaseMVPFragment，V与P层生命周期监听和绑定，解决诸多内存泄漏问题
-- 使用 <a href="https://github.com/DylanCaiCoding/LoadingHelper">LoadingHelper</a>实现可定制化的页面LCE视图
+- 使用 <a href="https://github.com/DylanCaiCoding/LoadingStateView">LoadingStateView</a>实现可定制化的页面LCE视图
 - LoadingDialog加载框定制化，可随意切换
 - 使用<a href="https://github.com/getActivity/TitleBar">TitleBar </a>实现可全局配置、页面可定制化的Title，不用每个页面写繁琐的xml代码
 - 沉浸式状态栏及状态栏颜色设置
@@ -29,7 +29,7 @@
 
 ```java
 	dependencies {
-            implementation 'com.github.HHotHeart:MVPArch:1.0.7'
+            implementation 'com.github.HHotHeart:MVPArch:1.0.8-beta.1'
         }
 ```
 ## 效果图
@@ -143,7 +143,7 @@ public class CustomLogDelegate implements UILog.LogDelegate {
 然后在Application中将代理设置给UILog
 
 ```java
- 		 MVPArchConfig.getInstance().setLogDelegate(new CustomLogDelegate().init())
+     MVPArchConfig.getInstance().setLogDelegate(new CustomLogDelegate().init())
 ```
 
 Log日志开关可通过MVPArchConfig配置
@@ -193,14 +193,11 @@ Toast的代理设置，如
                         .setBottomLineHeight(0.5f));
 
         //设置全局LCE
-        LoadingHelper.setDefaultAdapterPool(adapterPool -> {
-            adapterPool.register(ViewType.LOADING, new GLoadingAdapter());
-            adapterPool.register(ViewType.ERROR, new GErrorAdapter());
-            adapterPool.register(ViewType.EMPTY, new GEmptyAdapter());
-            return Unit.INSTANCE;
-        });
+        LoadingStateView.setViewDelegatePool(pool ->
+        pool.register(new GLoadingViewDelegate(), new GErrorViewDelegate(), new GEmptyViewDelegate()));
+
 ```
-其中GLoadingAdapter、GErrorAdapter、GEmptyAdapter是框架实现的默认全局LCE，可参考将其替换成自己项目的LCE。因为LCE-T的设置是通过LCEDelegate（实现ILCEView）实现的，要想改变代理实现，可自定义代理CustomLCEDelegate实现ILCEView接口，然后通过清单文件AndroidManifest.xml去配置自定义的代理，如
+其中GLoadingViewDelegate、GErrorViewDelegate、GEmptyViewDelegate是框架实现的默认全局LCE，可参考将其替换成自己项目的LCE。因为LCE-T的设置是通过LCEDelegate（实现ILCEView）实现的，要想改变代理实现，可自定义代理CustomLCEDelegate实现ILCEView接口，然后通过清单文件AndroidManifest.xml去配置自定义的代理，如
 
 ```java
         <meta-data
@@ -215,12 +212,11 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.view.View;
 
-import com.dylanc.loadinghelper.LoadingHelper;
-import com.dylanc.loadinghelper.ViewType;
-import com.huangxiaoliang.mvplib.manager.lcet.ITitleView;
-import com.huangxiaoliang.mvplib.manager.lcet.TitleBarAdapter;
-import com.kaopiz.kprogresshud.KProgressHUD;
+import com.dylanc.loadingstateview.LoadingStateView;
+import com.huangxiaoliang.mvplib.manager.lcet.GTitleBarViewDelegate;
 import com.huangxiaoliang.mvplib.manager.lcet.ILCEView;
+import com.huangxiaoliang.mvplib.manager.lcet.ITitleView;
+import com.kaopiz.kprogresshud.KProgressHUD;
 
 import org.json.JSONObject;
 
@@ -233,15 +229,15 @@ public class CustomLCEDelegate implements ILCEView {
 
     private Context mContext = null;
     private View mRealRootView = null;
-    //加载中、加载失败、空布局视图 https://github.com/DylanCaiCoding/LoadingHelper
-    private LoadingHelper mLoadingHelper = null;
+    //加载中、加载失败、空布局视图 https://github.com/DylanCaiCoding/LoadingStateView
+    private LoadingStateView mLoadingHelper = null;
     //加载框 https://github.com/Kaopiz/KProgressHUD
     private KProgressHUD mKProgressHUD = null;
 
 
     public CustomLCEDelegate(View rootView) {
         mContext = rootView.getContext();
-        mLoadingHelper = new LoadingHelper(rootView);
+        mLoadingHelper = new LoadingStateView(rootView);
         mRealRootView = mLoadingHelper.getDecorView();
     }
 
@@ -263,8 +259,7 @@ public class CustomLCEDelegate implements ILCEView {
      */
     @Override
     public void setTitleBar(ITitleView titleParam) {
-        mLoadingHelper.register(ViewType.TITLE, new TitleBarAdapter(titleParam));
-        mLoadingHelper.setDecorHeader(ViewType.TITLE);
+        mLoadingHelper.setHeaders(new GTitleBarViewDelegate(titleParam));
     }
 
     /**
@@ -366,7 +361,7 @@ public class CustomLCEDelegate implements ILCEView {
         mRealRootView = null;
     }
 
-    public LoadingHelper getLoadingHelper() {
+    public LoadingStateView getLoadingHelper() {
         return mLoadingHelper;
     }
 
@@ -377,9 +372,23 @@ public class CustomLCEDelegate implements ILCEView {
 
 ```
 
-其中KProgressHUD 的加载框可改变，LoadingHelper不可更改（LCE的实现原理）。如果是页面定制化，应该如何呢？比如我们的标题
+其中KProgressHUD 的加载框可改变，LoadingStateView不可更改（LCE的实现原理）。如果是页面定制化，应该如何呢？比如我们的标题
 
 ```java
+package com.huangxiaoliang.mvparchdemo.activity;
+
+import android.graphics.Color;
+import android.os.Bundle;
+import android.view.View;
+
+import com.huangxiaoliang.mvparchdemo.R;
+import com.huangxiaoliang.mvplib.manager.lcet.TitleParam;
+import com.huangxiaoliang.mvplib.manager.toast.UIToast;
+import com.huangxiaoliang.mvplib.mvp.BaseActivity;
+import com.huangxiaoliang.mvplib.manager.imageloader.IImageLoader;
+import com.huangxiaoliang.mvplib.manager.imageloader.ILFactory;
+
+import androidx.annotation.Nullable;
 
 /**
  * @Author : HHotHeart
@@ -408,7 +417,7 @@ public class TitleDemoActivity extends BaseActivity {
     @Override
     protected void onBusiness(Bundle savedInstanceState) {
         ILFactory.getLoader().loadNet(findViewById(R.id.imageView1),
-                "https://dss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=218024201,1599297029&fm=26&gp=0.jpg",
+                "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fpic1.win4000.com%2Fwallpaper%2F2020-06-29%2F5ef9b315417b8.jpg&refer=http%3A%2F%2Fpic1.win4000.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1657890578&t=11177abaff83a7971b98f5a40b97d1b2",
                 IImageLoader.HOptions.defaultOptions());
     }
 }
@@ -417,6 +426,20 @@ public class TitleDemoActivity extends BaseActivity {
 我们需要继承框架的BaseActivity，如果是MVP架构，可继承BaseMVPActivity（Fragment同理），页面的标题相关属性会覆盖全局配置的属性。当然，页面LCE的配置也是可覆盖全局配置的LCE，如
 
 ```java
+package com.huangxiaoliang.mvparchdemo.activity;
+
+import android.os.Bundle;
+
+import com.dylanc.loadingstateview.LoadingStateView;
+import com.huangxiaoliang.mvparchdemo.R;
+import com.huangxiaoliang.mvparchdemo.delegate.CLoadingViewDelegate;
+import com.huangxiaoliang.mvparchdemo.listener.NetCallback;
+import com.huangxiaoliang.mvparchdemo.util.CustomLCEDelegate;
+import com.huangxiaoliang.mvparchdemo.util.HttpUtils;
+import com.huangxiaoliang.mvplib.manager.toast.UIToast;
+import com.huangxiaoliang.mvplib.mvp.BaseActivity;
+
+import androidx.annotation.Nullable;
 
 /**
  * @Author : HHotHeart
@@ -432,11 +455,8 @@ public class CustomLCEActivity extends BaseActivity {
 
     @Override
     public void onBeforeBusiness(@Nullable Bundle savedInstanceState) {
-        LoadingHelper loadingHelper = ((CustomLCEDelegate) getLCEDelegate()).getLoadingHelper();
-        loadingHelper.register(ViewType.LOADING, new CLoadingAdapter());
-//        loadingHelper.register(ViewType.ERROR, "自定义的错误布局");
-//        loadingHelper.register(ViewType.EMPTY, "自定义的空布局");
-
+        LoadingStateView loadingHelper = ((CustomLCEDelegate) getLCEDelegate()).getLoadingHelper();
+        loadingHelper.register(new CLoadingViewDelegate());
     }
 
     @Override

@@ -6,21 +6,18 @@ import android.graphics.Color;
 
 import com.blankj.utilcode.util.SPStaticUtils;
 import com.blankj.utilcode.util.SPUtils;
-import com.dylanc.loadinghelper.LoadingHelper;
-import com.dylanc.loadinghelper.ViewType;
+import com.dylanc.loadingstateview.LoadingStateView;
+import com.huangxiaoliang.mvparchdemo.BuildConfig;
 import com.huangxiaoliang.mvparchdemo.R;
 import com.huangxiaoliang.mvparchdemo.util.CustomLogDelegate;
 import com.huangxiaoliang.mvplib.manager.MVPArchConfig;
+import com.huangxiaoliang.mvplib.manager.lcet.GEmptyViewDelegate;
+import com.huangxiaoliang.mvplib.manager.lcet.GErrorViewDelegate;
+import com.huangxiaoliang.mvplib.manager.lcet.GLoadingViewDelegate;
 import com.huangxiaoliang.mvplib.manager.lcet.TitleParam;
-import com.huangxiaoliang.mvplib.manager.lcet.GEmptyAdapter;
-import com.huangxiaoliang.mvplib.manager.lcet.GErrorAdapter;
-import com.huangxiaoliang.mvplib.manager.lcet.GLoadingAdapter;
-import com.huangxiaoliang.mvparchdemo.BuildConfig;
 import com.scwang.smart.refresh.footer.ClassicsFooter;
 import com.scwang.smart.refresh.header.ClassicsHeader;
 import com.scwang.smart.refresh.layout.SmartRefreshLayout;
-
-import kotlin.Unit;
 
 /**
  * @Author : HHotHeart
@@ -65,19 +62,14 @@ public class MVPArchAPP extends Application {
                         .setLeftIcon(R.drawable.ic_arrow_back_black)
                         .setMiddleTextSize(17f)
                         .setMiddleTextColor(Color.BLACK)
-                        .setTitleBarHeight(R.dimen.title_bar_height)
+                        .setTitleBarHeight(R.dimen.title_bar_height1)
                         .setTittleBarBgColor(Color.WHITE)
                         .setRightIconVisible(false)
                         .setBottomLineColor(Color.LTGRAY)
                         .setBottomLineHeight(0.5f));
 
-        //设置全局LCE
-        LoadingHelper.setDefaultAdapterPool(adapterPool -> {
-            adapterPool.register(ViewType.LOADING, new GLoadingAdapter());
-            adapterPool.register(ViewType.ERROR, new GErrorAdapter());
-            adapterPool.register(ViewType.EMPTY, new GEmptyAdapter());
-            return Unit.INSTANCE;
-        });
+        LoadingStateView.setViewDelegatePool(pool ->
+                pool.register(new GLoadingViewDelegate(), new GErrorViewDelegate(), new GEmptyViewDelegate()));
 
 //        UIToast.setDelegate(new CustomToastDelegate().init());
 //        MVPArchConfig.getInstance().setImageLoader(CustomGlideLoader.get());

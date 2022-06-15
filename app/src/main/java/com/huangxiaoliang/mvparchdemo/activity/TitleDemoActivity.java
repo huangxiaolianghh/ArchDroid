@@ -40,7 +40,7 @@ public class TitleDemoActivity extends BaseActivity {
     @Override
     protected void onBusiness(Bundle savedInstanceState) {
         ILFactory.getLoader().loadNet(findViewById(R.id.imageView1),
-                "https://dss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=218024201,1599297029&fm=26&gp=0.jpg",
+                "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fpic1.win4000.com%2Fwallpaper%2F2020-06-29%2F5ef9b315417b8.jpg&refer=http%3A%2F%2Fpic1.win4000.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1657890578&t=11177abaff83a7971b98f5a40b97d1b2",
                 IImageLoader.HOptions.defaultOptions());
     }
 }

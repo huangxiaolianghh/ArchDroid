@@ -3,7 +3,8 @@ package com.huangxiaoliang.mvparchdemo.activity;
 import android.os.Bundle;
 import android.widget.TextView;
 
-import com.dylanc.loadinghelper.LoadingHelper;
+import com.dylanc.loadingstateview.LoadingStateView;
+import com.dylanc.loadingstateview.OnReloadListener;
 import com.huangxiaoliang.mvparchdemo.R;
 import com.huangxiaoliang.mvparchdemo.listener.NetCallback;
 import com.huangxiaoliang.mvparchdemo.util.CustomLCEDelegate;
@@ -19,7 +20,7 @@ import butterknife.BindView;
  * @Time : 2021/9/21 22:56
  * @Description : 内容重新加载Demo
  */
-public class ReloadDemoActivity extends BaseActivity implements LoadingHelper.OnReloadListener {
+public class ReloadDemoActivity extends BaseActivity implements OnReloadListener {
 
 
     @BindView(R.id.tv_content)
@@ -39,8 +40,8 @@ public class ReloadDemoActivity extends BaseActivity implements LoadingHelper.On
     @Override
     public void onBeforeBusiness(@Nullable Bundle savedInstanceState) {
         super.onBeforeBusiness(savedInstanceState);
-        LoadingHelper loadingHelper = ((CustomLCEDelegate) getLCEDelegate()).getLoadingHelper();
-        loadingHelper.setOnReloadListener(this::onReload);
+        LoadingStateView loadingHelper = ((CustomLCEDelegate) getLCEDelegate()).getLoadingHelper();
+        loadingHelper.setOnReloadListener(this);
         findView(R.id.tv_content, v -> UIToast.showLong("重新加载的内容"));
 
     }

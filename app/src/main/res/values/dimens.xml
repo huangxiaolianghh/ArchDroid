@@ -9,6 +9,6 @@
     <dimen name="font_14">14sp</dimen>
     <dimen name="font_12">12sp</dimen>
 
-    <dimen name="title_bar_height1">40dp</dimen>
+    <dimen name="title_bar_height1">60dp</dimen>
 
 </resources>

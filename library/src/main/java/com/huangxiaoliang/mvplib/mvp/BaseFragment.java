@@ -56,6 +56,11 @@ public abstract class BaseFragment extends RxFragment implements IFragment {
     private int mLayoutId = 0;
 
     /**
+     * 内容View
+     */
+    private View mContentView;
+
+    /**
      * 标题相关属性
      */
     private ITitleView mITitleView = null;
@@ -105,16 +110,19 @@ public abstract class BaseFragment extends RxFragment implements IFragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         initContentView(savedInstanceState);
-        if (mLayoutId == 0) {
-            throw new IllegalArgumentException("must set layoutId");
-        }
-        if (null != mRealRootView) {
+        if (mRealRootView != null) {
             ViewGroup parent = (ViewGroup) mRealRootView.getParent();
-            if (null != parent) {
+            if (parent != null) {
                 parent.removeView(mRealRootView);
             }
         }
-        mRootView = inflater.inflate(mLayoutId, container, false);
+        if (mLayoutId != 0) {
+            mRootView = inflater.inflate(mLayoutId, container, false);
+        } else if (mContentView != null) {
+            mRootView = mContentView;
+        } else {
+            throw new IllegalArgumentException("must set layoutId or contentView");
+        }
         getLCEDelegate();
         ObjectUtils.requireNonNull(mLceDelegate, "must set LCE delegate");
         mRealRootView = mLceDelegate.getRealRootView();
@@ -179,7 +187,6 @@ public abstract class BaseFragment extends RxFragment implements IFragment {
         }
     }
 
-
     /**
      * 设置布局、标题相关属性
      *
@@ -192,6 +199,45 @@ public abstract class BaseFragment extends RxFragment implements IFragment {
     }
 
     /**
+     * 设置Fragment contentView
+     *
+     * @param view Fragment contentView
+     */
+    public void setContentView(View view) {
+        setContentView(view, (ITitleView) null);
+    }
+
+    /**
+     * 设置contentView、标题相关属性
+     *
+     * @param view  Fragment contentView
+     * @param title 标题
+     */
+    public void setContentView(View view, String title) {
+        if (view == null) {
+            throw new IllegalArgumentException("must set contentView");
+        }
+        this.mContentView = view;
+        if (!TextUtils.isEmpty(title)) {
+            this.mITitleView = new TitleParam(title);
+        }
+    }
+
+    /**
+     * 设置contentView、标题相关属性
+     *
+     * @param view       Fragment contentView
+     * @param iTitleView 标题接口
+     */
+    public void setContentView(View view, ITitleView iTitleView) {
+        if (view == null) {
+            throw new IllegalArgumentException("must set contentView");
+        }
+        this.mContentView = view;
+        this.mITitleView = iTitleView;
+    }
+
+    /**
      * 设置标题
      *
      * @param iTitleView 标题接口类
@@ -199,7 +245,7 @@ public abstract class BaseFragment extends RxFragment implements IFragment {
     @Override
     public void setTitleBar(ITitleView iTitleView) {
         if (iTitleView != null) {
-            getLCEDelegate().setTitleBar(iTitleView);
+            throw new IllegalArgumentException("Title setting is temporarily not supported in Fragment");
         }
     }
 
@@ -211,11 +257,14 @@ public abstract class BaseFragment extends RxFragment implements IFragment {
     @Override
     public ILCEView getLCEDelegate() {
         if (mLceDelegate == null) {
-            //初始化项目注册的LCE代理器
-            mLceDelegate = ClassLoadUtils.newLCEDelegate(
-                    CommonUtils.getManifestsMetaStr(MVPConst.LCE_DELEGATE),
-                    mRootView
-            );
+            String metaStr = CommonUtils.getManifestsMetaStr(MVPConst.LCE_DELEGATE);
+            if (!TextUtils.isEmpty(metaStr)) {
+                //初始化项目注册的LCE代理器
+                mLceDelegate = ClassLoadUtils.newLCEDelegate(
+                        metaStr,
+                        mRootView
+                );
+            }
             //默认使用框架的LEC代理器
             if (mLceDelegate == null) {
                 mLceDelegate = LCEDelegate.create(mRootView);

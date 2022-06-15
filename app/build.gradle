@@ -36,6 +36,10 @@ android {
 //        }
 //    }
 
+    buildFeatures {
+        viewBinding true
+    }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -105,7 +109,6 @@ dependencies {
     implementation rootProject.ext.dependencies.glide
     annotationProcessor rootProject.ext.dependencies.glideCompiler
     implementation rootProject.ext.dependencies.kprogresshud
-//    implementation rootProject.ext.dependencies.XRecyclerViewDivider
     implementation rootProject.ext.dependencies.Logger
     implementation rootProject.ext.dependencies.statusbarutil
     implementation rootProject.ext.dependencies.statusBarCompat
@@ -113,7 +116,7 @@ dependencies {
 
 //    implementation rootProject.ext.dependencies.utilcode
 //    implementation rootProject.ext.dependencies.TitleBar
-//    implementation rootProject.ext.dependencies.LoadingHelper
+//    implementation rootProject.ext.dependencies.loadingstateview
 //    implementation rootProject.ext.dependencies.lifecycle
 //    implementation rootProject.ext.dependencies.rxlifecycle
 //    implementation rootProject.ext.dependencies.FlycoRoundView_Lib

@@ -91,7 +91,7 @@ ext {
             //轮子哥的TitleBar
             TitleBar                     : 'com.github.getActivity:TitleBar:8.6',
             //titleBar、加载视图的框架
-            LoadingHelper                : 'com.github.DylanCaiCoding:LoadingHelper:2.2.0',
+            loadingstateview             : 'com.github.DylanCaiCoding.LoadingStateView:loadingstateview:4.0.0',
             XRecyclerViewDivider         : 'com.github.HHotHeart:XRecyclerViewDivider:1.0.1',
 
             //Activity、Fragment生命周期监听，将业务逻辑处理进行完全解耦，如Presenter的生命周期

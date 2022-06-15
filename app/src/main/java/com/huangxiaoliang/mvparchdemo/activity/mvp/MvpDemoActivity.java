@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.widget.ImageView;
 
 import com.huangxiaoliang.mvparchdemo.R;
+import com.huangxiaoliang.mvparchdemo.databinding.ActivityTestMvpBinding;
 import com.huangxiaoliang.mvplib.manager.imageloader.IImageLoader;
 import com.huangxiaoliang.mvplib.manager.imageloader.ILFactory;
 import com.huangxiaoliang.mvplib.manager.lcet.TitleParam;
@@ -28,7 +29,9 @@ public class MvpDemoActivity extends BaseMVPActivity<MvpDemoActivityPresenter> i
 
     @Override
     protected void initContentView(@Nullable Bundle savedInstanceState) {
-        setContentView(R.layout.activity_test_mvp, new TitleParam("Activity MVP模式"));
+        ActivityTestMvpBinding binding = ActivityTestMvpBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot(), new TitleParam("Activity MVP模式"));
+        binding.btnTest.setText("btnTest Toast");
     }
 
     @Override
@@ -38,7 +41,7 @@ public class MvpDemoActivity extends BaseMVPActivity<MvpDemoActivityPresenter> i
                 IImageLoader.HOptions.defaultOptions());
 
         findView(R.id.btn_test, v -> UIToast.showLong("测试Toast"));
-        UILog.e(TAG, "isVisible：" + isVisible(findView(R.id.btn_test)));
+        UILog.e(TAG, "isVisible：" + isVisible(R.id.btn_test));
 
         getMvpPresenter().loadData();
     }

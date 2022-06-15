@@ -20,7 +20,6 @@ public class LazyLoadActivity extends BaseActivity {
     @Override
     protected void initContentView(@Nullable Bundle savedInstanceState) {
         setContentView(R.layout.activity_lazy_load, "懒加载Fragment Demo");
-
     }
 
     @Override

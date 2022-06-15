@@ -2,10 +2,9 @@ package com.huangxiaoliang.mvparchdemo.activity;
 
 import android.os.Bundle;
 
-import com.dylanc.loadinghelper.LoadingHelper;
-import com.dylanc.loadinghelper.ViewType;
+import com.dylanc.loadingstateview.LoadingStateView;
 import com.huangxiaoliang.mvparchdemo.R;
-import com.huangxiaoliang.mvparchdemo.adapter.CLoadingAdapter;
+import com.huangxiaoliang.mvparchdemo.delegate.CLoadingViewDelegate;
 import com.huangxiaoliang.mvparchdemo.listener.NetCallback;
 import com.huangxiaoliang.mvparchdemo.util.CustomLCEDelegate;
 import com.huangxiaoliang.mvparchdemo.util.HttpUtils;
@@ -28,11 +27,8 @@ public class CustomLCEActivity extends BaseActivity {
 
     @Override
     public void onBeforeBusiness(@Nullable Bundle savedInstanceState) {
-        LoadingHelper loadingHelper = ((CustomLCEDelegate) getLCEDelegate()).getLoadingHelper();
-        loadingHelper.register(ViewType.LOADING, new CLoadingAdapter());
-//        loadingHelper.register(ViewType.ERROR, "自定义的错误布局");
-//        loadingHelper.register(ViewType.EMPTY, "自定义的空布局");
-
+        LoadingStateView loadingHelper = ((CustomLCEDelegate) getLCEDelegate()).getLoadingHelper();
+        loadingHelper.register(new CLoadingViewDelegate());
     }
 
     @Override

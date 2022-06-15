@@ -47,7 +47,7 @@ dependencies {
 
     api rootProject.ext.dependencies.utilcode
     api rootProject.ext.dependencies.TitleBar
-    api rootProject.ext.dependencies.LoadingHelper
+    api rootProject.ext.dependencies.loadingstateview
     api rootProject.ext.dependencies.lifecycle
     api rootProject.ext.dependencies.rxlifecycle
     api rootProject.ext.dependencies.FlycoRoundView_Lib

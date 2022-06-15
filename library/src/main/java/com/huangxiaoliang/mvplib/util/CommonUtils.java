@@ -77,7 +77,6 @@ public class CommonUtils {
 
     }
 
-
     /**
      * 根据宽高比设置显示宽高
      *
@@ -183,7 +182,7 @@ public class CommonUtils {
                     .getApplicationInfo(AppUtils.getAppPackageName(), PackageManager.GET_META_DATA)
                     .metaData.getString(name);
         } catch (Exception ex) {
-//            UILog.e(TAG, ex.getMessage());
+            ex.printStackTrace();
         }
         return meta;
     }

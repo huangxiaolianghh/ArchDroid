@@ -4,12 +4,11 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.view.View;
 
-import com.dylanc.loadinghelper.LoadingHelper;
-import com.dylanc.loadinghelper.ViewType;
-import com.huangxiaoliang.mvplib.manager.lcet.ITitleView;
-import com.huangxiaoliang.mvplib.manager.lcet.TitleBarAdapter;
-import com.kaopiz.kprogresshud.KProgressHUD;
+import com.dylanc.loadingstateview.LoadingStateView;
+import com.huangxiaoliang.mvplib.manager.lcet.GTitleBarViewDelegate;
 import com.huangxiaoliang.mvplib.manager.lcet.ILCEView;
+import com.huangxiaoliang.mvplib.manager.lcet.ITitleView;
+import com.kaopiz.kprogresshud.KProgressHUD;
 
 import org.json.JSONObject;
 
@@ -22,15 +21,15 @@ public class CustomLCEDelegate implements ILCEView {
 
     private Context mContext = null;
     private View mRealRootView = null;
-    //加载中、加载失败、空布局视图 https://github.com/DylanCaiCoding/LoadingHelper
-    private LoadingHelper mLoadingHelper = null;
+    //加载中、加载失败、空布局视图 https://github.com/DylanCaiCoding/LoadingStateView
+    private LoadingStateView mLoadingHelper = null;
     //加载框 https://github.com/Kaopiz/KProgressHUD
     private KProgressHUD mKProgressHUD = null;
 
 
     public CustomLCEDelegate(View rootView) {
         mContext = rootView.getContext();
-        mLoadingHelper = new LoadingHelper(rootView);
+        mLoadingHelper = new LoadingStateView(rootView);
         mRealRootView = mLoadingHelper.getDecorView();
     }
 
@@ -52,8 +51,7 @@ public class CustomLCEDelegate implements ILCEView {
      */
     @Override
     public void setTitleBar(ITitleView titleParam) {
-        mLoadingHelper.register(ViewType.TITLE, new TitleBarAdapter(titleParam));
-        mLoadingHelper.setDecorHeader(ViewType.TITLE);
+        mLoadingHelper.setHeaders(new GTitleBarViewDelegate(titleParam));
     }
 
     /**
@@ -155,7 +153,7 @@ public class CustomLCEDelegate implements ILCEView {
         mRealRootView = null;
     }
 
-    public LoadingHelper getLoadingHelper() {
+    public LoadingStateView getLoadingHelper() {
         return mLoadingHelper;
     }
 

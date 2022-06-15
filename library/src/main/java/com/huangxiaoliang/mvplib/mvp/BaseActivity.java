@@ -153,7 +153,6 @@ public abstract class BaseActivity extends RxAppCompatActivity implements IActiv
         }
     }
 
-
     /**
      * 设置布局、标题相关属性
      *
@@ -169,24 +168,54 @@ public abstract class BaseActivity extends RxAppCompatActivity implements IActiv
     }
 
     /**
-     * 必须使用layoutId设置布局
+     * 设置contentView
      *
-     * @param view 布局转换的View
+     * @param view Activity contentView
      */
     @Override
     public void setContentView(View view) {
-        setContentView(view, null);
+        setContentView(view, (ITitleView) null);
     }
 
     /**
-     * 必须使用layoutId设置布局
+     * 设置contentView、标题相关属性
      *
-     * @param view         布局转换的View
-     * @param layoutParams 布局属性
+     * @param view  Activity contentView
+     * @param title 标题
+     */
+    public void setContentView(View view, String title) {
+        if (view == null) {
+            throw new IllegalArgumentException("must set contentView");
+        }
+        super.setContentView(view);
+        if (!TextUtils.isEmpty(title)) {
+            this.mITitleView = new TitleParam(title);
+        }
+    }
+
+    /**
+     * 设置布局View、标题相关属性
+     *
+     * @param view       Activity contentView
+     * @param iTitleView 标题接口
+     */
+    public void setContentView(View view, ITitleView iTitleView) {
+        if (view == null) {
+            throw new IllegalArgumentException("must set contentView");
+        }
+        super.setContentView(view);
+        this.mITitleView = iTitleView;
+    }
+
+    /**
+     * 禁止使用LayoutParams参数
+     *
+     * @param view   Activity的View
+     * @param params LayoutParams
      */
     @Override
-    public void setContentView(View view, ViewGroup.LayoutParams layoutParams) {
-        throw new IllegalArgumentException("setContentView param must be layoutId");
+    public void setContentView(View view, ViewGroup.LayoutParams params) {
+        throw new IllegalArgumentException("forbid set LayoutParams");
     }
 
     /**
@@ -197,11 +226,14 @@ public abstract class BaseActivity extends RxAppCompatActivity implements IActiv
     @Override
     public ILCEView getLCEDelegate() {
         if (mLceDelegate == null) {
-            //初始化项目注册的LCE代理器
-            mLceDelegate = ClassLoadUtils.newLCEDelegate(
-                    CommonUtils.getManifestsMetaStr(MVPConst.LCE_DELEGATE),
-                    mRootView
-            );
+            String metaStr = CommonUtils.getManifestsMetaStr(MVPConst.LCE_DELEGATE);
+            if (!TextUtils.isEmpty(metaStr)) {
+                //初始化项目注册的LCE代理器
+                mLceDelegate = ClassLoadUtils.newLCEDelegate(
+                        metaStr,
+                        mRootView
+                );
+            }
             //默认使用框架的LEC代理器
             if (mLceDelegate == null) {
                 mLceDelegate = LCEDelegate.create(mRootView);

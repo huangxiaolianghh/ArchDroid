@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.widget.ImageView;
 
 import com.huangxiaoliang.mvparchdemo.R;
+import com.huangxiaoliang.mvparchdemo.databinding.FragmentTestMvpBinding;
 import com.huangxiaoliang.mvplib.manager.imageloader.IImageLoader;
 import com.huangxiaoliang.mvplib.manager.imageloader.ILFactory;
 import com.huangxiaoliang.mvplib.manager.toast.UIToast;
@@ -33,7 +34,8 @@ public class MVPDemoFragment extends BaseMVPFragment<MVPDemoFragmentPresenter> i
 
     @Override
     protected void initContentView(@Nullable Bundle savedInstanceState) {
-        setContentView(R.layout.fragment_test_mvp);
+        FragmentTestMvpBinding binding = FragmentTestMvpBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
     }
 
     @Override
