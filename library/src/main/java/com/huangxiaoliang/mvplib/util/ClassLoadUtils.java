@@ -1,10 +1,9 @@
 package com.huangxiaoliang.mvplib.util;
 
-import com.huangxiaoliang.mvplib.manager.log.UILog;
 import com.huangxiaoliang.mvplib.manager.lcet.ILCEView;
+import com.huangxiaoliang.mvplib.manager.log.UILog;
 
 import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -37,7 +36,7 @@ public class ClassLoadUtils {
      *
      * @param path   LCE代理类的路径
      * @param object 构造函数的参数
-     * @return
+     * @return LCE代理对象
      */
     public static ILCEView newLCEDelegate(String path, Object... object) {
         try {
@@ -48,13 +47,7 @@ public class ClassLoadUtils {
             cons = aClass.getConstructors();
             lceView = (ILCEView) cons[0].newInstance(object);
             return lceView;
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
@@ -64,7 +57,7 @@ public class ClassLoadUtils {
     /**
      * 根据类名初始化
      *
-     * @param path
+     * @param path 实例化类对象的路径
      */
     public static Object loadClassByPath(String path, String classMethod, Object... object) {
         try {
@@ -82,13 +75,7 @@ public class ClassLoadUtils {
                 }
             }
             return obj;
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;

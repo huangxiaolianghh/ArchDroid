@@ -8,15 +8,15 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 
 import com.blankj.utilcode.util.ObjectUtils;
-import com.huangxiaoliang.mvplib.manager.lcet.ITitleView;
-import com.huangxiaoliang.mvplib.manager.lcet.LCEDelegate;
-import com.huangxiaoliang.mvplib.manager.lcet.TitleParam;
 import com.huangxiaoliang.mvplib.manager.MVPArchConfig;
 import com.huangxiaoliang.mvplib.manager.MVPConst;
 import com.huangxiaoliang.mvplib.manager.UIBindManager;
 import com.huangxiaoliang.mvplib.manager.UIStatusBar;
 import com.huangxiaoliang.mvplib.manager.event.EventManager;
 import com.huangxiaoliang.mvplib.manager.lcet.ILCEView;
+import com.huangxiaoliang.mvplib.manager.lcet.ITitleView;
+import com.huangxiaoliang.mvplib.manager.lcet.LCEDelegate;
+import com.huangxiaoliang.mvplib.manager.lcet.TitleParam;
 import com.huangxiaoliang.mvplib.util.ClassLoadUtils;
 import com.huangxiaoliang.mvplib.util.CommonUtils;
 import com.trello.rxlifecycle4.components.support.RxAppCompatActivity;
@@ -105,7 +105,7 @@ public abstract class BaseActivity extends RxAppCompatActivity implements IActiv
     /**
      * 装饰状态栏
      */
-    protected void onDecorateStatusBar() {
+    private void onDecorateStatusBar() {
         if (isDecorateStatusBar()) {
             //注意：如果要设置状态栏相关元素，需在设置标题之后
             if (MVPArchConfig.getInstance().isLightStatusBar()) {
@@ -187,7 +187,6 @@ public abstract class BaseActivity extends RxAppCompatActivity implements IActiv
     @Override
     public void setContentView(View view, ViewGroup.LayoutParams layoutParams) {
         throw new IllegalArgumentException("setContentView param must be layoutId");
-
     }
 
     /**
@@ -310,7 +309,6 @@ public abstract class BaseActivity extends RxAppCompatActivity implements IActiv
     @Override
     public void loadingDialogShow(String msg) {
         getLCEDelegate().loadingDialogShow(msg);
-
     }
 
     /**
@@ -322,7 +320,6 @@ public abstract class BaseActivity extends RxAppCompatActivity implements IActiv
     @Override
     public void loadingDialogShow(String msg, boolean cancelable) {
         getLCEDelegate().loadingDialogShow(msg, cancelable);
-
     }
 
     /**
@@ -348,31 +345,55 @@ public abstract class BaseActivity extends RxAppCompatActivity implements IActiv
     /**
      * 控件的隐藏（占用空间）
      *
-     * @param view 控件View
+     * @param views 控件View集合
      */
     @Override
-    public void inVisible(View view) {
-        view.setVisibility(View.INVISIBLE);
+    public void inVisible(View... views) {
+        if (views == null) {
+            return;
+        }
+        for (View view : views) {
+            if (view == null) {
+                continue;
+            }
+            view.setVisibility(View.INVISIBLE);
+        }
     }
 
     /**
      * 控件的显示
      *
-     * @param view 控件View
+     * @param views 控件View集合
      */
     @Override
-    public void visible(View view) {
-        view.setVisibility(View.VISIBLE);
+    public void visible(View... views) {
+        if (views == null) {
+            return;
+        }
+        for (View view : views) {
+            if (view == null) {
+                continue;
+            }
+            view.setVisibility(View.VISIBLE);
+        }
     }
 
     /**
      * 控件的隐藏
      *
-     * @param view 控件View
+     * @param views 控件View
      */
     @Override
-    public void gone(View view) {
-        view.setVisibility(View.GONE);
+    public void gone(View... views) {
+        if (views == null) {
+            return;
+        }
+        for (View view : views) {
+            if (view == null) {
+                continue;
+            }
+            view.setVisibility(View.GONE);
+        }
     }
 
     /**
@@ -387,6 +408,17 @@ public abstract class BaseActivity extends RxAppCompatActivity implements IActiv
     }
 
     /**
+     * View是否显示
+     *
+     * @param viewId 控件View ID
+     * @return 是否Visible
+     */
+    @Override
+    public boolean isVisible(int viewId) {
+        return isVisible(findView(viewId));
+    }
+
+    /**
      * View是否隐藏
      *
      * @param view 控件View
@@ -395,6 +427,17 @@ public abstract class BaseActivity extends RxAppCompatActivity implements IActiv
     @Override
     public boolean isGone(View view) {
         return view.getVisibility() == View.GONE;
+    }
+
+    /**
+     * View是否隐藏
+     *
+     * @param viewId 控件View ID
+     * @return 是否Gone
+     */
+    @Override
+    public boolean isGone(int viewId) {
+        return isGone(findView(viewId));
     }
 
     /**

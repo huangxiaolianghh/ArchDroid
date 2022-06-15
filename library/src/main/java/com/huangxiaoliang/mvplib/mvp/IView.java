@@ -19,15 +19,19 @@ public interface IView extends ILCEView {
 
     Activity getContext();
 
-    void inVisible(View view);
+    void inVisible(View... view);
 
-    void visible(View view);
+    void visible(View... view);
 
-    void gone(View view);
+    void gone(View... view);
 
     boolean isVisible(View view);
 
+    boolean isVisible(@IdRes int viewId);
+
     boolean isGone(View view);
+
+    boolean isGone(@IdRes int viewId);
 
     <V extends View> V findView(@IdRes int viewId);
 

@@ -24,6 +24,8 @@ import com.trello.rxlifecycle4.components.support.RxFragment;
 
 import org.json.JSONObject;
 
+import java.util.Arrays;
+
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -137,7 +139,6 @@ public abstract class BaseFragment extends RxFragment implements IFragment {
      * @return
      */
     protected abstract void initContentView(@Nullable Bundle savedInstanceState);
-
 
     /**
      * 处理业务逻辑
@@ -404,35 +405,58 @@ public abstract class BaseFragment extends RxFragment implements IFragment {
         }
     }
 
-
     /**
      * 控件的隐藏（占用空间）
      *
-     * @param view 控件View
+     * @param views 控件View集合
      */
     @Override
-    public void inVisible(View view) {
-        view.setVisibility(View.INVISIBLE);
+    public void inVisible(View... views) {
+        if (views == null) {
+            return;
+        }
+        for (View view : views) {
+            if (view == null) {
+                continue;
+            }
+            view.setVisibility(View.INVISIBLE);
+        }
     }
 
     /**
      * 控件的显示
      *
-     * @param view 控件View
+     * @param views 控件View集合
      */
     @Override
-    public void visible(View view) {
-        view.setVisibility(View.VISIBLE);
+    public void visible(View... views) {
+        if (views == null) {
+            return;
+        }
+        for (View view : views) {
+            if (view == null) {
+                continue;
+            }
+            view.setVisibility(View.VISIBLE);
+        }
     }
 
     /**
      * 控件的隐藏
      *
-     * @param view 控件View
+     * @param views 控件View
      */
     @Override
-    public void gone(View view) {
-        view.setVisibility(View.GONE);
+    public void gone(View... views) {
+        if (views == null) {
+            return;
+        }
+        for (View view : views) {
+            if (view == null) {
+                continue;
+            }
+            view.setVisibility(View.GONE);
+        }
     }
 
     /**
@@ -447,6 +471,17 @@ public abstract class BaseFragment extends RxFragment implements IFragment {
     }
 
     /**
+     * View是否显示
+     *
+     * @param viewId 控件View ID
+     * @return 是否Visible
+     */
+    @Override
+    public boolean isVisible(int viewId) {
+        return isVisible(findView(viewId));
+    }
+
+    /**
      * View是否隐藏
      *
      * @param view 控件View
@@ -455,6 +490,17 @@ public abstract class BaseFragment extends RxFragment implements IFragment {
     @Override
     public boolean isGone(View view) {
         return view.getVisibility() == View.GONE;
+    }
+
+    /**
+     * View是否隐藏
+     *
+     * @param viewId 控件View ID
+     * @return 是否Gone
+     */
+    @Override
+    public boolean isGone(int viewId) {
+        return isGone(findView(viewId));
     }
 
     /**
