@@ -2,7 +2,6 @@ package com.huangxiaoliang.mvplib.manager.lcet;
 
 import android.view.View;
 
-import com.huangxiaoliang.mvplib.mvp.BaseActivity;
 import com.huangxiaoliang.mvplib.mvp.BaseFragment;
 
 import org.json.JSONObject;
@@ -35,18 +34,18 @@ public interface ILCEView {
     void loadingDialogDismiss();
 
     /**
-     * 获取页面真正RootView
+     * 标题
      *
-     * @return see {@link BaseActivity#getRealRootView()} or {@link BaseFragment#getRealRootView()}
+     * @param titleView 标题
      */
-    View getRealRootView();
+    void onDecorateTitleBar(ITitleView titleView);
 
     /**
-     * 设置标题
+     * Fragment DecorView
      *
-     * @param iTitleView 标题属性类{@link ITitleView}
+     * @return see {@link BaseFragment#getDecorView()}
      */
-    void setTitleBar(ITitleView iTitleView);
+    View getDecorView();
 
     /**
      * 释放资源

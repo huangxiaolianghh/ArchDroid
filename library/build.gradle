@@ -34,8 +34,6 @@ dependencies {
     implementation rootProject.ext.dependencies.design
     implementation rootProject.ext.dependencies.constraintLayout
     // UI相关
-    implementation rootProject.ext.dependencies.butterknife
-    annotationProcessor rootProject.ext.dependencies.butterknifeCompile
     implementation rootProject.ext.dependencies.kprogresshud
     // 图片相关
     implementation rootProject.ext.dependencies.glide

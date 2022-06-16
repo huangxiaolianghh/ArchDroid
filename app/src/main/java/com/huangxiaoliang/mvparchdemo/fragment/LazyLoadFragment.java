@@ -1,9 +1,8 @@
 package com.huangxiaoliang.mvparchdemo.fragment;
 
 import android.os.Bundle;
-import android.widget.LinearLayout;
 
-import com.huangxiaoliang.mvparchdemo.R;
+import com.huangxiaoliang.mvparchdemo.databinding.FragmentLazyLoadBinding;
 import com.huangxiaoliang.mvparchdemo.listener.NetCallback;
 import com.huangxiaoliang.mvparchdemo.util.HttpUtils;
 import com.huangxiaoliang.mvplib.manager.log.UILog;
@@ -11,7 +10,6 @@ import com.huangxiaoliang.mvplib.manager.toast.UIToast;
 import com.huangxiaoliang.mvplib.mvp.BaseFragment;
 
 import androidx.annotation.Nullable;
-import butterknife.BindView;
 
 /**
  * @Author : HHotHeart
@@ -21,12 +19,10 @@ import butterknife.BindView;
 public class LazyLoadFragment extends BaseFragment {
     private static final String TAG = "TestFragment";
 
-    @BindView(R.id.ll_content)
-    LinearLayout mLlContent;
-
     @Override
     protected void initContentView(@Nullable Bundle savedInstanceState) {
-        setContentView(R.layout.fragment_lazy_load);
+        FragmentLazyLoadBinding binding = FragmentLazyLoadBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
     }
 
     @Override

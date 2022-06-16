@@ -1,11 +1,11 @@
 package com.huangxiaoliang.mvparchdemo.activity;
 
 import android.os.Bundle;
-import android.widget.TextView;
 
 import com.dylanc.loadingstateview.LoadingStateView;
 import com.dylanc.loadingstateview.OnReloadListener;
 import com.huangxiaoliang.mvparchdemo.R;
+import com.huangxiaoliang.mvparchdemo.databinding.ActivityReloadDemoBinding;
 import com.huangxiaoliang.mvparchdemo.listener.NetCallback;
 import com.huangxiaoliang.mvparchdemo.util.CustomLCEDelegate;
 import com.huangxiaoliang.mvparchdemo.util.HttpUtils;
@@ -13,7 +13,6 @@ import com.huangxiaoliang.mvplib.manager.toast.UIToast;
 import com.huangxiaoliang.mvplib.mvp.BaseActivity;
 
 import androidx.annotation.Nullable;
-import butterknife.BindView;
 
 /**
  * @Author : HHotHeart
@@ -22,9 +21,7 @@ import butterknife.BindView;
  */
 public class ReloadDemoActivity extends BaseActivity implements OnReloadListener {
 
-
-    @BindView(R.id.tv_content)
-    TextView mTvContent;
+    private ActivityReloadDemoBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,14 +30,15 @@ public class ReloadDemoActivity extends BaseActivity implements OnReloadListener
 
     @Override
     protected void initContentView(@Nullable Bundle savedInstanceState) {
-        setContentView(R.layout.activity_reload_demo, "Reload Demo");
+        binding = ActivityReloadDemoBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot(), "Reload Demo");
 
     }
 
     @Override
     public void onBeforeBusiness(@Nullable Bundle savedInstanceState) {
         super.onBeforeBusiness(savedInstanceState);
-        LoadingStateView loadingHelper = ((CustomLCEDelegate) getLCEDelegate()).getLoadingHelper();
+        LoadingStateView loadingHelper = ((CustomLCEDelegate) getLCEDelegate()).getLoadingViewState();
         loadingHelper.setOnReloadListener(this);
         findView(R.id.tv_content, v -> UIToast.showLong("重新加载的内容"));
 

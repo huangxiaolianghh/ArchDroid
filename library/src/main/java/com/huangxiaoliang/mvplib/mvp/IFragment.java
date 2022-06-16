@@ -17,8 +17,6 @@ public interface IFragment extends IView {
 
     boolean useEventBus();
 
-    void bindUI();
-
     boolean needPreventScreenCapture();
 
 }

@@ -10,7 +10,6 @@ import android.view.WindowManager;
 import com.blankj.utilcode.util.ObjectUtils;
 import com.huangxiaoliang.mvplib.manager.MVPArchConfig;
 import com.huangxiaoliang.mvplib.manager.MVPConst;
-import com.huangxiaoliang.mvplib.manager.UIBindManager;
 import com.huangxiaoliang.mvplib.manager.UIStatusBar;
 import com.huangxiaoliang.mvplib.manager.event.EventManager;
 import com.huangxiaoliang.mvplib.manager.lcet.ILCEView;
@@ -34,11 +33,6 @@ import io.reactivex.rxjava3.disposables.Disposable;
  * @Description 拥有Lifecycle特性的Activity基类
  */
 public abstract class BaseActivity extends RxAppCompatActivity implements IActivity {
-    /**
-     * Activity根布局
-     */
-    private View mRootView = null;
-    private View mRealRootView = null;
 
     /**
      * 加载中（L）、内容（C）、错误与空视图（E）代理
@@ -48,7 +42,7 @@ public abstract class BaseActivity extends RxAppCompatActivity implements IActiv
     /**
      * 标题相关属性
      */
-    private ITitleView mITitleView = null;
+    private ITitleView mTitleView = null;
 
     /**
      * 订阅关系Disposable组合
@@ -63,21 +57,16 @@ public abstract class BaseActivity extends RxAppCompatActivity implements IActiv
         }
         super.onCreate(savedInstanceState);
         initContentView(savedInstanceState);
-        bindUI();
         if (useEventBus()) {
             EventManager.getBus().register(this);
         }
-        View windowView = findViewById(android.R.id.content);
-        mRootView = ((ViewGroup) windowView).getChildAt(0);
         getLCEDelegate();
         ObjectUtils.requireNonNull(mLceDelegate, "must set LCE delegate");
-        mRealRootView = mLceDelegate.getRealRootView();
-        setTitleBar(mITitleView);
+        onDecorateTitleBar(mTitleView);
         onDecorateStatusBar();
         onBeforeBusiness(savedInstanceState);
         onBusiness(savedInstanceState);
     }
-
 
     /**
      * 设置布局
@@ -100,6 +89,18 @@ public abstract class BaseActivity extends RxAppCompatActivity implements IActiv
     @Override
     public void onBeforeBusiness(@Nullable Bundle savedInstanceState) {
 
+    }
+
+    /**
+     * 设置标题
+     *
+     * @param titleView 标题属性配置
+     */
+    @Override
+    public void onDecorateTitleBar(ITitleView titleView) {
+        if (titleView != null) {
+            getLCEDelegate().onDecorateTitleBar(titleView);
+        }
     }
 
     /**
@@ -134,7 +135,7 @@ public abstract class BaseActivity extends RxAppCompatActivity implements IActiv
      */
     @Override
     public void setContentView(@LayoutRes int layoutId) {
-        setContentView(layoutId, (ITitleView) null);
+        this.setContentView(layoutId, (ITitleView) null);
     }
 
     /**
@@ -144,37 +145,28 @@ public abstract class BaseActivity extends RxAppCompatActivity implements IActiv
      * @param title    标题
      */
     public void setContentView(@LayoutRes int layoutId, String title) {
-        if (layoutId == 0) {
-            throw new IllegalArgumentException("must set layoutId");
-        }
-        super.setContentView(layoutId);
-        if (!TextUtils.isEmpty(title)) {
-            this.mITitleView = new TitleParam(title);
-        }
+        this.setContentView(layoutId, TextUtils.isEmpty(title) ? null : new TitleParam(title));
     }
 
     /**
      * 设置布局、标题相关属性
      *
-     * @param layoutId   布局id
-     * @param iTitleView 标题接口
+     * @param layoutId  布局id
+     * @param titleView 标题属性配置
      */
-    public void setContentView(@LayoutRes int layoutId, ITitleView iTitleView) {
-        if (layoutId == 0) {
-            throw new IllegalArgumentException("must set layoutId");
-        }
+    public void setContentView(@LayoutRes int layoutId, ITitleView titleView) {
         super.setContentView(layoutId);
-        this.mITitleView = iTitleView;
+        this.mTitleView = titleView;
     }
 
     /**
-     * 设置contentView
+     * 设置Activity contentView
      *
      * @param view Activity contentView
      */
     @Override
     public void setContentView(View view) {
-        setContentView(view, (ITitleView) null);
+        this.setContentView(view, (ITitleView) null);
     }
 
     /**
@@ -184,27 +176,18 @@ public abstract class BaseActivity extends RxAppCompatActivity implements IActiv
      * @param title 标题
      */
     public void setContentView(View view, String title) {
-        if (view == null) {
-            throw new IllegalArgumentException("must set contentView");
-        }
-        super.setContentView(view);
-        if (!TextUtils.isEmpty(title)) {
-            this.mITitleView = new TitleParam(title);
-        }
+        this.setContentView(view, TextUtils.isEmpty(title) ? null : new TitleParam(title));
     }
 
     /**
-     * 设置布局View、标题相关属性
+     * 设置contentView、标题相关属性
      *
-     * @param view       Activity contentView
-     * @param iTitleView 标题接口
+     * @param view      Activity contentView
+     * @param titleView 标题属性配置
      */
-    public void setContentView(View view, ITitleView iTitleView) {
-        if (view == null) {
-            throw new IllegalArgumentException("must set contentView");
-        }
+    public void setContentView(View view, ITitleView titleView) {
         super.setContentView(view);
-        this.mITitleView = iTitleView;
+        this.mTitleView = titleView;
     }
 
     /**
@@ -226,17 +209,15 @@ public abstract class BaseActivity extends RxAppCompatActivity implements IActiv
     @Override
     public ILCEView getLCEDelegate() {
         if (mLceDelegate == null) {
+            View rootView = ((ViewGroup) findView(android.R.id.content)).getChildAt(0);
             String metaStr = CommonUtils.getManifestsMetaStr(MVPConst.LCE_DELEGATE);
             if (!TextUtils.isEmpty(metaStr)) {
                 //初始化项目注册的LCE代理器
-                mLceDelegate = ClassLoadUtils.newLCEDelegate(
-                        metaStr,
-                        mRootView
-                );
+                mLceDelegate = ClassLoadUtils.newLCEDelegate(metaStr, rootView);
             }
             //默认使用框架的LEC代理器
             if (mLceDelegate == null) {
-                mLceDelegate = LCEDelegate.create(mRootView);
+                mLceDelegate = LCEDelegate.create(rootView);
             }
         }
         return mLceDelegate;
@@ -252,12 +233,9 @@ public abstract class BaseActivity extends RxAppCompatActivity implements IActiv
         return this;
     }
 
-    /**
-     * 绑定UI
-     */
     @Override
-    public void bindUI() {
-        UIBindManager.getInstance().bind(this);
+    public View getDecorView() {
+        return findView(android.R.id.content);
     }
 
     /**
@@ -268,18 +246,6 @@ public abstract class BaseActivity extends RxAppCompatActivity implements IActiv
     @Override
     public boolean useEventBus() {
         return false;
-    }
-
-    /**
-     * 设置标题
-     *
-     * @param iTitleView 标题接口类
-     */
-    @Override
-    public void setTitleBar(ITitleView iTitleView) {
-        if (iTitleView != null) {
-            getLCEDelegate().setTitleBar(iTitleView);
-        }
     }
 
     /**
@@ -501,16 +467,6 @@ public abstract class BaseActivity extends RxAppCompatActivity implements IActiv
     }
 
     /**
-     * 获取真正的RootView实例
-     *
-     * @return RootView实例
-     */
-    @Override
-    public View getRealRootView() {
-        return mRealRootView;
-    }
-
-    /**
      * 释放资源
      */
     @Override
@@ -561,12 +517,11 @@ public abstract class BaseActivity extends RxAppCompatActivity implements IActiv
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mITitleView = null;
+        mTitleView = null;
         unDispose();
         release();
         if (useEventBus()) {
             EventManager.getBus().unregister(this);
         }
-        UIBindManager.getInstance().unbind(this);
     }
 }

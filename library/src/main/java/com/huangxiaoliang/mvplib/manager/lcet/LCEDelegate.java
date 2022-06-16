@@ -17,47 +17,38 @@ import org.json.JSONObject;
 public class LCEDelegate implements ILCEView {
 
     private Context mContext = null;
-    private View mRealRootView = null;
-    //加载中、加载失败、空布局视图 https://github.com/DylanCaiCoding/LoadingStateView
-    private LoadingStateView mLoadingHelper = null;
-    //加载框 https://github.com/Kaopiz/KProgressHUD
+    /**
+     * 加载中、加载失败、空布局视图 https://github.com/DylanCaiCoding/LoadingStateView
+     */
+    private LoadingStateView mLoadingStateView = null;
+    /**
+     * 加载框 https://github.com/Kaopiz/KProgressHUD
+     */
     private KProgressHUD mKProgressHUD = null;
 
-    private LCEDelegate(View rootView) {
-        mContext = rootView.getContext();
-        mLoadingHelper = new LoadingStateView(rootView);
-        mRealRootView = mLoadingHelper.getDecorView();
+    private LCEDelegate(View contentView) {
+        mContext = contentView.getContext();
+        mLoadingStateView = new LoadingStateView(contentView);
     }
 
     /**
      * 初始化ILCEView
      *
-     * @param rootView
+     * @param contentView layoutId
      * @return
      */
-    public static ILCEView create(View rootView) {
-        return new LCEDelegate(rootView);
+    public static ILCEView create(View contentView) {
+        return new LCEDelegate(contentView);
     }
 
     /**
-     * 获取真正的RootView
+     * 获取DecorView
      *
-     * @return
+     * @return DecorView
      */
     @Override
-    public View getRealRootView() {
-        return mRealRootView;
-    }
-
-    /**
-     * 设置标题
-     * 如果页面滑动对标题有动作，不建议使用LoadingHelper设置标题
-     *
-     * @param titleParam
-     */
-    @Override
-    public void setTitleBar(ITitleView titleParam) {
-        mLoadingHelper.setHeaders(new GTitleBarViewDelegate(titleParam));
+    public View getDecorView() {
+        return mLoadingStateView.getDecorView();
     }
 
     /**
@@ -66,7 +57,7 @@ public class LCEDelegate implements ILCEView {
      */
     @Override
     public void stateEmptyView() {
-        mLoadingHelper.showEmptyView();
+        mLoadingStateView.showEmptyView();
     }
 
     /**
@@ -75,7 +66,7 @@ public class LCEDelegate implements ILCEView {
      */
     @Override
     public void stateErrorView() {
-        mLoadingHelper.showErrorView();
+        mLoadingStateView.showErrorView();
     }
 
     /**
@@ -84,7 +75,7 @@ public class LCEDelegate implements ILCEView {
      */
     @Override
     public void stateLoadingView() {
-        mLoadingHelper.showLoadingView();
+        mLoadingStateView.showLoadingView();
     }
 
     /**
@@ -92,7 +83,7 @@ public class LCEDelegate implements ILCEView {
      */
     @Override
     public void stateContentView() {
-        mLoadingHelper.showContentView();
+        mLoadingStateView.showContentView();
     }
 
     @Override
@@ -146,6 +137,13 @@ public class LCEDelegate implements ILCEView {
         }
     }
 
+    @Override
+    public void onDecorateTitleBar(ITitleView titleView) {
+        if (titleView != null) {
+            mLoadingStateView.setHeaders(new GTitleBarViewDelegate(titleView));
+        }
+    }
+
     /**
      * 释放资源
      */
@@ -153,15 +151,14 @@ public class LCEDelegate implements ILCEView {
     public void release() {
         mKProgressHUD = null;
         mContext = null;
-        mLoadingHelper = null;
-        mRealRootView = null;
+        mLoadingStateView = null;
     }
 
-    public LoadingStateView getLoadingHelper() {
-        return mLoadingHelper;
+    public LoadingStateView getLoadingViewState() {
+        return mLoadingStateView;
     }
 
-    public KProgressHUD getKProgressHUD() {
+    public KProgressHUD getLoadingDialog() {
         return mKProgressHUD;
     }
 }

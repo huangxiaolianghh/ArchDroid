@@ -11,20 +11,16 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 
 import com.blankj.utilcode.util.ObjectUtils;
-import com.huangxiaoliang.mvplib.manager.lcet.ITitleView;
-import com.huangxiaoliang.mvplib.manager.lcet.LCEDelegate;
-import com.huangxiaoliang.mvplib.manager.lcet.TitleParam;
 import com.huangxiaoliang.mvplib.manager.MVPConst;
-import com.huangxiaoliang.mvplib.manager.UIBindManager;
 import com.huangxiaoliang.mvplib.manager.event.EventManager;
 import com.huangxiaoliang.mvplib.manager.lcet.ILCEView;
+import com.huangxiaoliang.mvplib.manager.lcet.ITitleView;
+import com.huangxiaoliang.mvplib.manager.lcet.LCEDelegate;
 import com.huangxiaoliang.mvplib.util.ClassLoadUtils;
 import com.huangxiaoliang.mvplib.util.CommonUtils;
 import com.trello.rxlifecycle4.components.support.RxFragment;
 
 import org.json.JSONObject;
-
-import java.util.Arrays;
 
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
@@ -45,12 +41,6 @@ public abstract class BaseFragment extends RxFragment implements IFragment {
     private Activity mContext = null;
 
     /**
-     * Fragment根布局
-     */
-    private View mRootView = null;
-    private View mRealRootView = null;
-
-    /**
      * 布局id
      */
     private int mLayoutId = 0;
@@ -59,11 +49,7 @@ public abstract class BaseFragment extends RxFragment implements IFragment {
      * 内容View
      */
     private View mContentView;
-
-    /**
-     * 标题相关属性
-     */
-    private ITitleView mITitleView = null;
+    private View mDecorView;
 
     /**
      * 加载视图等代理
@@ -110,26 +96,22 @@ public abstract class BaseFragment extends RxFragment implements IFragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         initContentView(savedInstanceState);
-        if (mRealRootView != null) {
-            ViewGroup parent = (ViewGroup) mRealRootView.getParent();
+        if (mDecorView != null) {
+            ViewGroup parent = (ViewGroup) mDecorView.getParent();
             if (parent != null) {
-                parent.removeView(mRealRootView);
+                parent.removeView(mDecorView);
             }
         }
         if (mLayoutId != 0) {
-            mRootView = inflater.inflate(mLayoutId, container, false);
-        } else if (mContentView != null) {
-            mRootView = mContentView;
-        } else {
+            mContentView = inflater.inflate(mLayoutId, container, false);
+        } else if (mContentView == null) {
             throw new IllegalArgumentException("must set layoutId or contentView");
         }
         getLCEDelegate();
         ObjectUtils.requireNonNull(mLceDelegate, "must set LCE delegate");
-        mRealRootView = mLceDelegate.getRealRootView();
-        bindUI();
-        setTitleBar(mITitleView);
+        mDecorView = mLceDelegate.getDecorView();
         onBeforeBusiness(savedInstanceState);
-        return mRealRootView;
+        return mDecorView;
     }
 
     @Override
@@ -162,91 +144,27 @@ public abstract class BaseFragment extends RxFragment implements IFragment {
 
     }
 
+    @Override
+    public void onDecorateTitleBar(ITitleView titleView) {
+
+    }
+
     /**
-     * 设置布局
+     * 设置布局、标题相关属性
      *
      * @param layoutId 布局id
      */
     public void setContentView(@LayoutRes int layoutId) {
-        setContentView(layoutId, (ITitleView) null);
-    }
-
-    /**
-     * 设置布局、标题相关属性
-     *
-     * @param layoutId 布局id
-     * @param title    标题
-     */
-    public void setContentView(@LayoutRes int layoutId, String title) {
-        if (layoutId == 0) {
-            throw new IllegalArgumentException("must set layoutId");
-        }
         this.mLayoutId = layoutId;
-        if (!TextUtils.isEmpty(title)) {
-            this.mITitleView = new TitleParam(title);
-        }
     }
 
     /**
-     * 设置布局、标题相关属性
-     *
-     * @param layoutId   布局id
-     * @param iTitleView 标题接口
-     */
-    public void setContentView(@LayoutRes int layoutId, ITitleView iTitleView) {
-        this.mLayoutId = layoutId;
-        this.mITitleView = iTitleView;
-    }
-
-    /**
-     * 设置Fragment contentView
+     * 设置contentView、标题相关属性
      *
      * @param view Fragment contentView
      */
     public void setContentView(View view) {
-        setContentView(view, (ITitleView) null);
-    }
-
-    /**
-     * 设置contentView、标题相关属性
-     *
-     * @param view  Fragment contentView
-     * @param title 标题
-     */
-    public void setContentView(View view, String title) {
-        if (view == null) {
-            throw new IllegalArgumentException("must set contentView");
-        }
         this.mContentView = view;
-        if (!TextUtils.isEmpty(title)) {
-            this.mITitleView = new TitleParam(title);
-        }
-    }
-
-    /**
-     * 设置contentView、标题相关属性
-     *
-     * @param view       Fragment contentView
-     * @param iTitleView 标题接口
-     */
-    public void setContentView(View view, ITitleView iTitleView) {
-        if (view == null) {
-            throw new IllegalArgumentException("must set contentView");
-        }
-        this.mContentView = view;
-        this.mITitleView = iTitleView;
-    }
-
-    /**
-     * 设置标题
-     *
-     * @param iTitleView 标题接口类
-     */
-    @Override
-    public void setTitleBar(ITitleView iTitleView) {
-        if (iTitleView != null) {
-            throw new IllegalArgumentException("Title setting is temporarily not supported in Fragment");
-        }
     }
 
     /**
@@ -260,14 +178,11 @@ public abstract class BaseFragment extends RxFragment implements IFragment {
             String metaStr = CommonUtils.getManifestsMetaStr(MVPConst.LCE_DELEGATE);
             if (!TextUtils.isEmpty(metaStr)) {
                 //初始化项目注册的LCE代理器
-                mLceDelegate = ClassLoadUtils.newLCEDelegate(
-                        metaStr,
-                        mRootView
-                );
+                mLceDelegate = ClassLoadUtils.newLCEDelegate(metaStr, mContentView);
             }
             //默认使用框架的LEC代理器
             if (mLceDelegate == null) {
-                mLceDelegate = LCEDelegate.create(mRootView);
+                mLceDelegate = LCEDelegate.create(mContentView);
             }
         }
         return mLceDelegate;
@@ -279,8 +194,8 @@ public abstract class BaseFragment extends RxFragment implements IFragment {
      * @return RootView实例
      */
     @Override
-    public View getRealRootView() {
-        return mRealRootView;
+    public View getDecorView() {
+        return mDecorView;
     }
 
     /**
@@ -305,14 +220,6 @@ public abstract class BaseFragment extends RxFragment implements IFragment {
             throw new IllegalArgumentException("Fragment must attach to Activity");
         }
         return mContext;
-    }
-
-    /**
-     * 注解绑定UI
-     */
-    @Override
-    public void bindUI() {
-        UIBindManager.getInstance().bind(this, mRealRootView);
     }
 
     /**
@@ -561,7 +468,7 @@ public abstract class BaseFragment extends RxFragment implements IFragment {
      */
     @Override
     public <V extends View> V findView(int viewId) {
-        V v = mRealRootView.findViewById(viewId);
+        V v = mDecorView.findViewById(viewId);
         return v;
     }
 
@@ -647,14 +554,13 @@ public abstract class BaseFragment extends RxFragment implements IFragment {
             isCallUserVisibleHint = false;
             isCallResume = false;
         }
-        mITitleView = null;
         mLayoutId = 0;
+        mContentView = null;
         unDispose();
         release();
         if (useEventBus()) {
             EventManager.getBus().unregister(this);
         }
-        UIBindManager.getInstance().unbind(this);
     }
 
     @Override

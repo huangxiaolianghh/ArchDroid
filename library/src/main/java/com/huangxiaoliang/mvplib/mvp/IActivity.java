@@ -13,9 +13,8 @@ public interface IActivity extends IView {
 
     boolean useEventBus();
 
-    void bindUI();
-
     boolean needPreventScreenCapture();
 
     boolean isDecorateStatusBar();
+
 }

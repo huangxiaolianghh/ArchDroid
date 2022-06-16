@@ -27,7 +27,7 @@ public class CustomLCEActivity extends BaseActivity {
 
     @Override
     public void onBeforeBusiness(@Nullable Bundle savedInstanceState) {
-        LoadingStateView loadingHelper = ((CustomLCEDelegate) getLCEDelegate()).getLoadingHelper();
+        LoadingStateView loadingHelper = ((CustomLCEDelegate) getLCEDelegate()).getLoadingViewState();
         loadingHelper.register(new CLoadingViewDelegate());
     }
 
