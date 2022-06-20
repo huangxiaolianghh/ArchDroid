@@ -12,4 +12,4 @@
     app:lineSize="@dimen/mvparch_title_bar_bottom_line_height"
     app:lineVisible="true"
     app:titleColor="@color/mvparch_title_bar_middle_headline"
-    app:titleSize="@dimen/font_17" />
+    app:titleSize="17sp" />

@@ -18,6 +18,6 @@
         android:paddingRight="12dp"
         android:paddingBottom="10dp"
         android:textColor="@color/mvparch_toast_text"
-        android:textSize="@dimen/font_14" />
+        android:textSize="14sp" />
 
 </LinearLayout>
