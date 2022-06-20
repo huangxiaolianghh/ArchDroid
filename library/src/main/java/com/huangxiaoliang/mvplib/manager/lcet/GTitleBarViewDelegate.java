@@ -36,7 +36,7 @@ public class GTitleBarViewDelegate extends LoadingStateView.ViewDelegate {
     @NonNull
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @NonNull ViewGroup parent) {
-        View view = inflater.inflate(R.layout.layout_title_bar, parent, false);
+        View view = inflater.inflate(R.layout.layout_mvparch_title_bar, parent, false);
         decorateView(view);
         return view;
     }

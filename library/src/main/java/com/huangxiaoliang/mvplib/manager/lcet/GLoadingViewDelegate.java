@@ -24,6 +24,6 @@ public class GLoadingViewDelegate extends LoadingStateView.ViewDelegate {
     @NonNull
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @NonNull ViewGroup parent) {
-        return inflater.inflate(R.layout.layout_loading, parent, false);
+        return inflater.inflate(R.layout.layout_mvparch_loading, parent, false);
     }
 }

@@ -17,7 +17,6 @@ import androidx.lifecycle.LifecycleOwner;
  */
 @SuppressWarnings({"rawtypes", "unchecked"})
 public abstract class BaseMVPFragment<P extends BasePresenter> extends BaseFragment {
-    private static final String TAG = "BaseMVPFragment";
     private P mPresenter;
 
     @Override
@@ -50,13 +49,13 @@ public abstract class BaseMVPFragment<P extends BasePresenter> extends BaseFragm
     public void onDestroy() {
         mPresenter = null;
         super.onDestroy();
-        UILog.d(TAG, TAG + " onDestroy被调用");
+        UILog.i("BaseMVPFragment onDestroy被调用");
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        UILog.d(TAG, TAG + " onDetach被调用");
+        UILog.i("BaseMVPFragment onDetach被调用");
         getLifecycle().removeObserver(mPresenter);
     }
 

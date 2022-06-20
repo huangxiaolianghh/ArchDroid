@@ -25,7 +25,7 @@ public class UIToastDelegate implements UIToast.ToastDelegate {
                 .setGravity(Gravity.CENTER, 0, 0)
                 .setTextSize(14)
                 .setTextColor(Color.WHITE)
-                .setBgResource(R.drawable.toast_bg);
+                .setBgResource(R.drawable.shape_mvparch_toast_bg);
         return this;
     }
 
@@ -97,7 +97,7 @@ public class UIToastDelegate implements UIToast.ToastDelegate {
 
     @Override
     public void showCustomViewShort(int gravity, int xOffset, int yOffset, @NonNull CharSequence text) {
-        View view = LayoutInflater.from(Utils.getApp()).inflate(R.layout.layout_custom_toast, null);
+        View view = LayoutInflater.from(Utils.getApp()).inflate(R.layout.layout_mvparch_custom_toast, null);
         TextView tvMsg = view.findViewById(R.id.tvToast);
         tvMsg.setText(text);
         ToastUtils.make()
@@ -108,7 +108,7 @@ public class UIToastDelegate implements UIToast.ToastDelegate {
 
     @Override
     public void showCustomViewLong(int gravity, int xOffset, int yOffset, @NonNull CharSequence text) {
-        View view = LayoutInflater.from(Utils.getApp()).inflate(R.layout.layout_custom_toast, null);
+        View view = LayoutInflater.from(Utils.getApp()).inflate(R.layout.layout_mvparch_custom_toast, null);
         TextView tvMsg = view.findViewById(R.id.tvToast);
         tvMsg.setText(text);
         ToastUtils.make()

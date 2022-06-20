@@ -135,9 +135,9 @@ public class MVPArchConfig {
         //默认Title属性
         if (mTitleParam == null) {
             mTitleParam = new TitleParam()
-                    .setLeftIcon(R.drawable.ic_arrow_back_black)
+                    .setLeftIcon(R.drawable.ic_mvparch_arrow_back_black)
                     .setTittleBarBgColor(Color.WHITE)
-                    .setTitleBarHeight(R.dimen.title_bar_height)
+                    .setTitleBarHeight(R.dimen.mvparch_title_bar_height)
                     .setMiddleTextSize(17f)
                     .setMiddleTextColor(Color.BLACK);
         }

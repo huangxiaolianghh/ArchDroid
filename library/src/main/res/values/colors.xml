@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="title_bar_bg">#FFFFFF</color>
-    <color name="title_bar_middle_headline">#FFFFFF</color>
-    <color name="title_bar_bottom_line">#999999</color>
+    <color name="mvparch_title_bar_bg">#FFFFFF</color>
+    <color name="mvparch_title_bar_middle_headline">#FFFFFF</color>
+    <color name="mvparch_title_bar_bottom_line">#999999</color>
 
-    <color name="toast_text">#FFFFFF</color>
-    <color name="toast_bg">#D9221715</color>
+    <color name="mvparch_toast_text">#FFFFFF</color>
+    <color name="mvparch_toast_bg">#D9221715</color>
 
 </resources>

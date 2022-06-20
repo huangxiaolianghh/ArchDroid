@@ -9,7 +9,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:background="@drawable/toast_bg"
+        android:background="@drawable/shape_mvparch_toast_bg"
         android:gravity="center"
         android:maxWidth="290dp"
         android:minHeight="36dp"
@@ -17,7 +17,7 @@
         android:paddingTop="10dp"
         android:paddingRight="12dp"
         android:paddingBottom="10dp"
-        android:textColor="@color/toast_text"
+        android:textColor="@color/mvparch_toast_text"
         android:textSize="@dimen/font_14" />
 
 </LinearLayout>

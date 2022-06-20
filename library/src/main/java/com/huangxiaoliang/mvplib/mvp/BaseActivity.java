@@ -514,6 +514,24 @@ public abstract class BaseActivity extends RxAppCompatActivity implements IActiv
         return false;
     }
 
+    /**
+     * 拦截返回事件
+     *
+     * @return true 拦截，false 不拦截
+     */
+    @Override
+    public boolean onInterceptBackPressed() {
+        return false;
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (onInterceptBackPressed()) {
+            return;
+        }
+        super.onBackPressed();
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();

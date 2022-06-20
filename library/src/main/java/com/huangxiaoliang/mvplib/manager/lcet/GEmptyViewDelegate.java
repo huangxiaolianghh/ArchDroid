@@ -24,6 +24,6 @@ public class GEmptyViewDelegate extends LoadingStateView.ViewDelegate {
     @NonNull
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @NonNull ViewGroup parent) {
-        return inflater.inflate(R.layout.layout_empty, parent, false);
+        return inflater.inflate(R.layout.layout_mvparch_empty, parent, false);
     }
 }

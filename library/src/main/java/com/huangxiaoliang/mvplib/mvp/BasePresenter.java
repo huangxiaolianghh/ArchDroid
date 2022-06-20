@@ -19,8 +19,6 @@ import androidx.lifecycle.LifecycleOwner;
  */
 public abstract class BasePresenter<M extends BaseModel, V extends IView> implements IPresenter<V>, DefaultLifecycleObserver {
 
-    private static final String TAG = "BasePresenter";
-
     private WeakReference<V> v;
     private M m;
 
@@ -102,6 +100,6 @@ public abstract class BasePresenter<M extends BaseModel, V extends IView> implem
         detachV();
         m.onDestroy();
         m = null;
-        UILog.d(TAG, TAG + " onDestroy被调用");
+        UILog.i(" BasePresenter onDestroy被调用");
     }
 }

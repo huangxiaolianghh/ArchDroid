@@ -17,4 +17,6 @@ public interface IActivity extends IView {
 
     boolean isDecorateStatusBar();
 
+    boolean onInterceptBackPressed();
+
 }

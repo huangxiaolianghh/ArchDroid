@@ -59,7 +59,7 @@ public class MVPArchAPP extends Application {
                 .setLightStatusBar(false)
                 .setStatusBarColor(Color.BLACK)
                 .setTitleParam(new TitleParam()
-                        .setLeftIcon(R.drawable.ic_arrow_back_black)
+                        .setLeftIcon(R.drawable.ic_mvparch_arrow_back_black)
                         .setMiddleTextSize(17f)
                         .setMiddleTextColor(Color.BLACK)
                         .setTitleBarHeight(R.dimen.title_bar_height1)

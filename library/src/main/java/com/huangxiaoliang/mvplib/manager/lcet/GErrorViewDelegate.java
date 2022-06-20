@@ -24,7 +24,7 @@ public class GErrorViewDelegate extends LoadingStateView.ViewDelegate {
     @NonNull
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @NonNull ViewGroup parent) {
-        View view = inflater.inflate(R.layout.layout_error, parent, false);
+        View view = inflater.inflate(R.layout.layout_mvparch_error, parent, false);
         view.findViewById(R.id.btn_reload).setOnClickListener(v -> {
             if (getOnReloadListener() != null) {
                 getOnReloadListener().onReload();
