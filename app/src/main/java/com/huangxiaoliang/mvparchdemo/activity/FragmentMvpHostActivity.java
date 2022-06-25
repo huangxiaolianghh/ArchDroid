@@ -3,22 +3,23 @@ package com.huangxiaoliang.mvparchdemo.activity;
 import android.os.Bundle;
 
 import com.huangxiaoliang.mvparchdemo.R;
+import com.huangxiaoliang.mvparchdemo.databinding.ActivityFmvpHostBinding;
 import com.huangxiaoliang.mvparchdemo.fragment.mvp.MVPDemoFragment;
-import com.huangxiaoliang.mvplib.mvp.BaseActivity;
+import com.huangxiaoliang.mvplib.mvp.BaseBindingActivity;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentTransaction;
 
 /**
- * @Author : HHotHeart
- * @Time : 2021/8/14 19:18
- * @Description : 描述
+ * <pre>@author HHotHeart</pre>
+ * <pre>@date 2021/8/14 19:18</pre>
+ * <pre>@desc Fragment 宿主Activity</pre>
  */
-public class FragmentMvpHostActivity extends BaseActivity {
+public class FragmentMvpHostActivity extends BaseBindingActivity<ActivityFmvpHostBinding> {
 
     @Override
-    protected void initContentView(@Nullable Bundle savedInstanceState) {
-        setContentView(R.layout.activity_fmvp_host, "Fragment MVP模式");
+    public String getPageTitle() {
+        return "Fragment MVP模式";
     }
 
     @Override

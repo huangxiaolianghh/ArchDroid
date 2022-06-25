@@ -3,29 +3,22 @@ package com.huangxiaoliang.mvparchdemo.activity;
 import android.os.Bundle;
 
 import com.huangxiaoliang.mvparchdemo.R;
+import com.huangxiaoliang.mvparchdemo.databinding.ActivityLoadingDialogBinding;
 import com.huangxiaoliang.mvparchdemo.listener.NetCallback;
 import com.huangxiaoliang.mvparchdemo.util.HttpUtils;
 import com.huangxiaoliang.mvplib.manager.toast.UIToast;
-import com.huangxiaoliang.mvplib.mvp.BaseActivity;
-
-import androidx.annotation.Nullable;
+import com.huangxiaoliang.mvplib.mvp.BaseBindingActivity;
 
 /**
- * @Author : HHotHeart
- * @Time : 2021/9/21 23:32
- * @Description : 加载Dialog样式Demo
+ * <pre>@author HHotHeart</pre>
+ * <pre>@date 2021/9/21 23:32</pre>
+ * <pre>@desc 加载Dialog样式Activity Demo</pre>
  */
-public class LoadingDialogActivity extends BaseActivity {
+public class LoadingDialogActivity extends BaseBindingActivity<ActivityLoadingDialogBinding> {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
-    protected void initContentView(@Nullable Bundle savedInstanceState) {
-        setContentView(R.layout.activity_loading_dialog, "加载Dialog样式");
-
+    public String getPageTitle() {
+        return "加载Dialog样式";
     }
 
     @Override

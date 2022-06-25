@@ -16,9 +16,9 @@ import androidx.annotation.ColorInt;
 import androidx.annotation.IntRange;
 
 /**
- * @author HHotHeart
- * @time 2021/6/9 14:06
- * @description 对statusBar相关库二次封装
+ * <pre>@author HHotHeart</pre>
+ * <pre>@date 2021/6/9 14:06</pre>
+ * <pre>@desc 对statusBar相关库二次封装</pre>
  */
 public class UIStatusBar {
 

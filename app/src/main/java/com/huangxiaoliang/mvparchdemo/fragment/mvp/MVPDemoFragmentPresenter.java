@@ -1,10 +1,10 @@
 package com.huangxiaoliang.mvparchdemo.fragment.mvp;
 
 
-import com.huangxiaoliang.mvplib.manager.toast.UIToast;
-import com.huangxiaoliang.mvplib.mvp.BasePresenter;
 import com.huangxiaoliang.mvparchdemo.listener.NetCallback;
 import com.huangxiaoliang.mvplib.manager.log.UILog;
+import com.huangxiaoliang.mvplib.manager.toast.UIToast;
+import com.huangxiaoliang.mvplib.mvp.BasePresenter;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -13,9 +13,9 @@ import androidx.lifecycle.LifecycleOwner;
 import io.reactivex.rxjava3.disposables.Disposable;
 
 /**
- * @Author : HHotHeart
- * @Time : 2021/6/11 11:53
- * @Description : Fragment Presenter
+ * <pre>@author HHotHeart</pre>
+ * <pre>@date 2021/6/11 11:53</pre>
+ * <pre>@desc MVP Fragment Presenter</pre>
  */
 public class MVPDemoFragmentPresenter extends BasePresenter<MVPDemoFragmentModel, FContract.MyFragmentView>
         implements FContract.MyFragmentPresenter {

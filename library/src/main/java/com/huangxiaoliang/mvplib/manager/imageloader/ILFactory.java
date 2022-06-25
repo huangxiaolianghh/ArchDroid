@@ -3,9 +3,9 @@ package com.huangxiaoliang.mvplib.manager.imageloader;
 import com.huangxiaoliang.mvplib.manager.MVPArchConfig;
 
 /**
- * @author HHotHeart
- * @time 2021/6/1 16:37
- * @description 图片加载工厂单例
+ * <pre>@author HHotHeart</pre>
+ * <pre>@date 2021/6/1 16:37</pre>
+ * <pre>@desc 图片加载工厂单例</pre>
  */
 public class ILFactory {
 

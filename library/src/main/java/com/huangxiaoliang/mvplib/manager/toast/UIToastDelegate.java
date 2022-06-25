@@ -13,9 +13,9 @@ import com.huangxiaoliang.mvplib.R;
 import androidx.annotation.NonNull;
 
 /**
- * @author : HHotHeart
- * @date : 2021/6/8 00:06
- * @desc : Toast的代理类
+ * <pre>@author HHotHeart</pre>
+ * <pre>@date 2021/6/8 00:06</pre>
+ * <pre>@desc Toast的代理类</pre>
  */
 public class UIToastDelegate implements UIToast.ToastDelegate {
 

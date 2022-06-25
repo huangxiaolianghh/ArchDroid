@@ -10,9 +10,9 @@ import com.kaopiz.kprogresshud.KProgressHUD;
 import org.json.JSONObject;
 
 /**
- * @Author : HHotHeart
- * @Time : 2021/6/8 17:48
- * @Description : LCE代理实现
+ * <pre>@author HHotHeart</pre>
+ * <pre>@date 2021/6/8 17:48</pre>
+ * <pre>@desc LCE代理实现</pre>
  */
 public class LCEDelegate implements ILCEView {
 

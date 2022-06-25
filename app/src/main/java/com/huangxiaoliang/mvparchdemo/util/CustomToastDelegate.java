@@ -7,9 +7,9 @@ import org.jetbrains.annotations.NotNull;
 import androidx.annotation.NonNull;
 
 /**
- * @author : HHotHeart
- * @date : 2021/9/24 15:03
- * @desc : 自定义Toast代理
+ * <pre>@author HHotHeart</pre>
+ * <pre>@date 2021/9/24 15:03</pre>
+ * <pre>@desc 自定义Toast代理</pre>
  */
 public class CustomToastDelegate implements UIToast.ToastDelegate {
     @Override

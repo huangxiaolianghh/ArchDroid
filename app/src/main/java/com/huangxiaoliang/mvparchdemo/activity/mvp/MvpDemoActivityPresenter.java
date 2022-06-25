@@ -1,10 +1,10 @@
 package com.huangxiaoliang.mvparchdemo.activity.mvp;
 
 
+import com.huangxiaoliang.mvparchdemo.listener.NetCallback;
+import com.huangxiaoliang.mvplib.manager.log.UILog;
 import com.huangxiaoliang.mvplib.manager.toast.UIToast;
 import com.huangxiaoliang.mvplib.mvp.BasePresenter;
-import com.huangxiaoliang.mvplib.manager.log.UILog;
-import com.huangxiaoliang.mvparchdemo.listener.NetCallback;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -13,9 +13,9 @@ import androidx.lifecycle.LifecycleOwner;
 import io.reactivex.rxjava3.disposables.Disposable;
 
 /**
- * @Author : HHotHeart
- * @Time : 2021/6/11 11:53
- * @Description : Activity Presenter
+ * <pre>@author HHotHeart</pre>
+ * <pre>@date 2021/6/11 11:53</pre>
+ * <pre>@desc MVP Presenter</pre>
  */
 public class MvpDemoActivityPresenter extends BasePresenter<MvpDemoActivityModel, AContract.MyActivityView>
         implements AContract.MyActivityPresenter {

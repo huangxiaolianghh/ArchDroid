@@ -15,9 +15,9 @@ import io.reactivex.rxjava3.core.Observer;
 import io.reactivex.rxjava3.disposables.Disposable;
 
 /**
- * @Author : HHotHeart
- * @Time : 2021/6/11 15:46
- * @Description : 描述
+ * <pre>@author HHotHeart</pre>
+ * <pre>@date 2021/6/11 15:46</pre>
+ * <pre>@desc MVP Model</pre>
  */
 public class MVPDemoFragmentModel extends BaseModel implements FContract.MyFragmentModel {
 

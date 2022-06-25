@@ -6,9 +6,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.StringRes;
 
 /**
- * @author : HHotHeart
- * @date : 2021/6/7 23:29
- * @desc : Toast管理类（默认）
+ * <pre>@author HHotHeart</pre>
+ * <pre>@date 2021/6/7 23:29</pre>
+ * <pre>@desc Toast管理类（默认）</pre>
  */
 public class UIToast {
 

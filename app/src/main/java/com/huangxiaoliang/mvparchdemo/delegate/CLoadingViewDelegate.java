@@ -11,9 +11,9 @@ import com.huangxiaoliang.mvparchdemo.R;
 import androidx.annotation.NonNull;
 
 /**
- * @author : HHotHeart
- * @date : 2021/9/23 10:04
- * @desc : 自定义加载布局
+ * <pre>@author HHotHeart</pre>
+ * <pre>@date 2021/9/23 10:04</pre>
+ * <pre>@desc 自定义加载布局</pre>
  */
 public class CLoadingViewDelegate extends LoadingStateView.ViewDelegate {
 

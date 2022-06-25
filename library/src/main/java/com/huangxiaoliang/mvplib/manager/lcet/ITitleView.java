@@ -6,9 +6,9 @@ import androidx.annotation.DimenRes;
 import androidx.annotation.DrawableRes;
 
 /**
- * @author : HHotHeart
- * @date : 2021/7/15 11:45
- * @desc : Title属性接口
+ * <pre>@author HHotHeart</pre>
+ * <pre>@date 2021/7/15 11:45</pre>
+ * <pre>@desc Title属性接口</pre>
  */
 public interface ITitleView {
 

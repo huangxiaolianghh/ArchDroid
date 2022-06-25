@@ -11,9 +11,9 @@ import com.orhanobut.logger.PrettyFormatStrategy;
 import androidx.annotation.Nullable;
 
 /**
- * @Author : HHotHeart
- * @Time : 2021/6/1 16:37
- * @Description : Log代理
+ * <pre>@author HHotHeart</pre>
+ * <pre>@date 2021/6/1 16:37</pre>
+ * <pre>@desc Log代理</pre>
  */
 public class UILogDelegate implements UILog.LogDelegate {
 

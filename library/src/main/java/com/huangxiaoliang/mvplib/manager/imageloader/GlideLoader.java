@@ -35,9 +35,9 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 /**
- * @Author : HHotHeart
- * @Time : 2021/6/1 16:36
- * @Description : 图片加载器实现类
+ * <pre>@author HHotHeart</pre>
+ * <pre>@date 2021/6/1 16:36</pre>
+ * <pre>@desc 图片加载器实现类</pre>
  */
 public final class GlideLoader implements IImageLoader {
 

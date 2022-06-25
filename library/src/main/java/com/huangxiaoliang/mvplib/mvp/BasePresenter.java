@@ -3,8 +3,6 @@ package com.huangxiaoliang.mvplib.mvp;
 import com.huangxiaoliang.mvplib.manager.log.UILog;
 import com.huangxiaoliang.mvplib.util.ClassLoadUtils;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.lang.ref.WeakReference;
 import java.util.Objects;
 
@@ -13,9 +11,9 @@ import androidx.lifecycle.DefaultLifecycleObserver;
 import androidx.lifecycle.LifecycleOwner;
 
 /**
- * @Author : HHotHeart
- * @Time : 2021/6/11 10:26
- * @Description : 可监听页面生命周期的Presenter基类
+ * <pre>@author HHotHeart</pre>
+ * <pre>@date 2021/6/11 10:26</pre>
+ * <pre>@desc 可监听页面生命周期的Presenter基类</pre>
  */
 public abstract class BasePresenter<M extends BaseModel, V extends IView> implements IPresenter<V>, DefaultLifecycleObserver {
 
@@ -71,24 +69,24 @@ public abstract class BasePresenter<M extends BaseModel, V extends IView> implem
      * 解绑View
      */
     public void detachV() {
-        if (v.get() != null) {
+        if (isAttachV()) {
             v.clear();
         }
         v = null;
     }
 
     @Override
-    public void onResume(@NonNull @NotNull LifecycleOwner owner) {
+    public void onResume(@NonNull LifecycleOwner owner) {
 
     }
 
     @Override
-    public void onPause(@NonNull @NotNull LifecycleOwner owner) {
+    public void onPause(@NonNull LifecycleOwner owner) {
 
     }
 
     @Override
-    public void onStop(@NonNull @NotNull LifecycleOwner owner) {
+    public void onStop(@NonNull LifecycleOwner owner) {
 
     }
 
@@ -100,6 +98,6 @@ public abstract class BasePresenter<M extends BaseModel, V extends IView> implem
         detachV();
         m.onDestroy();
         m = null;
-        UILog.i(" BasePresenter onDestroy被调用");
+        UILog.i("BasePresenter onDestroy被调用");
     }
 }

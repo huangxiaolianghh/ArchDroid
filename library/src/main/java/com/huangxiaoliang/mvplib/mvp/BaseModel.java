@@ -5,9 +5,9 @@ import android.content.Intent;
 import android.os.Bundle;
 
 /**
- * @Author : HHotHeart
- * @Time : 2021/6/11 11:18
- * @Description : Model基类
+ * <pre>@author HHotHeart</pre>
+ * <pre>@date 2021/6/11 11:18</pre>
+ * <pre>@desc Model基类</pre>
  */
 public abstract class BaseModel implements IModel {
 

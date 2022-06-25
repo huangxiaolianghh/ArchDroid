@@ -10,29 +10,20 @@ import com.huangxiaoliang.mvparchdemo.listener.NetCallback;
 import com.huangxiaoliang.mvparchdemo.util.CustomLCEDelegate;
 import com.huangxiaoliang.mvparchdemo.util.HttpUtils;
 import com.huangxiaoliang.mvplib.manager.toast.UIToast;
-import com.huangxiaoliang.mvplib.mvp.BaseActivity;
+import com.huangxiaoliang.mvplib.mvp.BaseBindingActivity;
 
 import androidx.annotation.Nullable;
 
 /**
- * @Author : HHotHeart
- * @Time : 2021/9/21 22:56
- * @Description : 内容重新加载Demo
+ * <pre>@author HHotHeart</pre>
+ * <pre>@date 2021/9/21 22:56</pre>
+ * <pre>@desc 内容重新加载Demo</pre>
  */
-public class ReloadDemoActivity extends BaseActivity implements OnReloadListener {
-
-    private ActivityReloadDemoBinding binding;
+public class ReloadDemoActivity extends BaseBindingActivity<ActivityReloadDemoBinding> implements OnReloadListener {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
-    protected void initContentView(@Nullable Bundle savedInstanceState) {
-        binding = ActivityReloadDemoBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot(), "Reload Demo");
-
+    public String getPageTitle() {
+        return "Reload Demo";
     }
 
     @Override

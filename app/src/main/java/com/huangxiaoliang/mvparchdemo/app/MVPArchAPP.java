@@ -20,9 +20,9 @@ import com.scwang.smart.refresh.header.ClassicsHeader;
 import com.scwang.smart.refresh.layout.SmartRefreshLayout;
 
 /**
- * @Author : HHotHeart
- * @Time : 2021/6/1 19:02
- * @Description : 描述
+ * <pre>@author HHotHeart</pre>
+ * <pre>@date 2021/6/1 19:02</pre>
+ * <pre>@desc Application</pre>
  */
 public class MVPArchAPP extends Application {
 

@@ -20,9 +20,9 @@ import androidx.annotation.NonNull;
 import static com.huangxiaoliang.mvplib.util.CommonUtils.NO_COLOR;
 
 /**
- * <pre>author huanghuahong</pre>
- * <pre>date 2022/6/15 19:10</pre>
- * <pre>desc 标题栏</pre>
+ * <pre>@author huanghuahong</pre>
+ * <pre>@date 2022/6/15 19:10</pre>
+ * <pre>@desc 标题栏</pre>
  */
 public class GTitleBarViewDelegate extends LoadingStateView.ViewDelegate {
 

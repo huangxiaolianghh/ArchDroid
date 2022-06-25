@@ -16,9 +16,9 @@ import com.huangxiaoliang.mvplib.manager.log.UILogDelegate;
 import androidx.annotation.LayoutRes;
 
 /**
- * @author : HHotHeart
- * @date : 2021/7/6 12:35
- * @desc : 框架全局参数管理类
+ * <pre>@author HHotHeart</pre>
+ * <pre>@date 2021/7/6 12:35</pre>
+ * <pre>@desc 框架全局参数管理类</pre>
  */
 public class MVPArchConfig {
 

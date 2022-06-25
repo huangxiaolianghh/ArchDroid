@@ -5,24 +5,24 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.huangxiaoliang.mvparchdemo.R;
-import com.huangxiaoliang.mvplib.manager.lcet.TitleParam;
-import com.huangxiaoliang.mvplib.manager.toast.UIToast;
-import com.huangxiaoliang.mvplib.mvp.BaseActivity;
+import com.huangxiaoliang.mvparchdemo.databinding.ActivityTitleDemoBinding;
 import com.huangxiaoliang.mvplib.manager.imageloader.IImageLoader;
 import com.huangxiaoliang.mvplib.manager.imageloader.ILFactory;
-
-import androidx.annotation.Nullable;
+import com.huangxiaoliang.mvplib.manager.lcet.ITitleView;
+import com.huangxiaoliang.mvplib.manager.lcet.TitleParam;
+import com.huangxiaoliang.mvplib.manager.toast.UIToast;
+import com.huangxiaoliang.mvplib.mvp.BaseBindingActivity;
 
 /**
- * @Author : HHotHeart
- * @Time : 2021/8/14 15:42
- * @Description : 标题属性Demo
+ * <pre>@author HHotHeart</pre>
+ * <pre>@date 2021/8/14 15:42</pre>
+ * <pre>@desc 标题属性Demo</pre>
  */
-public class TitleDemoActivity extends BaseActivity {
+public class TitleDemoActivity extends BaseBindingActivity<ActivityTitleDemoBinding> {
 
     @Override
-    protected void initContentView(@Nullable Bundle savedInstanceState) {
-        setContentView(R.layout.activity_title_demo, new TitleParam("Title Demo")
+    public ITitleView getPageTitleView() {
+        return new TitleParam("Title Demo")
                 .setRightText("完成").setRightTextColor(Color.RED).setRightTextSize(17f)
                 .setOnTitleBarListener(new TitleParam.SimpleTitleBarListener() {
                     @Override
@@ -34,7 +34,7 @@ public class TitleDemoActivity extends BaseActivity {
                     public void onRightClick(View view) {
                         UIToast.showShort("点击完成");
                     }
-                }));
+                });
     }
 
     @Override

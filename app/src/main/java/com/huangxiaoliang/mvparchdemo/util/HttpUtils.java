@@ -1,8 +1,8 @@
 package com.huangxiaoliang.mvparchdemo.util;
 
-import com.huangxiaoliang.mvplib.mvp.IView;
-import com.huangxiaoliang.mvplib.manager.log.UILog;
 import com.huangxiaoliang.mvparchdemo.listener.NetCallback;
+import com.huangxiaoliang.mvplib.manager.log.UILog;
+import com.huangxiaoliang.mvplib.mvp.IView;
 
 import java.util.concurrent.TimeUnit;
 
@@ -13,9 +13,9 @@ import io.reactivex.rxjava3.core.Observer;
 import io.reactivex.rxjava3.disposables.Disposable;
 
 /**
- * @Author : HHotHeart
- * @Time : 2021/6/8 10:51
- * @Description : 描述
+ * <pre>@author HHotHeart</pre>
+ * <pre>@date 2021/6/8 10:51</pre>
+ * <pre>@desc 模拟网络请求工具类</pre>
  */
 public class HttpUtils {
 

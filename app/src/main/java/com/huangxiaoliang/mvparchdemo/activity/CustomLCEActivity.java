@@ -3,26 +3,26 @@ package com.huangxiaoliang.mvparchdemo.activity;
 import android.os.Bundle;
 
 import com.dylanc.loadingstateview.LoadingStateView;
-import com.huangxiaoliang.mvparchdemo.R;
+import com.huangxiaoliang.mvparchdemo.databinding.ActivityCustomLceBinding;
 import com.huangxiaoliang.mvparchdemo.delegate.CLoadingViewDelegate;
 import com.huangxiaoliang.mvparchdemo.listener.NetCallback;
 import com.huangxiaoliang.mvparchdemo.util.CustomLCEDelegate;
 import com.huangxiaoliang.mvparchdemo.util.HttpUtils;
 import com.huangxiaoliang.mvplib.manager.toast.UIToast;
-import com.huangxiaoliang.mvplib.mvp.BaseActivity;
+import com.huangxiaoliang.mvplib.mvp.BaseBindingActivity;
 
 import androidx.annotation.Nullable;
 
 /**
- * @Author : HHotHeart
- * @Time : 2021/9/23 10:39
- * @Description : 自定义加载布局Demo
+ * <pre>@author HHotHeart</pre>
+ * <pre>@date 2021/9/23 10:39</pre>
+ * <pre>@desc 自定义加载布局Demo</pre>
  */
-public class CustomLCEActivity extends BaseActivity {
+public class CustomLCEActivity extends BaseBindingActivity<ActivityCustomLceBinding> {
 
     @Override
-    protected void initContentView(@Nullable Bundle savedInstanceState) {
-        setContentView(R.layout.activity_custom_lce, "自定义LCE");
+    public String getPageTitle() {
+        return "自定义LCE";
     }
 
     @Override

@@ -12,9 +12,9 @@ import androidx.annotation.DimenRes;
 import static com.huangxiaoliang.mvplib.util.CommonUtils.NO_COLOR;
 
 /**
- * @Author : HHotHeart
- * @Time : 2021/6/9 17:07
- * @Description : TitleBar属性
+ * <pre>@author HHotHeart</pre>
+ * <pre>@date 2021/6/9 17:07</pre>
+ * <pre>@desc TitleBar属性</pre>
  */
 public class TitleParam implements ITitleView {
 

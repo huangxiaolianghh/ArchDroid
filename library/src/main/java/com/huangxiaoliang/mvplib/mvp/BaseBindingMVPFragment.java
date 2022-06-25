@@ -9,16 +9,20 @@ import java.util.Objects;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LifecycleOwner;
+import androidx.viewbinding.ViewBinding;
 
 /**
- * <pre>@author HHotHeart</pre>
- * <pre>@date 2021/6/14 23:16</pre>
- * <pre>@desc MVP模式Fragment基类</pre>
+ * <pre>author huanghuahong</pre>
+ * <pre>date 2022/6/25 16:03</pre>
+ * <pre>desc MVP模式ViewBinding功能的Fragment基类</pre>
  */
-@SuppressWarnings({"rawtypes", "unchecked"})
-public abstract class BaseMVPFragment<P extends BasePresenter> extends BaseFragment {
+ @SuppressWarnings("rawtypes")
+public abstract class BaseBindingMVPFragment<P extends BasePresenter, VB extends ViewBinding>
+        extends BaseBindingFragment<VB> {
+
     private P mPresenter;
 
+    @SuppressWarnings("unchecked")
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
@@ -49,39 +53,15 @@ public abstract class BaseMVPFragment<P extends BasePresenter> extends BaseFragm
     public void onDestroy() {
         mPresenter = null;
         super.onDestroy();
-        UILog.i("BaseMVPFragment onDestroy()被调用");
+        UILog.i("BaseBindingMVPFragment onDestroy()被调用");
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        UILog.i("BaseMVPFragment onDetach()被调用");
+        UILog.i("BaseBindingMVPFragment onDetach()被调用");
         getLifecycle().removeObserver(mPresenter);
     }
-
-
-//    Fragment【onAttach】
-//    Fragment【onCreate】
-//    Observer【onCreate】
-//
-//    Fragment【onViewCreated】
-//    Fragment【onActivityCreated】
-//    Fragment【onStart】
-//    Observer【onStart】
-//
-//    Fragment【onResume】
-//    Observer【onResume】
-//            ------------------------------
-//    Observer【onPause】
-//    Fragment【onPause】
-//
-//    Observer【onStop】
-//    Fragment【onStop】
-//    Fragment【onDestroyView】
-//
-//    Observer【onDestroy】
-//    Fragment【onDestroy】
-//    Fragment【onDetach】
 
 
 }

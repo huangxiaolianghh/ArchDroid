@@ -98,10 +98,10 @@ dependencies {
     implementation rootProject.ext.dependencies.aviDialog
     implementation rootProject.ext.dependencies.EventBus
     implementation rootProject.ext.dependencies.MultiType
-    implementation rootProject.ext.dependencies.rxbinding
+//    implementation rootProject.ext.dependencies.rxbinding
+    implementation rootProject.ext.dependencies.banner
     implementation rootProject.ext.dependencies.easyProtector
     implementation rootProject.ext.dependencies.PickerView
-    implementation rootProject.ext.dependencies.banner
     implementation rootProject.ext.dependencies.PictureSelector
 
     implementation rootProject.ext.dependencies.glide
@@ -110,8 +110,8 @@ dependencies {
     implementation rootProject.ext.dependencies.Logger
     implementation rootProject.ext.dependencies.statusbarutil
     implementation rootProject.ext.dependencies.statusBarCompat
-//    MVPArch库引用了以下依赖
 
+//    MVPArch库引用了以下依赖
 //    implementation rootProject.ext.dependencies.utilcode
 //    implementation rootProject.ext.dependencies.TitleBar
 //    implementation rootProject.ext.dependencies.loadingstateview

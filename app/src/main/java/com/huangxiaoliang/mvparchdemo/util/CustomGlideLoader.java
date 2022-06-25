@@ -10,9 +10,9 @@ import com.huangxiaoliang.mvplib.manager.imageloader.ILoadCallback;
 import java.io.File;
 
 /**
- * @author : HHotHeart
- * @date : 2021/9/27 18:56
- * @desc : 自定义图片加载器{@link GlideLoader}
+ * <pre>@author HHotHeart</pre>
+ * <pre>@date 2021/9/27 18:56</pre>
+ * <pre>@desc 自定义图片加载器{@link GlideLoader}</pre>
  */
 public class CustomGlideLoader implements IImageLoader {
 

@@ -9,9 +9,9 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
 /**
- * @Author : HHotHeart
- * @Time : 2021/6/11 10:36
- * @Description : 类实例工具
+ * <pre>@author HHotHeart</pre>
+ * <pre>@date 2022/6/23 19:52</pre>
+ * <pre>@desc 类实例工具</pre>
  */
 public class ClassLoadUtils {
 
@@ -19,7 +19,7 @@ public class ClassLoadUtils {
     public static <T> T getT(Object o, int i) {
         //通过获得泛型类的父类，拿到泛型的接口类实例，通过反射来实例化 model
         ParameterizedType parameterizedType = (ParameterizedType) o.getClass().getGenericSuperclass();
-        UILog.e("===========", "attach: " + o.getClass().getSimpleName());
+        UILog.i("===========", "attach: " + o.getClass().getSimpleName());
         if (parameterizedType != null) {
             Type[] types = parameterizedType.getActualTypeArguments();
             try {
@@ -43,7 +43,7 @@ public class ClassLoadUtils {
             // 根据给定的类名初始化类
             Class<?> aClass = Class.forName(path);
             ILCEView lceView = null;
-            Constructor<?> cons[] = null;
+            Constructor<?>[] cons = null;
             cons = aClass.getConstructors();
             lceView = (ILCEView) cons[0].newInstance(object);
             return lceView;
@@ -59,6 +59,7 @@ public class ClassLoadUtils {
      *
      * @param path 实例化类对象的路径
      */
+    @SuppressWarnings("rawtypes")
     public static Object loadClassByPath(String path, String classMethod, Object... object) {
         try {
             // 根据给定的类名初始化类

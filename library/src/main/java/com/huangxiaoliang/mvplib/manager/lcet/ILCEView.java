@@ -7,9 +7,9 @@ import com.huangxiaoliang.mvplib.mvp.BaseFragment;
 import org.json.JSONObject;
 
 /**
- * @Author : HHotHeart
- * @Time : 2021/6/8 17:53
- * @Description : 数据加载UI相关接口
+ * <pre>@author HHotHeart</pre>
+ * <pre>@date 2021/6/8 17:53</pre>
+ * <pre>@desc 数据加载UI相关接口</pre>
  */
 public interface ILCEView {
 

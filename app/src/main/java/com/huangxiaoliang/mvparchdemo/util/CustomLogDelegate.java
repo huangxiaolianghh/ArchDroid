@@ -5,9 +5,9 @@ import android.util.Log;
 import com.huangxiaoliang.mvplib.manager.log.UILog;
 
 /**
- * @author : HHotHeart
- * @date : 2021/9/24 10:01
- * @desc : 自定义Log代理
+ * <pre>@author HHotHeart</pre>
+ * <pre>@date 2021/9/24 10:01</pre>
+ * <pre>@desc 自定义Log代理</pre>
  */
 public class CustomLogDelegate implements UILog.LogDelegate {
 

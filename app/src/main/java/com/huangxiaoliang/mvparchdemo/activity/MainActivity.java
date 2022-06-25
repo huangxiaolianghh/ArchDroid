@@ -4,29 +4,23 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.huangxiaoliang.mvparchdemo.R;
-import com.huangxiaoliang.mvplib.mvp.BaseActivity;
 import com.huangxiaoliang.mvparchdemo.activity.mvp.MvpDemoActivity;
-
-import androidx.annotation.Nullable;
+import com.huangxiaoliang.mvparchdemo.databinding.ActivityMainBinding;
+import com.huangxiaoliang.mvplib.mvp.BaseBindingActivity;
 
 /**
- * @Author : HHotHeart
- * @Time : 2021/8/14 15:09
- * @Description : 描述
+ * <pre>@author HHotHeart</pre>
+ * <pre>@date 2021/8/14 15:09</pre>
+ * <pre>@desc 主页</pre>
  */
-public class MainActivity extends BaseActivity {
-
-    @Override
-    protected void initContentView(@Nullable Bundle savedInstanceState) {
-        setContentView(R.layout.activity_main);
-    }
+public class MainActivity extends BaseBindingActivity<ActivityMainBinding> {
 
     @Override
     protected void onBusiness(Bundle savedInstanceState) {
 
         findView(R.id.btn_mvp_activity, mView -> {
             Intent intent = new Intent(getContext(), MvpDemoActivity.class);
-            intent.putExtra("MVP_DATA","MvpDemoActivity");
+            intent.putExtra("MVP_DATA", "MvpDemoActivity");
             startActivity(intent);
         });
         findView(R.id.btn_mvp_fragment, mView -> startActivity(new Intent(getContext(), FragmentMvpHostActivity.class)));

@@ -3,9 +3,9 @@ package com.huangxiaoliang.mvplib.mvp;
 import androidx.lifecycle.LifecycleOwner;
 
 /**
- * @author : HHotHeart
- * @date : 2021/6/11 00:04
- * @desc : 描述
+ * <pre>@author HHotHeart</pre>
+ * <pre>@date 2021/6/11 00:04</pre>
+ * <pre>@desc model接口类</pre>
  */
 public interface IModel {
     /**

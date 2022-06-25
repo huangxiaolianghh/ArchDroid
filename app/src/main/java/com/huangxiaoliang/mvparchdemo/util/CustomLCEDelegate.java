@@ -13,9 +13,9 @@ import com.kaopiz.kprogresshud.KProgressHUD;
 import org.json.JSONObject;
 
 /**
- * @author : HHotHeart
- * @date : 2021/7/9 17:36
- * @desc : 自定义LCE代理类，需在清单文件注册meta
+ * <pre>@author HHotHeart</pre>
+ * <pre>@date 2021/7/9 17:36</pre>
+ * <pre>@desc 自定义LCE代理类，需在清单文件注册meta</pre>
  */
 public class CustomLCEDelegate implements ILCEView {
 

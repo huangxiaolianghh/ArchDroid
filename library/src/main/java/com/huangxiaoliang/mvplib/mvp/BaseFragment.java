@@ -28,10 +28,11 @@ import androidx.annotation.Nullable;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.disposables.Disposable;
 
+
 /**
- * @author : HHotHeart
- * @date : 2021/6/7 00:05
- * @desc : 拥有Lifecycle特性的Fragment基类
+ * <pre>@author HHotHeart</pre>
+ * <pre>@date 2021/6/7 00:05</pre>
+ * <pre>@desc 拥有Lifecycle特性的Fragment基类</pre>
  */
 public abstract class BaseFragment extends RxFragment implements IFragment {
 
@@ -87,7 +88,7 @@ public abstract class BaseFragment extends RxFragment implements IFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (needPreventScreenCapture()) {
+        if (isNeedPreventScreenCapture()) {
             requireActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
         }
     }
@@ -117,7 +118,7 @@ public abstract class BaseFragment extends RxFragment implements IFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        if (useEventBus()) {
+        if (isUseEventBus()) {
             EventManager.getBus().register(this);
         }
         doBusiness(savedInstanceState);
@@ -145,7 +146,7 @@ public abstract class BaseFragment extends RxFragment implements IFragment {
     }
 
     @Override
-    public void onDecorateTitleBar(ITitleView titleView) {
+    public final void onDecorateTitleBar(ITitleView titleView) {
 
     }
 
@@ -204,7 +205,7 @@ public abstract class BaseFragment extends RxFragment implements IFragment {
      * @return 是否需要防截屏
      */
     @Override
-    public boolean needPreventScreenCapture() {
+    public boolean isNeedPreventScreenCapture() {
         return false;
     }
 
@@ -228,7 +229,7 @@ public abstract class BaseFragment extends RxFragment implements IFragment {
      * @return 是否使用EventBus
      */
     @Override
-    public boolean useEventBus() {
+    public boolean isUseEventBus() {
         return false;
     }
 
@@ -490,10 +491,10 @@ public abstract class BaseFragment extends RxFragment implements IFragment {
     /**
      * 默认不使用懒加载
      *
-     * @return
+     * @return 是否使用懒加载
      */
     @Override
-    public boolean useLazyLoad() {
+    public boolean isUseLazyLoad() {
         return false;
     }
 
@@ -501,7 +502,7 @@ public abstract class BaseFragment extends RxFragment implements IFragment {
      * 懒加载空实现，如果想实现懒加载可重写此方法
      */
     @Override
-    public void lazyLoadData() {
+    public void onLazyLoadData() {
     }
 
     /**
@@ -509,7 +510,7 @@ public abstract class BaseFragment extends RxFragment implements IFragment {
      */
     private void tryLazyLoadData() {
         if (!isDataLoaded && isVisibleToUser && isCallResume) {
-            lazyLoadData();
+            onLazyLoadData();
             isDataLoaded = true;
         }
     }
@@ -517,7 +518,7 @@ public abstract class BaseFragment extends RxFragment implements IFragment {
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        if (useLazyLoad()) {
+        if (isUseLazyLoad()) {
             this.isVisibleToUser = isVisibleToUser;
             isCallUserVisibleHint = true;
             tryLazyLoadData();
@@ -527,7 +528,7 @@ public abstract class BaseFragment extends RxFragment implements IFragment {
     @Override
     public void onResume() {
         super.onResume();
-        if (useLazyLoad()) {
+        if (isUseLazyLoad()) {
             isCallResume = true;
             if (!isCallUserVisibleHint) {
                 isVisibleToUser = !isHidden();
@@ -539,7 +540,7 @@ public abstract class BaseFragment extends RxFragment implements IFragment {
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
-        if (useLazyLoad()) {
+        if (isUseLazyLoad()) {
             isVisibleToUser = !hidden;
             tryLazyLoadData();
         }
@@ -548,7 +549,7 @@ public abstract class BaseFragment extends RxFragment implements IFragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        if (useLazyLoad()) {
+        if (isUseLazyLoad()) {
             isDataLoaded = false;
             isVisibleToUser = false;
             isCallUserVisibleHint = false;
@@ -558,7 +559,7 @@ public abstract class BaseFragment extends RxFragment implements IFragment {
         mContentView = null;
         unDispose();
         release();
-        if (useEventBus()) {
+        if (isUseEventBus()) {
             EventManager.getBus().unregister(this);
         }
     }

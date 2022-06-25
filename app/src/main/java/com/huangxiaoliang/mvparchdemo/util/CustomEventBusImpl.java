@@ -4,12 +4,11 @@ import com.huangxiaoliang.mvplib.manager.event.EventBusImpl;
 import com.huangxiaoliang.mvplib.manager.event.IEventBus;
 
 /**
- * @author : HHotHeart
- * @date : 2021/9/27 18:59
- * @desc : 自定义事件通知管理器{@link EventBusImpl}
+ * <pre>@author HHotHeart</pre>
+ * <pre>@date 2021/9/27 18:59</pre>
+ * <pre>@desc 自定义事件通知管理器{@link EventBusImpl}</pre>
  */
 public class CustomEventBusImpl implements IEventBus {
-
 
     private CustomEventBusImpl() {
     }

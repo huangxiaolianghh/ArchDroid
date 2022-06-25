@@ -1,22 +1,22 @@
 package com.huangxiaoliang.mvplib.mvp;
 
-import com.huangxiaoliang.mvplib.manager.lcet.ILCEView;
-
 /**
- * @author HHotHeart
- * @time 2021/6/7 0:03
- * @description Fragment需要继承的接口
+ * <pre>@author HHotHeart</pre>
+ * <pre>@date 2021/6/7 0:03</pre>
+ * <pre>@desc Fragment需要继承的接口</pre>
  */
 public interface IFragment extends IView {
 
-    ILCEView getLCEDelegate();
+    /**
+     * 是否使用懒加载
+     *
+     * @return 懒加载开关
+     */
+    boolean isUseLazyLoad();
 
-    boolean useLazyLoad();
-
-    void lazyLoadData();
-
-    boolean useEventBus();
-
-    boolean needPreventScreenCapture();
+    /**
+     * 懒加载
+     */
+    void onLazyLoadData();
 
 }

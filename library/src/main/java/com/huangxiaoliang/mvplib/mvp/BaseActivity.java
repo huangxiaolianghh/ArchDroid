@@ -3,6 +3,7 @@ package com.huangxiaoliang.mvplib.mvp;
 import android.app.Activity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -28,9 +29,9 @@ import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.disposables.Disposable;
 
 /**
- * @Author HHotHeart
- * @Time 2021/6/5 16:36
- * @Description 拥有Lifecycle特性的Activity基类
+ * <pre>@author HHotHeart</pre>
+ * <pre>@date 2021/6/5 16:31</pre>
+ * <pre>@desc 拥有Lifecycle特性的Activity基类</pre>
  */
 public abstract class BaseActivity extends RxAppCompatActivity implements IActivity {
 
@@ -38,6 +39,11 @@ public abstract class BaseActivity extends RxAppCompatActivity implements IActiv
      * 加载中（L）、内容（C）、错误与空视图（E）代理
      */
     private ILCEView mLceDelegate = null;
+
+    /**
+     * ContentView
+     */
+    private View mContentView = null;
 
     /**
      * 标题相关属性
@@ -49,19 +55,26 @@ public abstract class BaseActivity extends RxAppCompatActivity implements IActiv
      */
     private CompositeDisposable mCompositeDisposable;
 
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        if (needPreventScreenCapture()) {
+        if (isNeedPreventScreenCapture()) {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
         }
         super.onCreate(savedInstanceState);
         initContentView(savedInstanceState);
-        if (useEventBus()) {
+        ObjectUtils.requireNonNull(mContentView, "must set contentViw");
+        super.setContentView(mContentView);
+        if (isUseEventBus()) {
             EventManager.getBus().register(this);
         }
         getLCEDelegate();
         ObjectUtils.requireNonNull(mLceDelegate, "must set LCE delegate");
+        if (!TextUtils.isEmpty(getPageTitle())) {
+            mTitleView = new TitleParam(getPageTitle());
+        }
+        if (getPageTitleView() != null) {
+            mTitleView = getPageTitleView();
+        }
         onDecorateTitleBar(mTitleView);
         onDecorateStatusBar();
         onBeforeBusiness(savedInstanceState);
@@ -97,7 +110,7 @@ public abstract class BaseActivity extends RxAppCompatActivity implements IActiv
      * @param titleView 标题属性配置
      */
     @Override
-    public void onDecorateTitleBar(ITitleView titleView) {
+    public final void onDecorateTitleBar(ITitleView titleView) {
         if (titleView != null) {
             getLCEDelegate().onDecorateTitleBar(titleView);
         }
@@ -135,28 +148,7 @@ public abstract class BaseActivity extends RxAppCompatActivity implements IActiv
      */
     @Override
     public void setContentView(@LayoutRes int layoutId) {
-        this.setContentView(layoutId, (ITitleView) null);
-    }
-
-    /**
-     * 设置布局、标题相关属性
-     *
-     * @param layoutId 布局id
-     * @param title    标题
-     */
-    public void setContentView(@LayoutRes int layoutId, String title) {
-        this.setContentView(layoutId, TextUtils.isEmpty(title) ? null : new TitleParam(title));
-    }
-
-    /**
-     * 设置布局、标题相关属性
-     *
-     * @param layoutId  布局id
-     * @param titleView 标题属性配置
-     */
-    public void setContentView(@LayoutRes int layoutId, ITitleView titleView) {
-        super.setContentView(layoutId);
-        this.mTitleView = titleView;
+        mContentView = LayoutInflater.from(this).inflate(layoutId, null);
     }
 
     /**
@@ -166,28 +158,7 @@ public abstract class BaseActivity extends RxAppCompatActivity implements IActiv
      */
     @Override
     public void setContentView(View view) {
-        this.setContentView(view, (ITitleView) null);
-    }
-
-    /**
-     * 设置contentView、标题相关属性
-     *
-     * @param view  Activity contentView
-     * @param title 标题
-     */
-    public void setContentView(View view, String title) {
-        this.setContentView(view, TextUtils.isEmpty(title) ? null : new TitleParam(title));
-    }
-
-    /**
-     * 设置contentView、标题相关属性
-     *
-     * @param view      Activity contentView
-     * @param titleView 标题属性配置
-     */
-    public void setContentView(View view, ITitleView titleView) {
-        super.setContentView(view);
-        this.mTitleView = titleView;
+        mContentView = view;
     }
 
     /**
@@ -199,6 +170,21 @@ public abstract class BaseActivity extends RxAppCompatActivity implements IActiv
     @Override
     public void setContentView(View view, ViewGroup.LayoutParams params) {
         throw new IllegalArgumentException("forbid set LayoutParams");
+    }
+
+    /**
+     * 标题
+     *
+     * @return
+     */
+    @Override
+    public String getPageTitle() {
+        return null;
+    }
+
+    @Override
+    public ITitleView getPageTitleView() {
+        return null;
     }
 
     /**
@@ -244,7 +230,7 @@ public abstract class BaseActivity extends RxAppCompatActivity implements IActiv
      * @return 是否使用EventBus
      */
     @Override
-    public boolean useEventBus() {
+    public boolean isUseEventBus() {
         return false;
     }
 
@@ -510,7 +496,7 @@ public abstract class BaseActivity extends RxAppCompatActivity implements IActiv
      * @return 是否需要防截屏
      */
     @Override
-    public boolean needPreventScreenCapture() {
+    public boolean isNeedPreventScreenCapture() {
         return false;
     }
 
@@ -538,7 +524,7 @@ public abstract class BaseActivity extends RxAppCompatActivity implements IActiv
         mTitleView = null;
         unDispose();
         release();
-        if (useEventBus()) {
+        if (isUseEventBus()) {
             EventManager.getBus().unregister(this);
         }
     }

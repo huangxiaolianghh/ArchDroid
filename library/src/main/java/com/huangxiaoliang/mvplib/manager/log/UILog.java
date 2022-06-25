@@ -4,10 +4,11 @@ import android.text.TextUtils;
 
 import com.huangxiaoliang.mvplib.manager.MVPArchConfig;
 
+
 /**
- * @Author : HHotHeart
- * @Time : 2021/6/1 16:37
- * @Description : Log工具
+ * <pre>@author HHotHeart</pre>
+ * <pre>@date 2021/6/1 16:37</pre>
+ * <pre>@desc Log工具</pre>
  */
 public class UILog {
 

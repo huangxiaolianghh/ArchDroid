@@ -1,9 +1,9 @@
 package com.huangxiaoliang.mvplib.manager.event;
 
 /**
- * @author : HHotHeart
- * @date : 2021/6/7 21:46
- * @desc : 通知事件接口类
+ * <pre>@author HHotHeart</pre>
+ * <pre>@date 2021/6/7 21:46</pre>
+ * <pre>@desc 通知事件接口类</pre>
  */
 public interface IEventBus {
 

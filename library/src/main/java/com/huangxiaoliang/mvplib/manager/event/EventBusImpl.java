@@ -3,9 +3,9 @@ package com.huangxiaoliang.mvplib.manager.event;
 import org.greenrobot.eventbus.EventBus;
 
 /**
- * @author : HHotHeart
- * @date : 2021/6/7 21:49
- * @desc : 通知事件实现类
+ * <pre>@author HHotHeart</pre>
+ * <pre>@date 2021/6/7 21:49</pre>
+ * <pre>@desc 通知事件实现类</pre>
  */
 public final class EventBusImpl implements IEventBus {
 

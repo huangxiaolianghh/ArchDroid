@@ -11,9 +11,9 @@ import com.huangxiaoliang.mvplib.R;
 import androidx.annotation.NonNull;
 
 /**
- * <pre>author huanghuahong</pre>
- * <pre>date 2022/6/15 18:44</pre>
- * <pre>desc 加载中视图</pre>
+ * <pre>@author huanghuahong</pre>
+ * <pre>@date 2022/6/15 18:44</pre>
+ * <pre>@desc 加载中视图</pre>
  */
 public class GLoadingViewDelegate extends LoadingStateView.ViewDelegate {
 

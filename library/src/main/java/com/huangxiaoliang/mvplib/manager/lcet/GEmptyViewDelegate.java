@@ -11,9 +11,9 @@ import com.huangxiaoliang.mvplib.R;
 import androidx.annotation.NonNull;
 
 /**
- * <pre>author huanghuahong</pre>
- * <pre>date 2022/6/15 18:50</pre>
- * <pre>desc 空视图</pre>
+ * <pre>@author huanghuahong</pre>
+ * <pre>@date 2022/6/15 18:50</pre>
+ * <pre>@desc 空视图</pre>
  */
 public class GEmptyViewDelegate extends LoadingStateView.ViewDelegate {
 

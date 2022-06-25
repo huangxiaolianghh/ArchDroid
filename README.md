@@ -4,7 +4,8 @@
 一个可有效提高Android开发效率的MVP框架
 
 - 封装Activity/Fragment基类-BaseActivity/BaseFragment（Fragment懒加载开关配置）
-- 封装MVP模式Activity/Fragment基类-BaseMVPActivity/BaseMVPFragment，V与P层生命周期监听和绑定，解决诸多内存泄漏问题
+- 封装Activity/Fragment基类-BaseBindingActivity/BaseBindingFragment，支持ViewBinding的泛型，无需设置contentView、layouId
+- 封装MVP模式Activity/Fragment基类-BaseMVPActivity/BaseMVPFragmentV与P层生命周期监听和绑定，解决诸多内存泄漏问题；除此之外还扩展封装了BaseBindingMVPActivity/BaseBindingMVPFragment以支持ViewBinding
 - 使用 <a href="https://github.com/DylanCaiCoding/LoadingStateView">LoadingStateView</a>实现可定制化的页面LCE视图
 - LoadingDialog加载框定制化，可随意切换
 - 使用<a href="https://github.com/getActivity/TitleBar">TitleBar </a>实现可全局配置、页面可定制化的Title，不用每个页面写繁琐的xml代码
@@ -17,7 +18,7 @@
 
 在你的 Project build.gradle文件中添加：
 
-```java
+```groovy
 	allprojects {
 		repositories {
 			...
@@ -27,11 +28,27 @@
 ```
 在你的 Module build.gradle文件中添加：
 
-```java
+```groovy
 	dependencies {
-            implementation 'com.github.HHotHeart:MVPArch:1.0.8-beta.2'
+          	implementation 'com.github.HHotHeart:MVPArch:1.0.8-beta.5'
         }
 ```
+ViewBinding的配置，在你的 Module build.gradle文件中添加：
+
+```groovy
+android {
+
+ 	...
+ 	
+    buildFeatures {
+        viewBinding true
+    }
+
+	...
+
+}
+```
+
 ## 效果图
 
 <table>
@@ -379,24 +396,24 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.huangxiaoliang.mvparchdemo.R;
-import com.huangxiaoliang.mvplib.manager.lcet.TitleParam;
-import com.huangxiaoliang.mvplib.manager.toast.UIToast;
-import com.huangxiaoliang.mvplib.mvp.BaseActivity;
+import com.huangxiaoliang.mvparchdemo.databinding.ActivityTitleDemoBinding;
 import com.huangxiaoliang.mvplib.manager.imageloader.IImageLoader;
 import com.huangxiaoliang.mvplib.manager.imageloader.ILFactory;
-
-import androidx.annotation.Nullable;
+import com.huangxiaoliang.mvplib.manager.lcet.ITitleView;
+import com.huangxiaoliang.mvplib.manager.lcet.TitleParam;
+import com.huangxiaoliang.mvplib.manager.toast.UIToast;
+import com.huangxiaoliang.mvplib.mvp.BaseBindingActivity;
 
 /**
- * @Author : HHotHeart
- * @Time : 2021/8/14 15:42
- * @Description : 标题属性Demo
+ * <pre>@author HHotHeart</pre>
+ * <pre>@date 2021/8/14 15:42</pre>
+ * <pre>@desc 标题属性Demo</pre>
  */
-public class TitleDemoActivity extends BaseActivity {
+public class TitleDemoActivity extends BaseBindingActivity<ActivityTitleDemoBinding> {
 
     @Override
-    protected void initContentView(@Nullable Bundle savedInstanceState) {
-        setContentView(R.layout.activity_title_demo, new TitleParam("Title Demo")
+    public ITitleView getPageTitleView() {
+        return new TitleParam("Title Demo")
                 .setRightText("完成").setRightTextColor(Color.RED).setRightTextSize(17f)
                 .setOnTitleBarListener(new TitleParam.SimpleTitleBarListener() {
                     @Override
@@ -408,7 +425,7 @@ public class TitleDemoActivity extends BaseActivity {
                     public void onRightClick(View view) {
                         UIToast.showShort("点击完成");
                     }
-                }));
+                });
     }
 
     @Override
@@ -420,7 +437,7 @@ public class TitleDemoActivity extends BaseActivity {
 }
 ```
 
-我们需要继承框架的BaseActivity，如果是MVP架构，可继承BaseMVPActivity（Fragment同理），页面的标题相关属性会覆盖全局配置的属性。当然，页面LCE的配置也是可覆盖全局配置的LCE，如
+我们需要继承框架的BaseActivity，如果是MVP架构，可继承BaseMVPActivity或BaseBindingMVPActivity（Fragment同理），页面的标题相关属性会覆盖全局配置的属性。当然，页面LCE的配置也是可覆盖全局配置的LCE，如
 
 ```java
 package com.huangxiaoliang.mvparchdemo.activity;
@@ -428,26 +445,26 @@ package com.huangxiaoliang.mvparchdemo.activity;
 import android.os.Bundle;
 
 import com.dylanc.loadingstateview.LoadingStateView;
-import com.huangxiaoliang.mvparchdemo.R;
+import com.huangxiaoliang.mvparchdemo.databinding.ActivityCustomLceBinding;
 import com.huangxiaoliang.mvparchdemo.delegate.CLoadingViewDelegate;
 import com.huangxiaoliang.mvparchdemo.listener.NetCallback;
 import com.huangxiaoliang.mvparchdemo.util.CustomLCEDelegate;
 import com.huangxiaoliang.mvparchdemo.util.HttpUtils;
 import com.huangxiaoliang.mvplib.manager.toast.UIToast;
-import com.huangxiaoliang.mvplib.mvp.BaseActivity;
+import com.huangxiaoliang.mvplib.mvp.BaseBindingActivity;
 
 import androidx.annotation.Nullable;
 
 /**
- * @Author : HHotHeart
- * @Time : 2021/9/23 10:39
- * @Description : 自定义加载布局Demo
+ * <pre>@author HHotHeart</pre>
+ * <pre>@date 2021/9/23 10:39</pre>
+ * <pre>@desc 自定义加载布局Demo</pre>
  */
-public class CustomLCEActivity extends BaseActivity {
+public class CustomLCEActivity extends BaseBindingActivity<ActivityCustomLceBinding> {
 
     @Override
-    protected void initContentView(@Nullable Bundle savedInstanceState) {
-        setContentView(R.layout.activity_custom_lce, "自定义LCE");
+    public String getPageTitle() {
+        return "自定义LCE";
     }
 
     @Override
@@ -600,34 +617,29 @@ import com.huangxiaoliang.mvparchdemo.R;
 import com.huangxiaoliang.mvparchdemo.databinding.ActivityTestMvpBinding;
 import com.huangxiaoliang.mvplib.manager.imageloader.IImageLoader;
 import com.huangxiaoliang.mvplib.manager.imageloader.ILFactory;
-import com.huangxiaoliang.mvplib.manager.lcet.TitleParam;
 import com.huangxiaoliang.mvplib.manager.log.UILog;
 import com.huangxiaoliang.mvplib.manager.toast.UIToast;
-import com.huangxiaoliang.mvplib.mvp.BaseMVPActivity;
-
-import androidx.annotation.Nullable;
+import com.huangxiaoliang.mvplib.mvp.BaseBindingMVPActivity;
 
 /**
- * @Author : HHotHeart
- * @Time : 2021/8/14 15:09
- * @Description : Activity MVP例子
+ * <pre>@author HHotHeart</pre>
+ * <pre>@date 2021/8/14 15:09</pre>
+ * <pre>@desc Activity MVP例子</pre>
  */
-public class MvpDemoActivity extends BaseMVPActivity<MvpDemoActivityPresenter> implements AContract.MyActivityView {
+public class MvpDemoActivity extends BaseBindingMVPActivity<MvpDemoActivityPresenter, ActivityTestMvpBinding>
+        implements AContract.MyActivityView {
 
     private static final String TAG = "MvpDemoActivity";
 
-    private ActivityTestMvpBinding binding;
-
     @Override
-    protected void initContentView(@Nullable Bundle savedInstanceState) {
-        binding = ActivityTestMvpBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot(), new TitleParam("Activity MVP模式"));
-        binding.btnTest.setText("btnTest Toast");
+    public String getPageTitle() {
+        return "Activity MVP模式";
     }
 
     @Override
     protected void onBusiness(Bundle savedInstanceState) {
-        ILFactory.getLoader().loadNet(binding.imageView1,
+        getBinding().btnTest.setText("btnTest Toast");
+        ILFactory.getLoader().loadNet(getBinding().imageView1,
                 "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fpic1.win4000.com%2Fwallpaper%2F2020-06-29%2F5ef9b315417b8.jpg&refer=http%3A%2F%2Fpic1.win4000.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1657890578&t=11177abaff83a7971b98f5a40b97d1b2",
                 IImageLoader.HOptions.defaultOptions());
 
@@ -712,7 +724,5 @@ BaseActivity和BaseFragment实现了Disposable的管理，每执行一个Rxjava�
 		observable.compose(bindUntilEvent(ActivityEvent event));
 ```
 将Rxjava任务与页面生命周期绑定，ActivityEvent对应Actiivity的生命周期，如ActivityEvent.DESTROY，具体可查看RxLifecycle的用法。
-
-后续会实现网络请求相关模块，将其请求与页面和Presneter生命周期完美结合起来，敬请期待！！！
 
 <a href="https://blog.csdn.net/HHHceo">我的博客</a>

@@ -9,14 +9,16 @@ import java.util.Objects;
 
 import androidx.annotation.Nullable;
 import androidx.lifecycle.LifecycleOwner;
+import androidx.viewbinding.ViewBinding;
 
 /**
  * <pre>@author HHotHeart</pre>
- * <pre>@date 2021/6/11 11:54</pre>
- * <pre>@desc MVP模式Activity基类</pre>
+ * <pre>@date 2022/6/25 15:58</pre>
+ * <pre>@desc MVP模式ViewBinding功能的Activity基类</pre>
  */
 @SuppressWarnings("rawtypes")
-public abstract class BaseMVPActivity<P extends BasePresenter> extends BaseActivity {
+public abstract class BaseBindingMVPActivity<P extends BasePresenter, VB extends ViewBinding>
+        extends BaseBindingActivity<VB> {
 
     private P mPresenter;
 
@@ -53,22 +55,7 @@ public abstract class BaseMVPActivity<P extends BasePresenter> extends BaseActiv
         super.onDestroy();
         getLifecycle().removeObserver(mPresenter);
         mPresenter = null;
-        UILog.i("BaseMVPActivity onDestroy()被调用");
+        UILog.i("BaseBindingMVPActivity onDestroy()被调用");
     }
-
-
-//    Activity【onCreate】
-//    Observer【onCreate】
-//    Activity【onStart】
-//    Observer【onStart】
-//    Activity【onResume】
-//    Observer【onResume】
-//            ------------------------------
-//    Observer【onPause】
-//    Activity【onPause】
-//    Observer【onStop】
-//    Activity【onStop】
-//    Observer【onDestroy】
-//    Activity【onDestroy】
 
 }

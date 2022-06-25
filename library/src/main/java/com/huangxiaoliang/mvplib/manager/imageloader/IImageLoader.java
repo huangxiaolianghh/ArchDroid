@@ -8,9 +8,9 @@ import com.huangxiaoliang.mvplib.manager.MVPArchConfig;
 import java.io.File;
 
 /**
- * @Author : HHotHeart
- * @Time : 2021/6/1 16:36
- * @Description : 图片接口
+ * <pre>@author HHotHeart</pre>
+ * <pre>@date 2021/6/1 16:36</pre>
+ * <pre>@desc 图片接口</pre>
  */
 public interface IImageLoader {
 

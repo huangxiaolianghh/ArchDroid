@@ -1,13 +1,13 @@
 package com.huangxiaoliang.mvparchdemo.activity.mvp;
 
 
-import com.huangxiaoliang.mvplib.mvp.IView;
 import com.huangxiaoliang.mvparchdemo.listener.NetCallback;
+import com.huangxiaoliang.mvplib.mvp.IView;
 
 /**
- * @author : HHotHeart
- * @date : 2021/8/14 11:50
- * @desc : 描述
+ * <pre>@author HHotHeart</pre>
+ * <pre>@date 2021/8/14 11:50</pre>
+ * <pre>@desc 契约类</pre>
  */
 public class AContract {
 
