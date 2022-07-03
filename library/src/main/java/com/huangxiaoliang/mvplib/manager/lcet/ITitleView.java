@@ -74,11 +74,6 @@ public interface ITitleView {
 
     int getRightIcon();
 
-    ITitleView setRightIconVisible(boolean isRightIconVisible);
-
-    boolean isRightIconVisible();
-
-
     /**
      * TittleBar相关属性接口
      */

@@ -64,7 +64,6 @@ public class MVPArchAPP extends Application {
                         .setMiddleTextColor(Color.BLACK)
                         .setTitleBarHeight(R.dimen.title_bar_height1)
                         .setTittleBarBgColor(Color.WHITE)
-                        .setRightIconVisible(false)
                         .setBottomLineColor(Color.LTGRAY)
                         .setBottomLineHeight(0.5f));
 

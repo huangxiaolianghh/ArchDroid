@@ -73,8 +73,8 @@ public class GTitleBarViewDelegate extends LoadingStateView.ViewDelegate {
                 titleBar.setTitleSize(TypedValue.COMPLEX_UNIT_PX, titleParam.getMiddleTextSize());
             }
         }
-        //右边文字
-        if (TextUtils.isEmpty(titleParam.getRightText())) {
+        //右边文字和图标
+        if (TextUtils.isEmpty(titleParam.getRightText()) && titleParam.getRightIcon() == -1) {
             titleBar.getRightView().setVisibility(View.GONE);
         } else {
             titleBar.getRightView().setVisibility(View.VISIBLE);
@@ -84,6 +84,9 @@ public class GTitleBarViewDelegate extends LoadingStateView.ViewDelegate {
             }
             if (titleParam.getRightTextSize() > 0) {
                 titleBar.setRightSize(TypedValue.COMPLEX_UNIT_PX, titleParam.getRightTextSize());
+            }
+            if (titleParam.getRightIcon() != -1) {
+                titleBar.setRightIcon(titleParam.getRightIcon());
             }
         }
         //TitleBar背景色
@@ -99,12 +102,11 @@ public class GTitleBarViewDelegate extends LoadingStateView.ViewDelegate {
             titleBar.setLineVisible(false);
         } else {
             titleBar.setLineVisible(true)
-                    .setLineColor(MVPArchConfig.getInstance().getTitleParam().getBottomLineColor())
                     .setLineSize((int) MVPArchConfig.getInstance().getTitleParam().getBottomLineHeight());
             if (NO_COLOR == titleParam.getBottomLineColor()) {
-                titleBar.setBackgroundColor(MVPArchConfig.getInstance().getTitleParam().getTittleBarBgColor());
+                titleBar.setLineColor(MVPArchConfig.getInstance().getTitleParam().getBottomLineColor());
             } else {
-                titleBar.setBackgroundColor(titleParam.getTittleBarBgColor());
+                titleBar.setLineColor(titleParam.getBottomLineColor());
             }
         }
         //简单监听器

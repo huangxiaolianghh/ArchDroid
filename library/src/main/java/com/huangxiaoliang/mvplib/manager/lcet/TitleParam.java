@@ -38,7 +38,6 @@ public class TitleParam implements ITitleView {
     private float rightTextSize;
     private int rightTextColor = NO_COLOR;
     private int rightIconRes = -1;
-    private boolean isRightIconVisible = false;
 
     /**
      * TitleBar背景色和高度元素
@@ -174,17 +173,6 @@ public class TitleParam implements ITitleView {
     @Override
     public int getRightIcon() {
         return rightIconRes;
-    }
-
-    @Override
-    public TitleParam setRightIconVisible(boolean isRightIconVisible) {
-        this.isRightIconVisible = isRightIconVisible;
-        return this;
-    }
-
-    @Override
-    public boolean isRightIconVisible() {
-        return isRightIconVisible;
     }
 
     @Override

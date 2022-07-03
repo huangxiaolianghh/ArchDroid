@@ -16,7 +16,7 @@ import androidx.viewbinding.ViewBinding;
  * <pre>date 2022/6/25 16:03</pre>
  * <pre>desc MVP模式ViewBinding功能的Fragment基类</pre>
  */
- @SuppressWarnings("rawtypes")
+@SuppressWarnings("rawtypes")
 public abstract class BaseBindingMVPFragment<P extends BasePresenter, VB extends ViewBinding>
         extends BaseBindingFragment<VB> {
 

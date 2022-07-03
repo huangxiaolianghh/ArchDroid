@@ -69,6 +69,12 @@ public class MvpDemoActivityPresenter extends BasePresenter<MvpDemoActivityModel
     }
 
     @Override
+    public boolean onInterceptBackPressed() {
+        UIToast.showCustomViewShort("你已经重写拦截了返回按键事件");
+        return true;
+    }
+
+    @Override
     public void onResume(@NonNull @NotNull LifecycleOwner owner) {
         super.onResume(owner);
     }

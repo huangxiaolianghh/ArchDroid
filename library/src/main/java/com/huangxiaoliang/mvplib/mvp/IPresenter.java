@@ -21,4 +21,12 @@ public interface IPresenter<V> {
      */
     boolean isAttachV();
 
+
+    /**
+     * 拦截返回按键
+     *
+     * @return true 拦截 ，false 不拦截
+     */
+    boolean onInterceptBackPressed();
+
 }

@@ -19,11 +19,15 @@ import com.huangxiaoliang.mvplib.mvp.BaseBindingActivity;
  * <pre>@desc 标题属性Demo</pre>
  */
 public class TitleDemoActivity extends BaseBindingActivity<ActivityTitleDemoBinding> {
-
+    /**
+     * {@link TitleParam}的属性设置并不是很全面，如果需要设置{@link com.hjq.bar.TitleBar}的更多属性，可以获取它的实例对象进行设置，
+     * 或者自己利用当前页面的{@link com.dylanc.loadingstateview.LoadingStateView}实现标题栏，参考{@link CustomLCEActivity}
+     */
     @Override
     public ITitleView getPageTitleView() {
         return new TitleParam("Title Demo")
-                .setRightText("完成").setRightTextColor(Color.RED).setRightTextSize(17f)
+                .setRightText("完成").setRightTextColor(Color.WHITE).setRightTextSize(17f)
+                .setTittleBarBgColor(Color.RED)
                 .setOnTitleBarListener(new TitleParam.SimpleTitleBarListener() {
                     @Override
                     public void onLeftClick(View view) {

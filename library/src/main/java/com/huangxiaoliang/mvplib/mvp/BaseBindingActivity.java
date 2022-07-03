@@ -10,9 +10,9 @@ import androidx.annotation.Nullable;
 import androidx.viewbinding.ViewBinding;
 
 /**
- * * @author HHotHeart
- * * @date 2022/6/25 11:12
- * * @desc ViewBinding功能的Activity基类
+ * <pre>@author HHotHeart</pre>
+ * <pre>@date 2022/6/25 11:12</pre>
+ * <pre>@desc ViewBinding功能的Activity基类</pre>
  */
 public abstract class BaseBindingActivity<VB extends ViewBinding> extends BaseActivity {
 

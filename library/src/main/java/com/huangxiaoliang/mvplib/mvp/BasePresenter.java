@@ -76,6 +76,11 @@ public abstract class BasePresenter<M extends BaseModel, V extends IView> implem
     }
 
     @Override
+    public boolean onInterceptBackPressed() {
+        return false;
+    }
+
+    @Override
     public void onResume(@NonNull LifecycleOwner owner) {
 
     }

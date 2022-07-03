@@ -48,6 +48,16 @@ public abstract class BaseBindingMVPActivity<P extends BasePresenter, VB extends
     }
 
     /**
+     * 重写拦截返回按键事件
+     *
+     * @return true 拦截，false 不拦截
+     */
+    @Override
+    public boolean onInterceptBackPressed() {
+        return mPresenter.onInterceptBackPressed();
+    }
+
+    /**
      * 在此之前会调用{@link BasePresenter#onDestroy(LifecycleOwner)}
      */
     @Override
