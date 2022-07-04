@@ -8,6 +8,7 @@
 - 封装MVP模式Activity/Fragment基类-BaseMVPActivity/BaseMVPFragmentV与P层生命周期监听和绑定，解决诸多内存泄漏问题；除此之外还扩展封装了BaseBindingMVPActivity/BaseBindingMVPFragment以支持ViewBinding
 - 使用 <a href="https://github.com/DylanCaiCoding/LoadingStateView">LoadingStateView</a>实现可定制化的页面LCE视图
 - LoadingDialog加载框定制化，可随意切换
+- 添加P层按键返回事件拦截
 - 使用<a href="https://github.com/getActivity/TitleBar">TitleBar </a>实现可全局配置、页面可定制化的Title，不用每个页面写繁琐的xml代码
 - 沉浸式状态栏及状态栏颜色设置
 - 封装了Log、Toast，可自定义代理实现自己的Log、Toast
@@ -30,7 +31,7 @@
 
 ```groovy
 	dependencies {
-          	implementation 'com.github.HHotHeart:MVPArch:1.0.8-beta.5'
+          	implementation 'com.github.HHotHeart:MVPArch:1.0.8-beta.6'
         }
 ```
 ViewBinding的配置，在你的 Module build.gradle文件中添加：
@@ -113,14 +114,12 @@ public class CustomLogDelegate implements UILog.LogDelegate {
     public void d(String tag, String msg, Object... obj) {
         //自己的Log库
         Log.d(tag, msg);
-
     }
 
     @Override
     public void i(String tag, String msg, Object... obj) {
         //自己的Log库
         Log.i(tag, msg);
-
     }
 
     @Override
@@ -134,25 +133,21 @@ public class CustomLogDelegate implements UILog.LogDelegate {
     public void e(String tag, String msg, Object... obj) {
         //自己的Log库
         Log.e(tag, msg);
-        
     }
 
     @Override
     public void xml(String tag, String msg) {
         //自己的Log库
-
     }
 
     @Override
     public void json(String tag, String msg) {
         //自己的Log库
-
     }
 
     @Override
     public void printErrStackTrace(String tag, Throwable throwable) {
         //自己的Log库
-
     }
 }
 ```
@@ -205,7 +200,6 @@ Toast的代理设置，如
                         .setMiddleTextColor(Color.BLACK)
                         .setTitleBarHeight(R.dimen.title_bar_height)
                         .setTittleBarBgColor(Color.WHITE)
-                        .setRightIconVisible(false)
                         .setBottomLineColor(Color.LTGRAY)
                         .setBottomLineHeight(0.5f));
 
@@ -382,8 +376,6 @@ public class CustomLCEDelegate implements ILCEView {
         return mKProgressHUD;
     }
 }
-
-
 ```
 
 其中KProgressHUD 的加载框可改变，LoadingStateView不可更改（LCE的实现原理）。如果是页面定制化，应该如何呢？比如我们的标题
@@ -410,11 +402,15 @@ import com.huangxiaoliang.mvplib.mvp.BaseBindingActivity;
  * <pre>@desc 标题属性Demo</pre>
  */
 public class TitleDemoActivity extends BaseBindingActivity<ActivityTitleDemoBinding> {
-
+    /**
+     * {@link TitleParam}的属性设置并不是很全面，如果需要设置{@link com.hjq.bar.TitleBar}的更多属性，可以获取它的实例对象进行设置，
+     * 或者自己利用当前页面的{@link com.dylanc.loadingstateview.LoadingStateView}实现标题栏，参考{@link CustomLCEActivity}
+     */
     @Override
     public ITitleView getPageTitleView() {
         return new TitleParam("Title Demo")
-                .setRightText("完成").setRightTextColor(Color.RED).setRightTextSize(17f)
+                .setRightText("完成").setRightTextColor(Color.WHITE).setRightTextSize(17f)
+                .setTittleBarBgColor(Color.RED)
                 .setOnTitleBarListener(new TitleParam.SimpleTitleBarListener() {
                     @Override
                     public void onLeftClick(View view) {
