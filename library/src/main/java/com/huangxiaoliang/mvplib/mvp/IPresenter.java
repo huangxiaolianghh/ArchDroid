@@ -21,7 +21,6 @@ public interface IPresenter<V> {
      */
     boolean isAttachV();
 
-
     /**
      * 拦截返回按键
      *

@@ -506,7 +506,7 @@ public class AContract {
         void requestNet(NetCallback<Long> netCallback);
     }
 
-    public interface MyActivityView extends IView {
+    public interface MyActivityView {
         void showToast();
 
     }
@@ -530,7 +530,7 @@ P层实现
  * @Time : 2021/6/11 11:53
  * @Description : Activity Presenter
  */
-public class MvpDemoActivityPresenter extends BasePresenter<MvpDemoActivityModel, AContract.MyActivityView>
+public class MvpDemoActivityPresenter extends BasePresenter<MvpDemoActivityModel, MvpDemoActivity>
         implements AContract.MyActivityPresenter {
     private static final String TAG = "MvpDemoActivityPresenter";
 

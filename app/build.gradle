@@ -115,7 +115,7 @@ dependencies {
 //    implementation rootProject.ext.dependencies.utilcode
 //    implementation rootProject.ext.dependencies.TitleBar
 //    implementation rootProject.ext.dependencies.loadingstateview
-//    implementation rootProject.ext.dependencies.lifecycle
+//    implementation rootProject.ext.dependencies.lifecycleJava8
 //    implementation rootProject.ext.dependencies.rxlifecycle
 //    implementation rootProject.ext.dependencies.FlycoRoundView_Lib
 

@@ -17,10 +17,9 @@ import io.reactivex.rxjava3.disposables.Disposable;
  * <pre>@date 2021/6/11 11:53</pre>
  * <pre>@desc MVP Presenter</pre>
  */
-public class MvpDemoActivityPresenter extends BasePresenter<MvpDemoActivityModel, AContract.MyActivityView>
+public class MvpDemoActivityPresenter extends BasePresenter<MvpDemoActivityModel, MvpDemoActivity>
         implements AContract.MyActivityPresenter {
     private static final String TAG = "MvpDemoActivityPresenter";
-
 
     @Override
     public void loadData() {

@@ -17,7 +17,7 @@ import io.reactivex.rxjava3.disposables.Disposable;
  * <pre>@date 2021/6/11 11:53</pre>
  * <pre>@desc MVP Fragment Presenter</pre>
  */
-public class MVPDemoFragmentPresenter extends BasePresenter<MVPDemoFragmentModel, FContract.MyFragmentView>
+public class MVPDemoFragmentPresenter extends BasePresenter<MVPDemoFragmentModel, MVPDemoFragment>
         implements FContract.MyFragmentPresenter {
     private static final String TAG = "MVPDemoFragmentPresenter";
 

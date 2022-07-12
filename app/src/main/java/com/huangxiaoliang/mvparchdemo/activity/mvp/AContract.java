@@ -15,7 +15,7 @@ public class AContract {
         void requestNet(NetCallback<Long> netCallback);
     }
 
-    public interface MyActivityView extends IView {
+    public interface MyActivityView {
         void showToast();
 
     }

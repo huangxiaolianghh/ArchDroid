@@ -16,7 +16,7 @@ public class FContract {
 
     }
 
-    public interface MyFragmentView extends IView {
+    public interface MyFragmentView{
         void showToast();
 
     }
