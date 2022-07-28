@@ -3,7 +3,7 @@ package com.huangxiaoliang.mvplib.mvp;
 import android.os.Bundle;
 
 import com.huangxiaoliang.mvplib.manager.log.UILog;
-import com.huangxiaoliang.mvplib.util.ClassLoadUtils;
+import com.huangxiaoliang.mvplib.util.ClassUtils;
 
 import java.util.Objects;
 
@@ -24,7 +24,7 @@ public abstract class BaseMVPActivity<P extends BasePresenter> extends BaseActiv
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         mPresenter = null;
-        mPresenter = ClassLoadUtils.getT(this, 0);
+        mPresenter = ClassUtils.getSuperClassGenericType(this, 0);
         Objects.requireNonNull(mPresenter, "p can not be null");
         mPresenter.attachV(this);
         mPresenter.getMvpModel().setContext(getContext());

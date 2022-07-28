@@ -19,6 +19,12 @@ import io.reactivex.rxjava3.disposables.Disposable;
  */
 public class HttpUtils {
 
+    public static final String IMG = "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fpic1.win4000" +
+            ".com%2Fwallpaper%2F2020-06-29%2F5ef9b315417b8" +
+            ".jpg&refer=http%3A%2F%2Fpic1.win4000.com&app=2002&size=f9999," +
+            "10000&q=a80&n=0&g=0n&fmt=auto?sec=1657890578&t" +
+            "=11177abaff83a7971b98f5a40b97d1b2";
+
     public static void requestNet(IView view, NetCallback<Long> netCallback) {
         Observable.timer(2, TimeUnit.SECONDS)
                 .observeOn(AndroidSchedulers.mainThread())

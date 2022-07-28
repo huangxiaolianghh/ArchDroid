@@ -2,12 +2,10 @@ package com.huangxiaoliang.mvparchdemo.activity;
 
 import android.os.Bundle;
 
-import com.dylanc.loadingstateview.LoadingStateView;
 import com.dylanc.loadingstateview.OnReloadListener;
 import com.huangxiaoliang.mvparchdemo.R;
 import com.huangxiaoliang.mvparchdemo.databinding.ActivityReloadDemoBinding;
 import com.huangxiaoliang.mvparchdemo.listener.NetCallback;
-import com.huangxiaoliang.mvparchdemo.util.CustomLCEDelegate;
 import com.huangxiaoliang.mvparchdemo.util.HttpUtils;
 import com.huangxiaoliang.mvplib.manager.toast.UIToast;
 import com.huangxiaoliang.mvplib.mvp.BaseBindingActivity;
@@ -23,16 +21,14 @@ public class ReloadDemoActivity extends BaseBindingActivity<ActivityReloadDemoBi
 
     @Override
     public String getPageTitle() {
-        return "Reload Demo";
+        return "内容重新加载Demo";
     }
 
     @Override
     public void onBeforeBusiness(@Nullable Bundle savedInstanceState) {
         super.onBeforeBusiness(savedInstanceState);
-        LoadingStateView loadingHelper = ((CustomLCEDelegate) getLCEDelegate()).getLoadingViewState();
-        loadingHelper.setOnReloadListener(this);
+        getLoadingStateView().setOnReloadListener(this);
         findView(R.id.tv_content, v -> UIToast.showLong("重新加载的内容"));
-
     }
 
     @Override
@@ -66,7 +62,6 @@ public class ReloadDemoActivity extends BaseBindingActivity<ActivityReloadDemoBi
             public void onFailure(String msg) {
                 stateErrorView();
                 UIToast.showShort(msg);
-
             }
         });
     }

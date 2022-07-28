@@ -3,7 +3,7 @@ package com.huangxiaoliang.mvplib.mvp;
 import android.content.Context;
 
 import com.huangxiaoliang.mvplib.manager.log.UILog;
-import com.huangxiaoliang.mvplib.util.ClassLoadUtils;
+import com.huangxiaoliang.mvplib.util.ClassUtils;
 
 import java.util.Objects;
 
@@ -12,7 +12,7 @@ import androidx.lifecycle.LifecycleOwner;
 import androidx.viewbinding.ViewBinding;
 
 /**
- * <pre>author huanghuahong</pre>
+ * <pre>author HHotHeart</pre>
  * <pre>date 2022/6/25 16:03</pre>
  * <pre>desc MVP模式ViewBinding功能的Fragment基类</pre>
  */
@@ -27,7 +27,7 @@ public abstract class BaseBindingMVPFragment<P extends BasePresenter, VB extends
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         mPresenter = null;
-        mPresenter = ClassLoadUtils.getT(this, 0);
+        mPresenter = ClassUtils.getSuperClassGenericType(this, 0);
         Objects.requireNonNull(mPresenter, "p can not be null");
         mPresenter.attachV(this);
         mPresenter.getMvpModel().setContext(getContext());

@@ -7,8 +7,8 @@ package com.huangxiaoliang.mvplib.manager;
  */
 public class MVPConst {
     /**
-     * LCE代理类
+     * Loading弹窗代理在清单文件中的key
      */
-    public final static String LCE_DELEGATE = "MVPArch.LCEDelegate";
+    public final static String LOADING_POPUP_DELEGATE = "MVPArch.LoadingPopupDelegate";
 
 }

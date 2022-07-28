@@ -4,7 +4,9 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 
+import com.dylanc.loadingstateview.LoadingStateView;
 import com.huangxiaoliang.mvplib.manager.lcet.ILCEView;
+import com.huangxiaoliang.mvplib.manager.lcet.ILoadingPopupView;
 
 import androidx.annotation.IdRes;
 import androidx.annotation.Nullable;
@@ -116,11 +118,18 @@ public interface IView extends ILCEView {
     void onBeforeBusiness(@Nullable Bundle savedInstanceState);
 
     /**
-     * 获取LCE代理对象
+     * 获取LoadingStateView
      *
-     * @return LCE代理对象
+     * @return LoadingStateView
      */
-    ILCEView getLCEDelegate();
+    LoadingStateView getLoadingStateView();
+
+    /**
+     * 获取弹窗代理对象
+     *
+     * @return 弹窗代理对象
+     */
+    ILoadingPopupView getLoadingPopupDelegate();
 
     /**
      * 是否开启EventBus

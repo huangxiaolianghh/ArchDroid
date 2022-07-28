@@ -15,18 +15,18 @@ import com.huangxiaoliang.mvplib.mvp.BaseBindingFragment;
  * <pre>@desc 懒加载的Fragment Demo</pre>
  */
 public class LazyLoadFragment extends BaseBindingFragment<FragmentLazyLoadBinding> {
-    private static final String TAG = "TestFragment";
+    private static final String TAG = "LazyLoadFragment";
 
     @Override
     public void onLazyLoadData() {
-        super.onLazyLoadData();
-        UILog.d(TAG, TAG + " lazyLoadData");
         stateLoadingView();
         HttpUtils.requestNet(this, new NetCallback<Long>() {
             @Override
             public void onSuccess(Long aLong) {
                 stateContentView();
-            }
+                getBinding().tvContent.setText("懒加载：只有页面对用户可见时，才会加载数据，兼容ViewPager、ViewPager2");
+                UIToast.showCustomViewShort("懒加载成功");
+          }
 
             @Override
             public void onFailure(String msg) {

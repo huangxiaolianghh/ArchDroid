@@ -1,58 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_height="match_parent"
     android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:gravity="center_horizontal"
     android:orientation="vertical"
     tools:context="com.huangxiaoliang.mvparchdemo.activity.MainActivity">
 
     <Button
+        android:id="@+id/btn_mvp_activity"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:layout_width="wrap_content"
-        android:id="@+id/btn_mvp_activity"
-        android:text="MVP（Activity）" />
+        android:text="MVP（Activity）"
+        android:textAllCaps="false" />
 
     <Button
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_width="wrap_content"
         android:id="@+id/btn_mvp_fragment"
-        android:text="MVP（Fragment）" />
-
-    <Button
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:layout_width="wrap_content"
+        android:text="MVP（Fragment）"
+        android:textAllCaps="false" />
+
+    <Button
         android:id="@+id/btn_reload_demo"
-        android:text="Reload" />
-
-    <Button
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:layout_width="wrap_content"
+        android:text="内容重新加载Reload"
+        android:textAllCaps="false" />
+
+    <Button
         android:id="@+id/btn_title_demo"
-        android:text="Title" />
-
-    <Button
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:layout_width="wrap_content"
+        android:text="自定义标题栏"
+        android:textAllCaps="false" />
+
+    <Button
         android:id="@+id/btn_lazy_load"
-        android:text="懒加载Fragment" />
-
-    <Button
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:layout_width="wrap_content"
+        android:text="懒加载Fragment"
+        android:textAllCaps="false" />
+
+    <Button
         android:id="@+id/btn_dialog_loading"
-        android:text="加载Dialog样式" />
-
-    <Button
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:layout_width="wrap_content"
+        android:text="弹窗加载样式"
+        android:textAllCaps="false" />
+
+    <Button
         android:id="@+id/btn_content_loading"
-        android:text="自定义LoadingView" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="自定义LoadingView"
+        android:textAllCaps="false" />
 </LinearLayout>

@@ -36,12 +36,12 @@ import androidx.fragment.app.FragmentTransaction;
  * <pre>@date 2022/6/23 19:40</pre>
  * <pre>@desc 公共类工具</pre>
  */
-public class CommonUtils {
-    private static final String TAG = "CommonUtils";
+public class MvpArchUtils {
+    private static final String TAG = "MvpArchUtils";
 
     public static final int NO_COLOR = Color.TRANSPARENT;
 
-    private CommonUtils() {
+    private MvpArchUtils() {
         throw new UnsupportedOperationException("u can't instantiate me...");
     }
 

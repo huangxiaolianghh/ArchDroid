@@ -29,7 +29,7 @@ public class MainActivity extends BaseBindingActivity<ActivityMainBinding> {
         findView(R.id.btn_title_demo, mView -> startActivity(new Intent(getContext(), TitleDemoActivity.class)));
 
         findView(R.id.btn_lazy_load, mView -> startActivity(new Intent(getContext(), LazyLoadActivity.class)));
-        findView(R.id.btn_dialog_loading, mView -> startActivity(new Intent(getContext(), LoadingDialogActivity.class)));
+        findView(R.id.btn_dialog_loading, mView -> startActivity(new Intent(getContext(), LoadingPopupActivity.class)));
 
         findView(R.id.btn_content_loading, mView -> startActivity(new Intent(getContext(), CustomLCEActivity.class)));
 

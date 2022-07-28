@@ -5,7 +5,7 @@ import android.graphics.Color;
 import com.huangxiaoliang.mvplib.manager.event.EventBusImpl;
 import com.huangxiaoliang.mvplib.manager.event.EventManager;
 import com.huangxiaoliang.mvplib.manager.imageloader.GlideLoader;
-import com.huangxiaoliang.mvplib.manager.imageloader.ILFactory;
+import com.huangxiaoliang.mvplib.manager.imageloader.ImageLoaderFactory;
 import com.huangxiaoliang.mvplib.manager.lcet.TitleParam;
 import com.huangxiaoliang.mvplib.R;
 import com.huangxiaoliang.mvplib.manager.event.IEventBus;
@@ -28,41 +28,34 @@ public class MVPArchConfig {
      */
     public static String LOG_TAG = "MVPArch";
     public static String SP_TAG = "MVPArch";
-
     /**
      * cache
      */
     public static String CACHE_SP_NAME = "MVPArch_CACHE_SP";
     public static String CACHE_DISK_DIR = "MVPArch_CACHE_DISK";
-
     /**
      * 图片
      */
     public static int IL_LOADING_RES = -1;
     public static int IL_ERROR_RES = -1;
-
     /**
      * 图片加载引擎
      */
     private IImageLoader mImageLoader;
-
     /**
      * 事件通知器
      */
     private IEventBus mEventBus;
-
     /**
      * TitleBar相关元素
      */
     private TitleParam mTitleParam;
     private int mTitleLayoutId;
-
     /**
      * 默认状态栏为白底黑字
      */
     private int mStatusBarColor = Color.WHITE;
     private boolean mLightStatusBar = true;
-
     /**
      * Log
      */
@@ -75,7 +68,7 @@ public class MVPArchConfig {
     private MVPArchConfig() {
     }
 
-    public static MVPArchConfig getInstance() {
+    public static MVPArchConfig get() {
         return Holder.sMVPArchConfig;
     }
 
@@ -84,7 +77,7 @@ public class MVPArchConfig {
     }
 
     /**
-     * 获取图片加载器，初始化工厂{@link ILFactory}
+     * 获取图片加载器，初始化工厂{@link ImageLoaderFactory}
      * 默认使用框架的{@link GlideLoader}
      *
      * @return 图片加载器
@@ -160,7 +153,7 @@ public class MVPArchConfig {
      *
      * @return 标题布局id
      */
-    public int getTitleLayoutId() {
+    protected int getTitleLayoutId() {
         return mTitleLayoutId;
     }
 
@@ -170,11 +163,10 @@ public class MVPArchConfig {
      *
      * @param titleLayoutId 标题布局id
      */
-    public MVPArchConfig setTitleLayoutId(@LayoutRes int titleLayoutId) {
+    protected MVPArchConfig setTitleLayoutId(@LayoutRes int titleLayoutId) {
         mTitleLayoutId = titleLayoutId;
         return this;
     }
-
 
     /**
      * 获取状态栏设置亮或深色系

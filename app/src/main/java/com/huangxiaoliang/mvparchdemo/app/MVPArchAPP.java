@@ -31,7 +31,8 @@ public class MVPArchAPP extends Application {
         //设置全局的Header构建器
         SmartRefreshLayout.setDefaultRefreshHeaderCreator((context, layout) -> {
             layout.setPrimaryColorsId(R.color.colorPrimary, android.R.color.white);//全局设置主题颜色
-            return new ClassicsHeader(context);//.setTimeFormat(new DynamicTimeFormat("更新于 %s"));//指定为经典Header，默认是 贝塞尔雷达Header
+            return new ClassicsHeader(context);//.setTimeFormat(new DynamicTimeFormat("更新于 %s"));
+            // 指定为经典Header，默认是 贝塞尔雷达Header
         });
         //设置全局的Footer构建器
         SmartRefreshLayout.setDefaultRefreshFooterCreator((context, layout) -> {
@@ -39,9 +40,9 @@ public class MVPArchAPP extends Application {
             return new ClassicsFooter(context).setDrawableSize(20);
         });
 
-//        //设置代理对象
-//        UILog.setDelegate(new UILogDelegate().init());
-//        UIToast.setDelegate(new UIToastDelegate());
+        //        //设置代理对象
+        //        UILog.setDelegate(new UILogDelegate().init());
+        //        UIToast.setDelegate(new UIToastDelegate());
     }
 
     @Override
@@ -53,7 +54,7 @@ public class MVPArchAPP extends Application {
     public void onCreate() {
         super.onCreate();
 
-        MVPArchConfig.getInstance()
+        MVPArchConfig.get()
                 .setLogDelegate(new CustomLogDelegate().init())
                 .setLoggable(BuildConfig.DEBUG)
                 .setLightStatusBar(false)
@@ -68,11 +69,15 @@ public class MVPArchAPP extends Application {
                         .setBottomLineHeight(0.5f));
 
         LoadingStateView.setViewDelegatePool(pool ->
-                pool.register(new GLoadingViewDelegate(), new GErrorViewDelegate(), new GEmptyViewDelegate()));
+                pool.register(
+                        new GLoadingViewDelegate(),
+                        new GErrorViewDelegate(),
+                        new GEmptyViewDelegate()
+                ));
 
-//        UIToast.setDelegate(new CustomToastDelegate().init());
-//        MVPArchConfig.getInstance().setImageLoader(CustomGlideLoader.get());
-//        MVPArchConfig.getInstance().setEventBus(CustomEventBusImpl.get());
+        //        UIToast.setDelegate(new CustomToastDelegate().init());
+        //        MVPArchConfig.getInstance().setImageLoader(CustomGlideLoader.get());
+        //        MVPArchConfig.getInstance().setEventBus(CustomEventBusImpl.get());
 
         //设置全局sp文件名
         SPStaticUtils.setDefaultSPUtils(SPUtils.getInstance(MVPArchConfig.SP_TAG));

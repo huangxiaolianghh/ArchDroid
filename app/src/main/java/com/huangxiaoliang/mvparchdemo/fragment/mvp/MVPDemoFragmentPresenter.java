@@ -1,15 +1,17 @@
 package com.huangxiaoliang.mvparchdemo.fragment.mvp;
 
 
+import androidx.annotation.NonNull;
+import androidx.lifecycle.LifecycleOwner;
+
 import com.huangxiaoliang.mvparchdemo.listener.NetCallback;
+import com.huangxiaoliang.mvparchdemo.util.HttpUtils;
 import com.huangxiaoliang.mvplib.manager.log.UILog;
 import com.huangxiaoliang.mvplib.manager.toast.UIToast;
 import com.huangxiaoliang.mvplib.mvp.BasePresenter;
 
 import org.jetbrains.annotations.NotNull;
 
-import androidx.annotation.NonNull;
-import androidx.lifecycle.LifecycleOwner;
 import io.reactivex.rxjava3.disposables.Disposable;
 
 /**
@@ -33,7 +35,8 @@ public class MVPDemoFragmentPresenter extends BasePresenter<MVPDemoFragmentModel
 
             @Override
             public void onSuccess(Long aLong) {
-                getMvpView().stateErrorView();
+                getMvpView().stateContentView();
+                getMvpView().showImageView(HttpUtils.IMG);
                 getMvpView().showToast();
             }
 

@@ -1,7 +1,7 @@
 package com.huangxiaoliang.mvplib.mvp;
 
 import com.huangxiaoliang.mvplib.manager.log.UILog;
-import com.huangxiaoliang.mvplib.util.ClassLoadUtils;
+import com.huangxiaoliang.mvplib.util.ClassUtils;
 
 import java.lang.ref.WeakReference;
 import java.util.Objects;
@@ -30,7 +30,7 @@ public abstract class BasePresenter<M extends BaseModel, V extends IView> implem
         //弱引用实例化View
         v = new WeakReference<>(view);
         //泛型实例化Model
-        m = ClassLoadUtils.getT(this, 0);
+        m = ClassUtils.getSuperClassGenericType(this, 0);
         Objects.requireNonNull(m, "m can not be null");
     }
 

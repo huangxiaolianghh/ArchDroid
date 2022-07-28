@@ -12,13 +12,13 @@
         android:theme="@style/Theme.MVPArch">
 
         <activity android:name=".activity.CustomLCEActivity" />
-        <activity android:name=".activity.LoadingDialogActivity" />
+        <activity android:name=".activity.LoadingPopupActivity" />
         <activity android:name=".activity.LazyLoadActivity" />
         <activity android:name=".activity.ReloadDemoActivity" />
 
         <meta-data
-            android:name="MVPArch.LCEDelegate"
-            android:value="com.huangxiaoliang.mvparchdemo.util.CustomLCEDelegate" />
+            android:name="MVPArch.LoadingPopupDelegate"
+            android:value="com.huangxiaoliang.mvparchdemo.util.CustomLoadingPopupDelegate" />
 
         <activity android:name=".activity.MainActivity">
             <intent-filter>

@@ -12,7 +12,11 @@ import android.view.WindowManager;
 import com.githang.statusbar.StatusBarCompat;
 import com.jaeger.library.StatusBarUtil;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+
 import androidx.annotation.ColorInt;
+import androidx.annotation.IntDef;
 import androidx.annotation.IntRange;
 
 /**
@@ -22,6 +26,11 @@ import androidx.annotation.IntRange;
  */
 public class UIStatusBar {
 
+    @IntDef({STATUS_BAR_DARK_FONT, STATUS_BAR_WHITE_FONT})
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface mode {
+    }
+
     public static final int STATUS_BAR_DARK_FONT = 10001;
     public static final int STATUS_BAR_WHITE_FONT = 10002;
 
@@ -29,11 +38,20 @@ public class UIStatusBar {
     public static final int DEFAULT_STATUS_BAR_ALPHA = 112;
     public static final int HEIGHT_STATUS_BAR_ALPHA = 225;
 
+    /**
+     * 设置statusBar模式的色系
+     *
+     * @param activity Activity
+     * @param mode     色系
+     */
+    public static void setStatusBarMode(Activity activity, @mode int mode) {
+        StatusBarCompat.setLightStatusBar(activity.getWindow(), mode == STATUS_BAR_DARK_FONT);
+    }
 
     /**
      * 设置statusBar模式为亮系（图标为黑色）
      *
-     * @param activity
+     * @param activity Activity
      */
     public static void setLightMode(Activity activity) {
         StatusBarCompat.setLightStatusBar(activity.getWindow(), true);
@@ -42,7 +60,7 @@ public class UIStatusBar {
     /**
      * 设置statusBar模式为暗系（图标为白色）
      *
-     * @param activity
+     * @param activity Activity
      */
     public static void setDarkMode(Activity activity) {
         StatusBarCompat.setLightStatusBar(activity.getWindow(), false);
@@ -51,8 +69,8 @@ public class UIStatusBar {
     /**
      * 设置statusBar背景颜色（不加透明色值）
      *
-     * @param activity
-     * @param color
+     * @param activity Activity
+     * @param color    int @ColorInt
      */
     public static void setBgColor(Activity activity, @ColorInt int color) {
         setBgColor(activity, color, 0);
@@ -61,9 +79,9 @@ public class UIStatusBar {
     /**
      * 设置statusBar背景颜色（控制透明色值）
      *
-     * @param activity
-     * @param color
-     * @param statusBarAlpha
+     * @param activity       Activity
+     * @param color          int ColorInt
+     * @param statusBarAlpha int
      */
     public static void setBgColor(Activity activity, @ColorInt int color, @IntRange(from = 0, to = 255) int statusBarAlpha) {
         StatusBarUtil.setColor(activity, color, statusBarAlpha);
@@ -148,7 +166,7 @@ public class UIStatusBar {
     }
 
     /**
-     * 内容侵入透明状态栏并且兼容有虚拟按键的手机
+     * 内容侵入透明状态栏并且兼容有虚拟按键的手机（状态栏图标白色）
      *
      * @param activity activity
      */

@@ -13,12 +13,11 @@ public class FContract {
 
     public interface MyFragmentModel {
         void requestNet(NetCallback<Long> netCallback);
-
     }
 
     public interface MyFragmentView{
+        void showImageView(String imgUrl);
         void showToast();
-
     }
 
     public interface MyFragmentPresenter {

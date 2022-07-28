@@ -4,9 +4,11 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.ImageView;
+
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
 import com.blankj.utilcode.util.ThreadUtils;
 import com.blankj.utilcode.util.Utils;
@@ -27,12 +29,11 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
-import com.huangxiaoliang.mvplib.util.CommonUtils;
+import com.huangxiaoliang.mvplib.util.ClassUtils;
+import com.huangxiaoliang.mvplib.util.MvpArchUtils;
 
 import java.io.File;
-
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
+import java.util.Objects;
 
 /**
  * <pre>@author HHotHeart</pre>
@@ -55,9 +56,9 @@ public final class GlideLoader implements IImageLoader {
     /**
      * 获取加载图片的RequestManager
      *
-     * @param context
-     * @param <T>
-     * @return
+     * @param context 上下文
+     * @param <T>     泛型
+     * @return RequestManager
      */
     private <T> RequestManager getRequestManager(T context) {
         RequestManager requestManager = null;
@@ -70,7 +71,6 @@ public final class GlideLoader implements IImageLoader {
         } else if (context instanceof View) {
             requestManager = Glide.with((View) context);
         }
-        //不得已，不可用application作为context
         if (requestManager == null) {
             requestManager = Glide.with(Utils.getApp());
         }
@@ -84,22 +84,27 @@ public final class GlideLoader implements IImageLoader {
      * @return
      */
     @SuppressLint("CheckResult")
-    private RequestOptions getRequestOptions(HOptions options) {
+    private RequestOptions getRequestOptions(ImageOptions<?> options) {
+        Transformation<Bitmap> transformations = null;
         RequestOptions request = new RequestOptions()
                 .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-                .priority(Priority.HIGH)
-                .transform(wrapTransformation(options, null));
+                .priority(Priority.HIGH);
         if (options != null) {
-            if (options.loadingResId != HOptions.RES_NONE) {
-                request.placeholder(options.loadingResId);
+            if (options.getPlaceholderResId() != ImageOptions.RES_NONE) {
+                request.placeholder(options.getPlaceholderResId());
             }
-            if (options.loadErrorResId != HOptions.RES_NONE) {
-                request.error(options.loadErrorResId);
+            if (options.getErrorResId() != ImageOptions.RES_NONE) {
+                request.error(options.getErrorResId());
+            }
+            if (options.isCircle()) {
+                transformations = new CircleCrop();
+            } else if (options.getRadius() > 0) {
+                transformations = new RoundedCorners(options.getRadius());
             }
         }
+        request.transform(wrapTransformation(options, transformations));
         return request;
     }
-
 
     /**
      * 获取Transformation
@@ -107,11 +112,11 @@ public final class GlideLoader implements IImageLoader {
      * @return
      */
 
-    private Transformation<Bitmap> wrapTransformation(HOptions options, Transformation<Bitmap> transformations) {
+    private Transformation<Bitmap> wrapTransformation(ImageOptions<?> options, Transformation<Bitmap> transformations) {
         BitmapTransformation scaleFormation = null;
         if (options != null) {
-            if (options.scaleType != null) {
-                switch (options.scaleType) {
+            if (options.getScaleType() != null) {
+                switch (options.getScaleType()) {
                     case FIT_XY:
                     case CENTER_INSIDE:
                         scaleFormation = new CenterInside();
@@ -144,98 +149,89 @@ public final class GlideLoader implements IImageLoader {
     }
 
     @Override
-    public void loadImage(ImageView target, Object object, HOptions options) {
-        getRequestManager(target)
-                .load(object)
-                .apply(getRequestOptions(options))
-//                .transition(DrawableTransitionOptions.withCrossFade(300))
-                .into(target);
-
+    public void loadImage(ImageView target, Object model) {
+        loadImage(target, model, ImageLoaderFactory.asDefault());
     }
 
     @Override
-    public void loadNet(ImageView target, String url, HOptions options) {
+    public <T> void loadImage(ImageView target, Object model, ImageOptions<T> options) {
+        getRequestManager(target)
+                .as(Objects.requireNonNull(ClassUtils.<T>getSuperClassGenericTypeClass(options)))
+                .load(model)
+                .apply(getRequestOptions(options))
+                .listener(new RequestListener<T>() {
+                    @Override
+                    public boolean onLoadFailed(
+                            @Nullable GlideException e,
+                            Object model,
+                            Target<T> target,
+                            boolean isFirstResource
+                    ) {
+                        if (options.getLoadCallback() != null) {
+                            options.getLoadCallback().onLoadFailed(e == null ? "图片加载失败" : e.getMessage());
+                        }
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onResourceReady(
+                            T resource,
+                            Object model,
+                            Target<T> target,
+                            DataSource dataSource,
+                            boolean isFirstResource
+                    ) {
+                        if (options.getLoadCallback() != null) {
+                            options.getLoadCallback().onLoadReady(resource);
+                        }
+                        return false;
+                    }
+
+                }).into(target);
+    }
+
+    @Override
+    public void loadNet(ImageView target, String url) {
+        loadNet(target, url, ImageLoaderFactory.asDefault());
+    }
+
+    @Override
+    public <T> void loadNet(ImageView target, String url, ImageOptions<T> options) {
         loadImage(target, url, options);
     }
 
     @Override
-    public void loadNet(Context context, ImageView target, String url, HOptions options, ILoadCallback callback) {
-        getRequestManager(context)
-                .load(url)
-                .apply(getRequestOptions(options))
-                .listener(new RequestListener<Drawable>() {
-                    @Override
-                    public boolean onLoadFailed(@Nullable GlideException e,
-                                                Object model,
-                                                Target<Drawable> target,
-                                                boolean isFirstResource) {
-                        if (callback != null) {
-                            callback.onLoadFailed(e == null ? "图片加载失败" : e.getMessage());
-                        }
-                        return false;
-                    }
-
-                    @Override
-                    public boolean onResourceReady(Drawable resource,
-                                                   Object model,
-                                                   Target<Drawable> target,
-                                                   DataSource dataSource,
-                                                   boolean isFirstResource) {
-                        if (callback != null) {
-                            callback.onLoadReady(resource);
-                        }
-                        return false;
-                    }
-                })
-                .into(target);
+    public void loadResource(ImageView target, int resId) {
+        loadResource(target, resId, ImageLoaderFactory.asDefault());
     }
 
     @Override
-    public void loadResource(ImageView target, int resId, HOptions options) {
-        getRequestManager(target)
-                .load(resId)
-                .apply(getRequestOptions(options))
-                .into(target);
+    public <T> void loadResource(ImageView target, int resId, ImageOptions<T> options) {
+        loadImage(target, resId, options);
     }
 
     @Override
-    public void loadAssets(ImageView target, String assetName, HOptions options) {
-        Context context = CommonUtils.getActivityFromView(target);
+    public void loadAssets(ImageView target, String assetName) {
+        loadAssets(target, assetName, ImageLoaderFactory.asDefault());
+    }
+
+    @Override
+    public <T> void loadAssets(ImageView target, String assetName, ImageOptions<T> options) {
+        Context context = MvpArchUtils.getActivityFromView(target);
         if (context == null) {
             context = Utils.getApp();
         }
-        getRequestManager(target)
-                .load(CommonUtils.getBitmapFromAssert(context, assetName))
-                .apply(getRequestOptions(options))
-                .into(target);
-
+        loadImage(target, MvpArchUtils.getBitmapFromAssert(context, assetName), options);
     }
 
     @Override
-    public void loadFile(ImageView target, File file, HOptions options) {
-        getRequestManager(target)
-                .load(file)
-                .apply(getRequestOptions(options))
-                .into(target);
+    public void loadFile(ImageView target, File file) {
+        loadFile(target, file, ImageLoaderFactory.asDefault());
     }
 
     @Override
-    public void loadCircle(ImageView target, String url, HOptions options) {
-        getRequestManager(target)
-                .load(url)
-                .apply(getRequestOptions(options))
-                .transform(wrapTransformation(options, new CircleCrop()))
-                .into(target);
-
-    }
-
-    @Override
-    public void loadCorner(ImageView target, String url, int radius, HOptions options) {
-        getRequestManager(target)
-                .load(url)
-                .apply(getRequestOptions(options))
-                .transform(wrapTransformation(options, new RoundedCorners(CommonUtils.dp2px(radius))))
-                .into(target);
+    public <T> void loadFile(ImageView target, File file, ImageOptions<T> options) {
+        loadImage(target, file, options);
     }
 
     @Override
@@ -256,6 +252,5 @@ public final class GlideLoader implements IImageLoader {
     @Override
     public void pause(Context context) {
         getRequestManager(context).pauseAllRequests();
-
     }
 }

@@ -13,14 +13,14 @@ import com.hjq.bar.OnTitleBarListener;
 import com.hjq.bar.TitleBar;
 import com.huangxiaoliang.mvplib.R;
 import com.huangxiaoliang.mvplib.manager.MVPArchConfig;
-import com.huangxiaoliang.mvplib.util.CommonUtils;
+import com.huangxiaoliang.mvplib.util.MvpArchUtils;
 
 import androidx.annotation.NonNull;
 
-import static com.huangxiaoliang.mvplib.util.CommonUtils.NO_COLOR;
+import static com.huangxiaoliang.mvplib.util.MvpArchUtils.NO_COLOR;
 
 /**
- * <pre>@author huanghuahong</pre>
+ * <pre>@author HHotHeart</pre>
  * <pre>@date 2022/6/15 19:10</pre>
  * <pre>@desc 标题栏</pre>
  */
@@ -47,14 +47,15 @@ public class GTitleBarViewDelegate extends LoadingStateView.ViewDelegate {
      * @param view TitleBar
      */
     private void decorateView(View view) {
+
         //TitleBar高度
         FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) view.getLayoutParams();
-        params.height = (int) MVPArchConfig.getInstance().getTitleParam().getTitleBarHeight();
+        params.height = (int) MVPArchConfig.get().getTitleParam().getTitleBarHeight();
         view.setLayoutParams(params);
         TitleBar titleBar = view.findViewById(R.id.title_bar);
         //左边按钮
         if (titleParam.isLeftIconVisible()) {
-            int id = titleParam.getLeftIcon() == -1 ? MVPArchConfig.getInstance().getTitleParam().getLeftIcon() : titleParam.getLeftIcon();
+            int id = titleParam.getLeftIcon() == -1 ? MVPArchConfig.get().getTitleParam().getLeftIcon() : titleParam.getLeftIcon();
             titleBar.setLeftIcon(id);
         } else {
             titleBar.setLeftIcon(null);
@@ -63,12 +64,12 @@ public class GTitleBarViewDelegate extends LoadingStateView.ViewDelegate {
         if (!TextUtils.isEmpty(titleParam.getMiddleText())) {
             titleBar.setTitle(titleParam.getMiddleText());
             if (NO_COLOR == titleParam.getMiddleTextColor()) {
-                titleBar.setTitleColor(MVPArchConfig.getInstance().getTitleParam().getMiddleTextColor());
+                titleBar.setTitleColor(MVPArchConfig.get().getTitleParam().getMiddleTextColor());
             } else {
                 titleBar.setTitleColor(titleParam.getMiddleTextColor());
             }
             if (0 == titleParam.getMiddleTextSize()) {
-                titleBar.setTitleSize(TypedValue.COMPLEX_UNIT_PX, MVPArchConfig.getInstance().getTitleParam().getMiddleTextSize());
+                titleBar.setTitleSize(TypedValue.COMPLEX_UNIT_PX, MVPArchConfig.get().getTitleParam().getMiddleTextSize());
             } else {
                 titleBar.setTitleSize(TypedValue.COMPLEX_UNIT_PX, titleParam.getMiddleTextSize());
             }
@@ -91,20 +92,20 @@ public class GTitleBarViewDelegate extends LoadingStateView.ViewDelegate {
         }
         //TitleBar背景色
         if (NO_COLOR == titleParam.getTittleBarBgColor()) {
-            titleBar.setBackgroundColor(MVPArchConfig.getInstance().getTitleParam().getTittleBarBgColor());
+            titleBar.setBackgroundColor(MVPArchConfig.get().getTitleParam().getTittleBarBgColor());
         } else {
             titleBar.setBackgroundColor(titleParam.getTittleBarBgColor());
         }
         //下划线
-        if (!MVPArchConfig.getInstance().getTitleParam().isBottomLineVisible()) {
+        if (!MVPArchConfig.get().getTitleParam().isBottomLineVisible()) {
             titleBar.setLineVisible(false);
         } else if (!titleParam.isBottomLineVisible()) {
             titleBar.setLineVisible(false);
         } else {
             titleBar.setLineVisible(true)
-                    .setLineSize((int) MVPArchConfig.getInstance().getTitleParam().getBottomLineHeight());
+                    .setLineSize((int) MVPArchConfig.get().getTitleParam().getBottomLineHeight());
             if (NO_COLOR == titleParam.getBottomLineColor()) {
-                titleBar.setLineColor(MVPArchConfig.getInstance().getTitleParam().getBottomLineColor());
+                titleBar.setLineColor(MVPArchConfig.get().getTitleParam().getBottomLineColor());
             } else {
                 titleBar.setLineColor(titleParam.getBottomLineColor());
             }
@@ -116,7 +117,7 @@ public class GTitleBarViewDelegate extends LoadingStateView.ViewDelegate {
             titleBar.setOnTitleBarListener(new OnTitleBarListener() {
                 @Override
                 public void onLeftClick(View view) {
-                    CommonUtils.getActivityFromView(titleBar).finish();
+                    MvpArchUtils.getActivityFromView(titleBar).finish();
                 }
 
                 @Override

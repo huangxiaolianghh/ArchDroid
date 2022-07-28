@@ -15,12 +15,12 @@ public class EventManager {
         if (sEventBus == null) {
             synchronized (EventManager.class) {
                 if (sEventBus == null) {
-                    if (MVPArchConfig.getInstance().getEventBus() == null) {
+                    if (MVPArchConfig.get().getEventBus() == null) {
                         //框架实现的EventBus
                         sEventBus = EventBusImpl.get();
                     } else {
                         //调用者实现的EventBus
-                        sEventBus = MVPArchConfig.getInstance().getEventBus();
+                        sEventBus = MVPArchConfig.get().getEventBus();
                     }
 
                 }

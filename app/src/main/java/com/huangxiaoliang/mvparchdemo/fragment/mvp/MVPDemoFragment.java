@@ -3,12 +3,9 @@ package com.huangxiaoliang.mvparchdemo.fragment.mvp;
 import android.os.Bundle;
 
 import com.huangxiaoliang.mvparchdemo.databinding.FragmentTestMvpBinding;
-import com.huangxiaoliang.mvplib.manager.imageloader.IImageLoader;
-import com.huangxiaoliang.mvplib.manager.imageloader.ILFactory;
+import com.huangxiaoliang.mvplib.manager.imageloader.ImageLoaderFactory;
 import com.huangxiaoliang.mvplib.manager.toast.UIToast;
 import com.huangxiaoliang.mvplib.mvp.BaseBindingMVPFragment;
-
-import androidx.annotation.Nullable;
 
 /**
  * <pre>@author HHotHeart</pre>
@@ -30,11 +27,12 @@ public class MVPDemoFragment extends BaseBindingMVPFragment<MVPDemoFragmentPrese
 
     @Override
     protected void doBusiness(Bundle savedInstanceState) {
-        ILFactory.getLoader().loadNet(getBinding().imageView1,
-                "https://dss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=218024201,1599297029&fm=26&gp=0.jpg",
-                IImageLoader.HOptions.defaultOptions());
         getMvpPresenter().loadData();
+    }
 
+    @Override
+    public void showImageView(String imgUrl) {
+        ImageLoaderFactory.get().loadNet(getBinding().imageView1, imgUrl);
     }
 
     @Override

@@ -3,7 +3,7 @@ package com.huangxiaoliang.mvplib.mvp;
 import android.content.Context;
 
 import com.huangxiaoliang.mvplib.manager.log.UILog;
-import com.huangxiaoliang.mvplib.util.ClassLoadUtils;
+import com.huangxiaoliang.mvplib.util.ClassUtils;
 
 import java.util.Objects;
 
@@ -23,7 +23,7 @@ public abstract class BaseMVPFragment<P extends BasePresenter> extends BaseFragm
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         mPresenter = null;
-        mPresenter = ClassLoadUtils.getT(this, 0);
+        mPresenter = ClassUtils.getSuperClassGenericType(this, 0);
         Objects.requireNonNull(mPresenter, "p can not be null");
         mPresenter.attachV(this);
         mPresenter.getMvpModel().setContext(getContext());

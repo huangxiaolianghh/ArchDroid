@@ -5,7 +5,7 @@ import android.widget.ImageView;
 
 import com.huangxiaoliang.mvplib.manager.imageloader.GlideLoader;
 import com.huangxiaoliang.mvplib.manager.imageloader.IImageLoader;
-import com.huangxiaoliang.mvplib.manager.imageloader.ILoadCallback;
+import com.huangxiaoliang.mvplib.manager.imageloader.ImageOptions;
 
 import java.io.File;
 
@@ -28,42 +28,52 @@ public class CustomGlideLoader implements IImageLoader {
     }
 
     @Override
-    public void loadImage(ImageView target, Object object, HOptions options) {
+    public void loadImage(ImageView target, Object model) {
 
     }
 
     @Override
-    public void loadNet(ImageView target, String url, HOptions options) {
+    public <T> void loadImage(ImageView target, Object model, ImageOptions<T> options) {
 
     }
 
     @Override
-    public void loadNet(Context context, ImageView target, String url, HOptions options, ILoadCallback callback) {
+    public void loadNet(ImageView target, String url) {
 
     }
 
     @Override
-    public void loadResource(ImageView target, int resId, HOptions options) {
+    public <T> void loadNet(ImageView target, String url, ImageOptions<T> options) {
 
     }
 
     @Override
-    public void loadAssets(ImageView target, String assetName, HOptions options) {
+    public void loadResource(ImageView target, int resId) {
 
     }
 
     @Override
-    public void loadFile(ImageView target, File file, HOptions options) {
+    public <T> void loadResource(ImageView target, int resId, ImageOptions<T> options) {
 
     }
 
     @Override
-    public void loadCircle(ImageView target, String url, HOptions options) {
+    public void loadAssets(ImageView target, String assetName) {
 
     }
 
     @Override
-    public void loadCorner(ImageView target, String url, int radius, HOptions options) {
+    public <T> void loadAssets(ImageView target, String assetName, ImageOptions<T> options) {
+
+    }
+
+    @Override
+    public void loadFile(ImageView target, File file) {
+
+    }
+
+    @Override
+    public <T> void loadFile(ImageView target, File file, ImageOptions<T> options) {
 
     }
 

@@ -24,7 +24,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="40dp"
-            android:text="测试Toast" />
+            android:text="测试Toast"
+            android:textAllCaps="false" />
 
     </LinearLayout>
 </LinearLayout>

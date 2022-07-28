@@ -9,7 +9,7 @@ import com.hjq.bar.OnTitleBarListener;
 
 import androidx.annotation.DimenRes;
 
-import static com.huangxiaoliang.mvplib.util.CommonUtils.NO_COLOR;
+import static com.huangxiaoliang.mvplib.util.MvpArchUtils.NO_COLOR;
 
 /**
  * <pre>@author HHotHeart</pre>

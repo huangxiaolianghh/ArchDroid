@@ -13,7 +13,7 @@ import com.huangxiaoliang.mvplib.manager.MVPArchConfig;
 public class UILog {
 
     private static final String ROOT_TAG = MVPArchConfig.LOG_TAG;
-    private static final boolean isLoggable = MVPArchConfig.getInstance().isLoggable();
+    private static final boolean isLoggable = MVPArchConfig.get().isLoggable();
 
     private static String checkTag() {
         if (getDelegate() == null) {
@@ -119,7 +119,7 @@ public class UILog {
         }
     }
 
-    private static LogDelegate sDelegate = MVPArchConfig.getInstance().getLogDelegate();
+    private static LogDelegate sDelegate = MVPArchConfig.get().getLogDelegate();
 
     private static LogDelegate getDelegate() {
         return sDelegate;

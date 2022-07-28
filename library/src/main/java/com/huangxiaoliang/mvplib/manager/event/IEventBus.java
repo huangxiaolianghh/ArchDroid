@@ -10,46 +10,45 @@ public interface IEventBus {
     /**
      * 注册订阅者
      *
-     * @param subscriber
+     * @param subscriber 订阅者
      */
     void register(Object subscriber);
 
     /**
      * 注销订阅者
      *
-     * @param subscriber
+     * @param subscriber 订阅者
      */
     void unregister(Object subscriber);
 
     /**
      * 发送事件
      *
-     * @param event
+     * @param event 事件
      */
     void post(AbsEvent event);
 
     /**
      * 发送黏性事件
      *
-     * @param event
+     * @param event 黏性事件
      */
     void postSticky(AbsEvent event);
-
 
     /**
      * 注销黏性事件
      *
-     * @param eventType
-     * @param <T>
-     * @return
+     * @param eventType 事件Class<T>
+     * @param <T>       泛型
+     * @return T
      */
     <T> T removeStickyEvent(Class<T> eventType);
 
     /**
      * 注销黏性事件
      *
-     * @param event
-     * @return
+     * @param event 黏性事件
+     * @return boolean
      */
     boolean removeStickyEvent(AbsEvent event);
 
@@ -65,6 +64,4 @@ public interface IEventBus {
     abstract class AbsEvent {
         public abstract int getTag();
     }
-
-
 }

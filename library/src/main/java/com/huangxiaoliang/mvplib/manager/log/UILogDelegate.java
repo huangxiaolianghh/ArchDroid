@@ -29,7 +29,7 @@ public class UILogDelegate implements UILog.LogDelegate {
         Logger.addLogAdapter(new AndroidLogAdapter(formatStrategy) {
             @Override
             public boolean isLoggable(int priority, @Nullable String tag) {
-                return MVPArchConfig.getInstance().isLoggable();
+                return MVPArchConfig.get().isLoggable();
             }
         });
         return this;

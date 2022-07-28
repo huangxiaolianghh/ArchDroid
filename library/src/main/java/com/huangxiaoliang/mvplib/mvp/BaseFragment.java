@@ -10,21 +10,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 
-import com.blankj.utilcode.util.ObjectUtils;
+import com.dylanc.loadingstateview.LoadingStateView;
 import com.huangxiaoliang.mvplib.manager.MVPConst;
 import com.huangxiaoliang.mvplib.manager.event.EventManager;
-import com.huangxiaoliang.mvplib.manager.lcet.ILCEView;
-import com.huangxiaoliang.mvplib.manager.lcet.ITitleView;
-import com.huangxiaoliang.mvplib.manager.lcet.LCEDelegate;
-import com.huangxiaoliang.mvplib.util.ClassLoadUtils;
-import com.huangxiaoliang.mvplib.util.CommonUtils;
+import com.huangxiaoliang.mvplib.manager.lcet.ILoadingPopupView;
+import com.huangxiaoliang.mvplib.manager.lcet.LoadingPopupDelegate;
+import com.huangxiaoliang.mvplib.util.ClassUtils;
+import com.huangxiaoliang.mvplib.util.MvpArchUtils;
 import com.trello.rxlifecycle4.components.support.RxFragment;
-
-import org.json.JSONObject;
 
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.disposables.Disposable;
 
@@ -35,17 +34,26 @@ import io.reactivex.rxjava3.disposables.Disposable;
  * <pre>@desc 拥有Lifecycle特性的Fragment基类</pre>
  */
 public abstract class BaseFragment extends RxFragment implements IFragment {
-
     /**
      * Fragment绑定的Activity
      */
-    private Activity mContext = null;
-
+    private Activity mContext;
+    /**
+     * 订阅关系Disposable组合
+     */
+    private CompositeDisposable mCompositeDisposable;
+    /**
+     * 弹窗代理对象
+     */
+    private ILoadingPopupView mLoadingPopupDelegate;
+    /**
+     * LCE
+     */
+    private LoadingStateView mLoadingStateView;
     /**
      * 布局id
      */
     private int mLayoutId = 0;
-
     /**
      * 内容View
      */
@@ -53,16 +61,7 @@ public abstract class BaseFragment extends RxFragment implements IFragment {
     private View mDecorView;
 
     /**
-     * 加载视图等代理
-     */
-    private ILCEView mLceDelegate = null;
-
-    /**
-     * 订阅关系Disposable组合
-     */
-    private CompositeDisposable mCompositeDisposable;
-
-    /**
+     * *************** 懒加载相关属性说明 *************** <br/><br/>
      * 是否已加载数据，懒加载实现参考 https://github.com/AndyJennifer/AndroidxLazyLoad
      */
     private boolean isDataLoaded = false;
@@ -108,9 +107,10 @@ public abstract class BaseFragment extends RxFragment implements IFragment {
         } else if (mContentView == null) {
             throw new IllegalArgumentException("must set layoutId or contentView");
         }
-        getLCEDelegate();
-        ObjectUtils.requireNonNull(mLceDelegate, "must set LCE delegate");
-        mDecorView = mLceDelegate.getDecorView();
+        // LCE
+        mLoadingStateView = new LoadingStateView(mContentView);
+        mDecorView = mLoadingStateView.getDecorView();
+        onInitLoadingPopupDelegate();
         onBeforeBusiness(savedInstanceState);
         return mDecorView;
     }
@@ -145,11 +145,6 @@ public abstract class BaseFragment extends RxFragment implements IFragment {
 
     }
 
-    @Override
-    public final void onDecorateTitleBar(ITitleView titleView) {
-
-    }
-
     /**
      * 设置布局、标题相关属性
      *
@@ -169,34 +164,39 @@ public abstract class BaseFragment extends RxFragment implements IFragment {
     }
 
     /**
-     * 获取LEC代理
-     *
-     * @return LCE接口类
+     * 初始化loading popup的代理
      */
-    @Override
-    public ILCEView getLCEDelegate() {
-        if (mLceDelegate == null) {
-            String metaStr = CommonUtils.getManifestsMetaStr(MVPConst.LCE_DELEGATE);
+    private void onInitLoadingPopupDelegate() {
+        // 初始化弹窗代理对象
+        if (mLoadingPopupDelegate == null) {
+            String metaStr = MvpArchUtils.getManifestsMetaStr(MVPConst.LOADING_POPUP_DELEGATE);
             if (!TextUtils.isEmpty(metaStr)) {
-                //初始化项目注册的LCE代理器
-                mLceDelegate = ClassLoadUtils.newLCEDelegate(metaStr, mContentView);
+                mLoadingPopupDelegate = ClassUtils.instanceByClasspath(metaStr, getContext());
             }
-            //默认使用框架的LEC代理器
-            if (mLceDelegate == null) {
-                mLceDelegate = LCEDelegate.create(mContentView);
+            if (mLoadingPopupDelegate == null) {
+                mLoadingPopupDelegate = LoadingPopupDelegate.create(getContext());
             }
         }
-        return mLceDelegate;
     }
 
     /**
-     * 获取真正的RootView实例
+     * 获取LoadingStateView
      *
-     * @return RootView实例
+     * @return LoadingStateView
      */
     @Override
-    public View getDecorView() {
-        return mDecorView;
+    public LoadingStateView getLoadingStateView() {
+        return mLoadingStateView;
+    }
+
+    /**
+     * 获取弹窗代理对象
+     *
+     * @return 弹窗代理对象
+     */
+    @Override
+    public ILoadingPopupView getLoadingPopupDelegate() {
+        return mLoadingPopupDelegate;
     }
 
     /**
@@ -234,27 +234,27 @@ public abstract class BaseFragment extends RxFragment implements IFragment {
     }
 
     /**
-     * 空数据视图，调用此方法确保mLoadingHelper注册对应的Adapter
+     * 空数据视图
      */
     @Override
     public void stateEmptyView() {
-        getLCEDelegate().stateEmptyView();
+        getLoadingStateView().showEmptyView();
     }
 
     /**
-     * 错误视图，调用此方法确保mLoadingHelper注册对应的Adapter
+     * 错误视图
      */
     @Override
     public void stateErrorView() {
-        getLCEDelegate().stateErrorView();
+        getLoadingStateView().showErrorView();
     }
 
     /**
-     * 加载中视图，调用此方法确保mLoadingHelper注册对应的Adapter
+     * 加载中视图
      */
     @Override
     public void stateLoadingView() {
-        getLCEDelegate().stateLoadingView();
+        getLoadingStateView().showLoadingView();
     }
 
     /**
@@ -262,15 +262,15 @@ public abstract class BaseFragment extends RxFragment implements IFragment {
      */
     @Override
     public void stateContentView() {
-        getLCEDelegate().stateContentView();
+        getLoadingStateView().showContentView();
     }
 
     /**
      * Loading Dialog的显示
      */
     @Override
-    public void loadingDialogShow() {
-        getLCEDelegate().loadingDialogShow();
+    public void showLoadingPopup() {
+        getLoadingPopupDelegate().showLoadingPopup();
     }
 
     /**
@@ -279,8 +279,8 @@ public abstract class BaseFragment extends RxFragment implements IFragment {
      * @param cancelable 是否可关闭
      */
     @Override
-    public void loadingDialogShow(boolean cancelable) {
-        getLCEDelegate().loadingDialogShow(cancelable);
+    public void showLoadingPopup(boolean cancelable) {
+        getLoadingPopupDelegate().showLoadingPopup(cancelable);
     }
 
     /**
@@ -289,8 +289,8 @@ public abstract class BaseFragment extends RxFragment implements IFragment {
      * @param msg dialog的显示文字
      */
     @Override
-    public void loadingDialogShow(String msg) {
-        getLCEDelegate().loadingDialogShow(msg);
+    public void showLoadingPopup(String msg) {
+        getLoadingPopupDelegate().showLoadingPopup(msg);
     }
 
     /**
@@ -300,28 +300,16 @@ public abstract class BaseFragment extends RxFragment implements IFragment {
      * @param cancelable 是否可关闭
      */
     @Override
-    public void loadingDialogShow(String msg, boolean cancelable) {
-        getLCEDelegate().loadingDialogShow(msg, cancelable);
-    }
-
-    /**
-     * Loading Dialog的显示
-     *
-     * @param msg        dialog的显示文字
-     * @param cancelable 是否可关闭
-     * @param extraData  扩展参数
-     */
-    @Override
-    public void loadingDialogShow(String msg, boolean cancelable, JSONObject extraData) {
-        getLCEDelegate().loadingDialogShow(msg, cancelable, extraData);
+    public void showLoadingPopup(String msg, boolean cancelable) {
+        getLoadingPopupDelegate().showLoadingPopup(msg, cancelable);
     }
 
     /**
      * Loading Dialog的隐藏
      */
     @Override
-    public void loadingDialogDismiss() {
-        getLCEDelegate().loadingDialogDismiss();
+    public void dismissLoadingPopup() {
+        getLoadingPopupDelegate().dismissLoadingPopup();
     }
 
     /**
@@ -329,8 +317,8 @@ public abstract class BaseFragment extends RxFragment implements IFragment {
      */
     @Override
     public void release() {
-        getLCEDelegate().release();
-        mLceDelegate = null;
+        mLoadingPopupDelegate.release();
+        mLoadingPopupDelegate = null;
     }
 
     /**
@@ -515,6 +503,13 @@ public abstract class BaseFragment extends RxFragment implements IFragment {
         }
     }
 
+    /**
+     * api已废弃，替代为{@link FragmentTransaction#setMaxLifecycle(Fragment, androidx.lifecycle.Lifecycle.State)}
+     * Viewpager 适配器构造方法中可选择使用哪个api，现在ViewPager2采用了最新方案实现，
+     *
+     * @param isVisibleToUser 是否对用户可见
+     */
+    @SuppressWarnings("deprecation")
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);

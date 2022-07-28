@@ -9,24 +9,27 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 
 import com.blankj.utilcode.util.ObjectUtils;
+import com.dylanc.loadingstateview.LoadingStateView;
 import com.huangxiaoliang.mvplib.manager.MVPArchConfig;
 import com.huangxiaoliang.mvplib.manager.MVPConst;
 import com.huangxiaoliang.mvplib.manager.UIStatusBar;
 import com.huangxiaoliang.mvplib.manager.event.EventManager;
-import com.huangxiaoliang.mvplib.manager.lcet.ILCEView;
+import com.huangxiaoliang.mvplib.manager.lcet.GTitleBarViewDelegate;
+import com.huangxiaoliang.mvplib.manager.lcet.ILoadingPopupView;
 import com.huangxiaoliang.mvplib.manager.lcet.ITitleView;
-import com.huangxiaoliang.mvplib.manager.lcet.LCEDelegate;
+import com.huangxiaoliang.mvplib.manager.lcet.LoadingPopupDelegate;
 import com.huangxiaoliang.mvplib.manager.lcet.TitleParam;
-import com.huangxiaoliang.mvplib.util.ClassLoadUtils;
-import com.huangxiaoliang.mvplib.util.CommonUtils;
+import com.huangxiaoliang.mvplib.util.ClassUtils;
+import com.huangxiaoliang.mvplib.util.MvpArchUtils;
 import com.trello.rxlifecycle4.components.support.RxAppCompatActivity;
-
-import org.json.JSONObject;
 
 import androidx.annotation.LayoutRes;
 import androidx.annotation.Nullable;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.disposables.Disposable;
+
+import static com.huangxiaoliang.mvplib.manager.UIStatusBar.STATUS_BAR_DARK_FONT;
+import static com.huangxiaoliang.mvplib.manager.UIStatusBar.STATUS_BAR_WHITE_FONT;
 
 /**
  * <pre>@author HHotHeart</pre>
@@ -36,24 +39,21 @@ import io.reactivex.rxjava3.disposables.Disposable;
 public abstract class BaseActivity extends RxAppCompatActivity implements IActivity {
 
     /**
-     * 加载中（L）、内容（C）、错误与空视图（E）代理
-     */
-    private ILCEView mLceDelegate = null;
-
-    /**
-     * ContentView
-     */
-    private View mContentView = null;
-
-    /**
-     * 标题相关属性
-     */
-    private ITitleView mTitleView = null;
-
-    /**
      * 订阅关系Disposable组合
      */
     private CompositeDisposable mCompositeDisposable;
+    /**
+     * 弹窗代理对象
+     */
+    private ILoadingPopupView mLoadingPopupDelegate;
+    /**
+     * LCE-T
+     */
+    private LoadingStateView mLoadingStateView;
+    /**
+     * ContentView
+     */
+    private View mContentView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -67,34 +67,41 @@ public abstract class BaseActivity extends RxAppCompatActivity implements IActiv
         if (isUseEventBus()) {
             EventManager.getBus().register(this);
         }
-        getLCEDelegate();
-        ObjectUtils.requireNonNull(mLceDelegate, "must set LCE delegate");
+        // LCE-T
+        mLoadingStateView = new LoadingStateView(this);
+        ITitleView titleView = null;
         if (!TextUtils.isEmpty(getPageTitle())) {
-            mTitleView = new TitleParam(getPageTitle());
+            titleView = new TitleParam(getPageTitle());
         }
         if (getPageTitleView() != null) {
-            mTitleView = getPageTitleView();
+            titleView = getPageTitleView();
         }
-        onDecorateTitleBar(mTitleView);
-        onDecorateStatusBar();
+        if (titleView != null) {
+            mLoadingStateView.setHeaders(new GTitleBarViewDelegate(titleView));
+        }
+        if (isDecorateStatusBar()) {
+            UIStatusBar.setBgColor(this, MVPArchConfig.get().getStatusBarColor());
+            UIStatusBar.setStatusBarMode(this, MVPArchConfig.get().isLightStatusBar()
+                    ? STATUS_BAR_DARK_FONT : STATUS_BAR_WHITE_FONT);
+        }
+        onInitLoadingPopupDelegate();
         onBeforeBusiness(savedInstanceState);
         onBusiness(savedInstanceState);
     }
 
     /**
-     * 设置布局
+     * 初始化布局
      *
-     * @param savedInstanceState
+     * @param savedInstanceState Bundle
      */
     protected abstract void initContentView(@Nullable Bundle savedInstanceState);
 
     /**
      * 处理业务逻辑
      *
-     * @param savedInstanceState
+     * @param savedInstanceState Bundle
      */
     protected abstract void onBusiness(@Nullable Bundle savedInstanceState);
-
 
     /**
      * 处理业务逻辑之前，可在这做一些其它逻辑，如重新设置LoadingView等
@@ -105,29 +112,18 @@ public abstract class BaseActivity extends RxAppCompatActivity implements IActiv
     }
 
     /**
-     * 设置标题
-     *
-     * @param titleView 标题属性配置
+     * 初始化loading popup的代理
      */
-    @Override
-    public final void onDecorateTitleBar(ITitleView titleView) {
-        if (titleView != null) {
-            getLCEDelegate().onDecorateTitleBar(titleView);
-        }
-    }
-
-    /**
-     * 装饰状态栏
-     */
-    private void onDecorateStatusBar() {
-        if (isDecorateStatusBar()) {
-            //注意：如果要设置状态栏相关元素，需在设置标题之后
-            if (MVPArchConfig.getInstance().isLightStatusBar()) {
-                UIStatusBar.setLightMode(this);
-            } else {
-                UIStatusBar.setDarkMode(this);
+    private void onInitLoadingPopupDelegate() {
+        // 初始化弹窗代理对象
+        if (mLoadingPopupDelegate == null) {
+            String metaStr = MvpArchUtils.getManifestsMetaStr(MVPConst.LOADING_POPUP_DELEGATE);
+            if (!TextUtils.isEmpty(metaStr)) {
+                mLoadingPopupDelegate = ClassUtils.instanceByClasspath(metaStr, getContext());
             }
-            UIStatusBar.setBgColor(this, MVPArchConfig.getInstance().getStatusBarColor());
+            if (mLoadingPopupDelegate == null) {
+                mLoadingPopupDelegate = LoadingPopupDelegate.create(getContext());
+            }
         }
     }
 
@@ -175,7 +171,7 @@ public abstract class BaseActivity extends RxAppCompatActivity implements IActiv
     /**
      * 标题
      *
-     * @return
+     * @return 标题
      */
     @Override
     public String getPageTitle() {
@@ -188,25 +184,23 @@ public abstract class BaseActivity extends RxAppCompatActivity implements IActiv
     }
 
     /**
-     * 获取LEC代理
+     * 获取LoadingStateView
      *
-     * @return LCE接口类
+     * @return LoadingStateView
      */
     @Override
-    public ILCEView getLCEDelegate() {
-        if (mLceDelegate == null) {
-            View rootView = ((ViewGroup) findView(android.R.id.content)).getChildAt(0);
-            String metaStr = CommonUtils.getManifestsMetaStr(MVPConst.LCE_DELEGATE);
-            if (!TextUtils.isEmpty(metaStr)) {
-                //初始化项目注册的LCE代理器
-                mLceDelegate = ClassLoadUtils.newLCEDelegate(metaStr, rootView);
-            }
-            //默认使用框架的LEC代理器
-            if (mLceDelegate == null) {
-                mLceDelegate = LCEDelegate.create(rootView);
-            }
-        }
-        return mLceDelegate;
+    public LoadingStateView getLoadingStateView() {
+        return mLoadingStateView;
+    }
+
+    /**
+     * 获取弹窗代理对象
+     *
+     * @return 弹窗代理对象
+     */
+    @Override
+    public ILoadingPopupView getLoadingPopupDelegate() {
+        return mLoadingPopupDelegate;
     }
 
     /**
@@ -217,11 +211,6 @@ public abstract class BaseActivity extends RxAppCompatActivity implements IActiv
     @Override
     public Activity getContext() {
         return this;
-    }
-
-    @Override
-    public View getDecorView() {
-        return findView(android.R.id.content);
     }
 
     /**
@@ -235,27 +224,27 @@ public abstract class BaseActivity extends RxAppCompatActivity implements IActiv
     }
 
     /**
-     * 空数据视图，调用此方法确保mLoadingHelper注册对应的Adapter
+     * 空数据视图
      */
     @Override
     public void stateEmptyView() {
-        getLCEDelegate().stateEmptyView();
+        getLoadingStateView().showEmptyView();
     }
 
     /**
-     * 错误视图，调用此方法确保mLoadingHelper注册对应的Adapter
+     * 错误视图
      */
     @Override
     public void stateErrorView() {
-        getLCEDelegate().stateErrorView();
+        getLoadingStateView().showErrorView();
     }
 
     /**
-     * 加载中视图，调用此方法确保mLoadingHelper注册对应的Adapter
+     * 加载中视图
      */
     @Override
     public void stateLoadingView() {
-        getLCEDelegate().stateLoadingView();
+        getLoadingStateView().showLoadingView();
     }
 
     /**
@@ -263,17 +252,16 @@ public abstract class BaseActivity extends RxAppCompatActivity implements IActiv
      */
     @Override
     public void stateContentView() {
-        getLCEDelegate().stateContentView();
+        getLoadingStateView().showContentView();
     }
 
     /**
      * Loading Dialog的显示
      */
     @Override
-    public void loadingDialogShow() {
-        getLCEDelegate().loadingDialogShow();
+    public void showLoadingPopup() {
+        getLoadingPopupDelegate().showLoadingPopup();
     }
-
 
     /**
      * Loading Dialog的显示
@@ -281,8 +269,8 @@ public abstract class BaseActivity extends RxAppCompatActivity implements IActiv
      * @param cancelable 是否可关闭
      */
     @Override
-    public void loadingDialogShow(boolean cancelable) {
-        getLCEDelegate().loadingDialogShow(cancelable);
+    public void showLoadingPopup(boolean cancelable) {
+        getLoadingPopupDelegate().showLoadingPopup(cancelable);
     }
 
     /**
@@ -291,8 +279,8 @@ public abstract class BaseActivity extends RxAppCompatActivity implements IActiv
      * @param msg dialog的显示文字
      */
     @Override
-    public void loadingDialogShow(String msg) {
-        getLCEDelegate().loadingDialogShow(msg);
+    public void showLoadingPopup(String msg) {
+        getLoadingPopupDelegate().showLoadingPopup(msg);
     }
 
     /**
@@ -302,28 +290,16 @@ public abstract class BaseActivity extends RxAppCompatActivity implements IActiv
      * @param cancelable 是否可关闭
      */
     @Override
-    public void loadingDialogShow(String msg, boolean cancelable) {
-        getLCEDelegate().loadingDialogShow(msg, cancelable);
-    }
-
-    /**
-     * Loading Dialog的显示
-     *
-     * @param msg        dialog的显示文字
-     * @param cancelable 是否可关闭
-     * @param extraData  扩展参数
-     */
-    @Override
-    public void loadingDialogShow(String msg, boolean cancelable, JSONObject extraData) {
-        getLCEDelegate().loadingDialogShow(msg, cancelable, extraData);
+    public void showLoadingPopup(String msg, boolean cancelable) {
+        getLoadingPopupDelegate().showLoadingPopup(msg, cancelable);
     }
 
     /**
      * Loading Dialog的隐藏
      */
     @Override
-    public void loadingDialogDismiss() {
-        getLCEDelegate().loadingDialogDismiss();
+    public void dismissLoadingPopup() {
+        getLoadingPopupDelegate().dismissLoadingPopup();
     }
 
     /**
@@ -457,15 +433,15 @@ public abstract class BaseActivity extends RxAppCompatActivity implements IActiv
      */
     @Override
     public void release() {
-        getLCEDelegate().release();
-        mLceDelegate = null;
+        mLoadingPopupDelegate.release();
+        mLoadingPopupDelegate = null;
     }
 
     /**
-     * 添加RxJava任务、
-     * 已使用 {@link com.trello.rxlifecycle4.RxLifecycle} 避免内存泄漏,此方法可不用
+     * 添加RxJava任务，在页面销毁时注销，避免内存泄漏<br/>
+     * 也可使用{@link com.trello.rxlifecycle4.RxLifecycle}进行任务和页面的绑定
      *
-     * @param disposable
+     * @param disposable Disposable
      */
     @Override
     public void addDispose(Disposable disposable) {
@@ -475,17 +451,15 @@ public abstract class BaseActivity extends RxAppCompatActivity implements IActiv
         if (mCompositeDisposable == null) {
             mCompositeDisposable = new CompositeDisposable();
         }
-        //将所有 Disposable 放入容器集中处理
         mCompositeDisposable.add(disposable);
     }
 
     /**
-     * 停止集合中正在执行的 RxJava 任务
+     * 停止集合中正在执行的 RxJava 任务，保证 Activity 结束时取消所有正在执行的订阅
      */
     @Override
     public void unDispose() {
         if (mCompositeDisposable != null) {
-            //保证 Activity 结束时取消所有正在执行的订阅
             mCompositeDisposable.clear();
         }
     }
@@ -521,7 +495,6 @@ public abstract class BaseActivity extends RxAppCompatActivity implements IActiv
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mTitleView = null;
         unDispose();
         release();
         if (isUseEventBus()) {

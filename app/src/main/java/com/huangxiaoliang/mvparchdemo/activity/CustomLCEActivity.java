@@ -2,11 +2,9 @@ package com.huangxiaoliang.mvparchdemo.activity;
 
 import android.os.Bundle;
 
-import com.dylanc.loadingstateview.LoadingStateView;
 import com.huangxiaoliang.mvparchdemo.databinding.ActivityCustomLceBinding;
 import com.huangxiaoliang.mvparchdemo.delegate.CLoadingViewDelegate;
 import com.huangxiaoliang.mvparchdemo.listener.NetCallback;
-import com.huangxiaoliang.mvparchdemo.util.CustomLCEDelegate;
 import com.huangxiaoliang.mvparchdemo.util.HttpUtils;
 import com.huangxiaoliang.mvplib.manager.toast.UIToast;
 import com.huangxiaoliang.mvplib.mvp.BaseBindingActivity;
@@ -27,8 +25,7 @@ public class CustomLCEActivity extends BaseBindingActivity<ActivityCustomLceBind
 
     @Override
     public void onBeforeBusiness(@Nullable Bundle savedInstanceState) {
-        LoadingStateView loadingHelper = ((CustomLCEDelegate) getLCEDelegate()).getLoadingViewState();
-        loadingHelper.register(new CLoadingViewDelegate());
+        getLoadingStateView().register(new CLoadingViewDelegate());
     }
 
     @Override

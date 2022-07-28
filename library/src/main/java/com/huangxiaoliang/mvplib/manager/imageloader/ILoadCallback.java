@@ -1,18 +1,25 @@
 package com.huangxiaoliang.mvplib.manager.imageloader;
 
-import android.graphics.drawable.Drawable;
 
 /**
  * <pre>@author HHotHeart</pre>
- * <pre>@date 2021/6/1 16:38</pre>
- * <pre>@desc 图片加载状态接口</pre>
+ * <pre>@date 2022/7/27 19:54</pre>
+ * <pre>@desc 图片加载回调</pre>
  */
-public abstract class ILoadCallback {
-    void onLoadFailed(String msg) {
-    }
+public interface ILoadCallback<Type> {
 
-    void onLoadCanceled() {
-    }
+    /**
+     * 图片加载失败
+     *
+     * @param msg 失败信息
+     */
+    void onLoadFailed(String msg);
 
-    public abstract void onLoadReady(Drawable drawable);
+
+    /**
+     * 图片加载完成
+     *
+     * @param type 加载类型
+     */
+    void onLoadReady(Type type);
 }
