@@ -46,6 +46,7 @@ dependencies {
     implementation rootProject.ext.dependencies.EventBus
     implementation rootProject.ext.dependencies.statusbarutil
     implementation rootProject.ext.dependencies.statusBarCompat
+    implementation rootProject.ext.dependencies.lifecycleJava8
 
     api rootProject.ext.dependencies.utilcode
     api rootProject.ext.dependencies.TitleBar

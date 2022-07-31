@@ -31,7 +31,7 @@
 
 ```groovy
 	dependencies {
-          	implementation 'com.github.HHotHeart:MVPArch:1.0.8-beta.6'
+          	implementation 'com.github.huangxiaolianghh:MVPArch:1.0.8'
         }
 ```
 ViewBinding的配置，在你的 Module build.gradle文件中添加：
@@ -155,13 +155,13 @@ public class CustomLogDelegate implements UILog.LogDelegate {
 然后在Application中将代理设置给UILog
 
 ```java
-     MVPArchConfig.getInstance().setLogDelegate(new CustomLogDelegate().init())
+     MVPArchConfig.get().setLogDelegate(new CustomLogDelegate().init())
 ```
 
 Log日志开关可通过MVPArchConfig配置
 
 ```java
-     MVPArchConfig.getInstance().setLoggable(BuildConfig.DEBUG)
+     MVPArchConfig.get().setLoggable(BuildConfig.DEBUG)
 ```
 Toast的代理设置，如
 
@@ -174,16 +174,18 @@ Toast的代理设置，如
 框架默认实现了[EventBusImpl](https://github.com/HHotHeart/MVPArch/blob/master/library/src/main/java/com/huangxiaoliang/mvplib/manager/event/EventBusImpl.java)事件通知和[GlideLoader](https://github.com/HHotHeart/MVPArch/blob/master/library/src/main/java/com/huangxiaoliang/mvplib/manager/imageloader/GlideLoader.java)图片加载器，可以自由切换（实现IEventBus、IImageLoader接口即可），实现了之后可通过MVPArchConfig配置，如替换GlideLoader、EventBusImpl
 
 ```java
-     MVPArchConfig.getInstance().setImageLoader(IImageLoader imageLoader)
-     MVPArchConfig.getInstance().setEventBus(IEventBus eventBus);
+     MVPArchConfig.get().setImageLoader(IImageLoader imageLoader)
+     MVPArchConfig.get().setEventBus(IEventBus eventBus);
 ```
 
 两者调用方式
 
 ```java
      EventManager.getBus().post(IEventBus.AbsEvent event);
-     ILFactory.getLoader().loadNet(ImageView target, String url, IImageLoader.HOptions options);
+     ImageLoaderFactory.get().loadImage(ImageView target, Object model, ImageOptions<T> options);
 ```
+其中图片的封装的ImageOptions属性配置尚未配置完成，但基本能满足大部分需求，未来会继续完善这一块。
+
 3. LCE-T
 
 框架实现了L（加载视图）、C（内容视图）、E（错误视图、空视图）、T（标题）的逻辑处理，这里主要使用了两个库<a href="https://github.com/DylanCaiCoding/LoadingHelper">LoadingHelper</a>和<a href="https://github.com/getActivity/TitleBar">TitleBar </a>，具体实现原理可去Github上看看，框架可全局配置LCE-T，如
@@ -206,119 +208,67 @@ Toast的代理设置，如
         //设置全局LCE
         LoadingStateView.setViewDelegatePool(pool ->
         pool.register(new GLoadingViewDelegate(), new GErrorViewDelegate(), new GEmptyViewDelegate()));
-
 ```
-其中GLoadingViewDelegate、GErrorViewDelegate、GEmptyViewDelegate是框架实现的默认全局LCE，可参考将其替换成自己项目的LCE。因为LCE-T的设置是通过LCEDelegate（实现ILCEView）实现的，要想改变代理实现，可自定义代理CustomLCEDelegate实现ILCEView接口，然后通过清单文件AndroidManifest.xml去配置自定义的代理，如
+其中GLoadingViewDelegate、GErrorViewDelegate、GEmptyViewDelegate是框架实现的默认全局LCE，可参考将其替换成自己项目的LCE，某个页面都可以通过LoadingStateView对象去设置特定的LCE。
+
+因为Loading弹窗的设置是通过ILoadingPopupView实现的，要想改变代理实现，可自定义代理CustomLoadingPopupDelegate实现ILoadingPopupView接口，然后通过清单文件AndroidManifest.xml去配置自定义的代理，如
 
 ```java
         <meta-data
-            android:name="MVPArch.LCEDelegate"
-            android:value="com.huangxiaoliang.mvparchdemo.util.CustomLCEDelegate" />
+            android:name="MVPArch.LoadingPopupDelegate"
+            android:value="com.huangxiaoliang.mvparchdemo.util.CustomLoadingPopupDelegate" />
 ```
 
 ```java
 package com.huangxiaoliang.mvparchdemo.util;
 
-import android.content.Context;
+import android.app.Activity;
 import android.text.TextUtils;
-import android.view.View;
 
-import com.dylanc.loadingstateview.LoadingStateView;
-import com.huangxiaoliang.mvplib.manager.lcet.GTitleBarViewDelegate;
-import com.huangxiaoliang.mvplib.manager.lcet.ILCEView;
-import com.huangxiaoliang.mvplib.manager.lcet.ITitleView;
+import com.huangxiaoliang.mvplib.manager.lcet.ILoadingPopupView;
 import com.kaopiz.kprogresshud.KProgressHUD;
 
-import org.json.JSONObject;
-
 /**
- * @author : HHotHeart
- * @date : 2021/7/9 17:36
- * @desc : 自定义LCE代理类，需在清单文件注册meta
+ * <pre>@author HHotHeart</pre>
+ * <pre>@date 2021/7/9 17:36</pre>
+ * <pre>@desc 自定义LoadingPopupView代理类，需在清单文件注册meta</pre>
  */
-public class CustomLCEDelegate implements ILCEView {
+public class CustomLoadingPopupDelegate implements ILoadingPopupView {
 
-    private Context mContext = null;
-    /**
-     * 加载中、加载失败、空布局视图 https://github.com/DylanCaiCoding/LoadingStateView
-     */
-    private LoadingStateView mLoadingStateView = null;
+    private Activity mActivity;
     /**
      * 加载框 https://github.com/Kaopiz/KProgressHUD
      */
-    private KProgressHUD mKProgressHUD = null;
-
-    public CustomLCEDelegate(View contentView) {
-        mContext = contentView.getContext();
-        mLoadingStateView = new LoadingStateView(contentView);
-    }
+    private KProgressHUD mKProgressHUD;
 
     /**
-     * 获取真正的RootView
+     * 必不可少的构造函数，实例化时用到
      *
-     * @return
+     * @param activity Activity
      */
-    @Override
-    public View getDecorView() {
-        return mLoadingStateView.getDecorView();
-    }
-
-    /**
-     * 空数据视图
-     * 调用此方法确保mLoadingHelper注册对应的Adapter
-     */
-    @Override
-    public void stateEmptyView() {
-        mLoadingStateView.showEmptyView();
-    }
-
-    /**
-     * 错误视图
-     * 调用此方法确保mLoadingHelper注册对应的Adapter
-     */
-    @Override
-    public void stateErrorView() {
-        mLoadingStateView.showErrorView();
-    }
-
-    /**
-     * 加载中视图
-     * 调用此方法确保mLoadingHelper注册对应的Adapter
-     */
-    @Override
-    public void stateLoadingView() {
-        mLoadingStateView.showLoadingView();
-    }
-
-    /**
-     * 显示内容视图
-     */
-    @Override
-    public void stateContentView() {
-        mLoadingStateView.showContentView();
+    public CustomLoadingPopupDelegate(Activity activity) {
+        mActivity = activity;
     }
 
     @Override
-    public void loadingDialogShow() {
-        loadingDialogShow(null);
+    public void showLoadingPopup() {
+        showLoadingPopup(null);
     }
 
     @Override
-    public void loadingDialogShow(boolean cancelable) {
-        loadingDialogShow(null, cancelable);
-
+    public void showLoadingPopup(boolean cancelable) {
+        showLoadingPopup(null, cancelable);
     }
 
     @Override
-    public void loadingDialogShow(String msg) {
-        loadingDialogShow(msg, false);
-
+    public void showLoadingPopup(String msg) {
+        showLoadingPopup(msg, false);
     }
 
     @Override
-    public void loadingDialogShow(String msg, boolean cancelable) {
+    public void showLoadingPopup(String msg, boolean cancelable) {
         if (mKProgressHUD == null) {
-            mKProgressHUD = KProgressHUD.create(mContext);
+            mKProgressHUD = KProgressHUD.create(mActivity);
         }
         if (!TextUtils.isEmpty(msg)) {
             mKProgressHUD.setLabel(msg);
@@ -330,31 +280,12 @@ public class CustomLCEDelegate implements ILCEView {
     }
 
     /**
-     * 显示加载框的扩展
-     *
-     * @param msg
-     * @param cancelable
-     * @param extraData  拓展json字符串
-     */
-    @Override
-    public void loadingDialogShow(String msg, boolean cancelable, JSONObject extraData) {
-
-    }
-
-    /**
      * 关闭加载框
      */
     @Override
-    public void loadingDialogDismiss() {
+    public void dismissLoadingPopup() {
         if (mKProgressHUD != null && mKProgressHUD.isShowing()) {
             mKProgressHUD.dismiss();
-        }
-    }
-
-    @Override
-    public void onDecorateTitleBar(ITitleView titleView) {
-        if (titleView != null) {
-            mLoadingStateView.setHeaders(new GTitleBarViewDelegate(titleView));
         }
     }
 
@@ -364,21 +295,14 @@ public class CustomLCEDelegate implements ILCEView {
     @Override
     public void release() {
         mKProgressHUD = null;
-        mContext = null;
-        mLoadingStateView = null;
-    }
-
-    public LoadingStateView getLoadingViewState() {
-        return mLoadingStateView;
-    }
-
-    public KProgressHUD getLoadingDialog() {
-        return mKProgressHUD;
+        mActivity = null;
     }
 }
 ```
 
-其中KProgressHUD 的加载框可改变，LoadingStateView不可更改（LCE的实现原理）。如果是页面定制化，应该如何呢？比如我们的标题
+其中KProgressHUD 的加载框可改变，这个代理的是全局加载Loading弹窗。
+
+除此之外，LCE-T状态页面定制化，应该如何呢？比如我们的标题
 
 ```java
 package com.huangxiaoliang.mvparchdemo.activity;
@@ -387,10 +311,9 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 
-import com.huangxiaoliang.mvparchdemo.R;
 import com.huangxiaoliang.mvparchdemo.databinding.ActivityTitleDemoBinding;
-import com.huangxiaoliang.mvplib.manager.imageloader.IImageLoader;
-import com.huangxiaoliang.mvplib.manager.imageloader.ILFactory;
+import com.huangxiaoliang.mvparchdemo.util.HttpUtils;
+import com.huangxiaoliang.mvplib.manager.imageloader.ImageLoaderFactory;
 import com.huangxiaoliang.mvplib.manager.lcet.ITitleView;
 import com.huangxiaoliang.mvplib.manager.lcet.TitleParam;
 import com.huangxiaoliang.mvplib.manager.toast.UIToast;
@@ -408,7 +331,7 @@ public class TitleDemoActivity extends BaseBindingActivity<ActivityTitleDemoBind
      */
     @Override
     public ITitleView getPageTitleView() {
-        return new TitleParam("Title Demo")
+        return new TitleParam("自定义标题Demo")
                 .setRightText("完成").setRightTextColor(Color.WHITE).setRightTextSize(17f)
                 .setTittleBarBgColor(Color.RED)
                 .setOnTitleBarListener(new TitleParam.SimpleTitleBarListener() {
@@ -426,25 +349,23 @@ public class TitleDemoActivity extends BaseBindingActivity<ActivityTitleDemoBind
 
     @Override
     protected void onBusiness(Bundle savedInstanceState) {
-        ILFactory.getLoader().loadNet(findViewById(R.id.imageView1),
-                "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fpic1.win4000.com%2Fwallpaper%2F2020-06-29%2F5ef9b315417b8.jpg&refer=http%3A%2F%2Fpic1.win4000.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1657890578&t=11177abaff83a7971b98f5a40b97d1b2",
-                IImageLoader.HOptions.defaultOptions());
+        ImageLoaderFactory.get().loadNet(getBinding().imageView1, HttpUtils.IMG);
     }
 }
 ```
 
-我们需要继承框架的BaseActivity，如果是MVP架构，可继承BaseMVPActivity或BaseBindingMVPActivity（Fragment同理），页面的标题相关属性会覆盖全局配置的属性。当然，页面LCE的配置也是可覆盖全局配置的LCE，如
+我们需要继承框架的BaseActivity，如果是MVP架构，可继承BaseMVPActivity或BaseBindingMVPActivity（Fragment同理），页面的标题相关属性会覆盖全局配置的属性，当然我们也可以拿到LoadingStateView对象，对单个页面设置标题的layout。
+
+除此之外，页面LCE的配置也是可覆盖全局配置的LCE，如
 
 ```java
 package com.huangxiaoliang.mvparchdemo.activity;
 
 import android.os.Bundle;
 
-import com.dylanc.loadingstateview.LoadingStateView;
 import com.huangxiaoliang.mvparchdemo.databinding.ActivityCustomLceBinding;
 import com.huangxiaoliang.mvparchdemo.delegate.CLoadingViewDelegate;
 import com.huangxiaoliang.mvparchdemo.listener.NetCallback;
-import com.huangxiaoliang.mvparchdemo.util.CustomLCEDelegate;
 import com.huangxiaoliang.mvparchdemo.util.HttpUtils;
 import com.huangxiaoliang.mvplib.manager.toast.UIToast;
 import com.huangxiaoliang.mvplib.mvp.BaseBindingActivity;
@@ -465,8 +386,7 @@ public class CustomLCEActivity extends BaseBindingActivity<ActivityCustomLceBind
 
     @Override
     public void onBeforeBusiness(@Nullable Bundle savedInstanceState) {
-        LoadingStateView loadingHelper = ((CustomLCEDelegate) getLCEDelegate()).getLoadingViewState();
-        loadingHelper.register(new CLoadingViewDelegate());
+        getLoadingStateView().register(new CLoadingViewDelegate());
     }
 
     @Override
@@ -611,8 +531,8 @@ import android.os.Bundle;
 
 import com.huangxiaoliang.mvparchdemo.R;
 import com.huangxiaoliang.mvparchdemo.databinding.ActivityTestMvpBinding;
-import com.huangxiaoliang.mvplib.manager.imageloader.IImageLoader;
-import com.huangxiaoliang.mvplib.manager.imageloader.ILFactory;
+import com.huangxiaoliang.mvparchdemo.util.HttpUtils;
+import com.huangxiaoliang.mvplib.manager.imageloader.ImageLoaderFactory;
 import com.huangxiaoliang.mvplib.manager.log.UILog;
 import com.huangxiaoliang.mvplib.manager.toast.UIToast;
 import com.huangxiaoliang.mvplib.mvp.BaseBindingMVPActivity;
@@ -622,7 +542,8 @@ import com.huangxiaoliang.mvplib.mvp.BaseBindingMVPActivity;
  * <pre>@date 2021/8/14 15:09</pre>
  * <pre>@desc Activity MVP例子</pre>
  */
-public class MvpDemoActivity extends BaseBindingMVPActivity<MvpDemoActivityPresenter, ActivityTestMvpBinding>
+public class MvpDemoActivity
+        extends BaseBindingMVPActivity<MvpDemoActivityPresenter, ActivityTestMvpBinding>
         implements AContract.MyActivityView {
 
     private static final String TAG = "MvpDemoActivity";
@@ -635,16 +556,9 @@ public class MvpDemoActivity extends BaseBindingMVPActivity<MvpDemoActivityPrese
     @Override
     protected void onBusiness(Bundle savedInstanceState) {
         getBinding().btnTest.setText("btnTest Toast");
-        ILFactory.getLoader().loadNet(getBinding().imageView1,
-                "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fpic1.win4000.com%2Fwallpaper%2F2020-06-29%2F5ef9b315417b8.jpg&refer=http%3A%2F%2Fpic1.win4000.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1657890578&t=11177abaff83a7971b98f5a40b97d1b2",
-                IImageLoader.HOptions.defaultOptions());
-
-        findView(R.id.btn_test, v -> {
-                    UIToast.showLong("测试Toast");
-                }
-        );
+        ImageLoaderFactory.get().loadNet(getBinding().imageView1, HttpUtils.IMG);
+        findView(R.id.btn_test, v -> UIToast.showLong("测试Toast"));
         UILog.e(TAG, "isVisible：" + isVisible(R.id.btn_test));
-
         getMvpPresenter().loadData();
     }
 
