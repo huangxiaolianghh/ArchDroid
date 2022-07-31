@@ -31,7 +31,7 @@
 
 ```groovy
 	dependencies {
-          	implementation 'com.github.huangxiaolianghh:MVPArch:1.0.8'
+          	implementation 'com.github.huangxiaolianghh.ArchDroid:mvp:1.0.8'
         }
 ```
 ViewBinding的配置，在你的 Module build.gradle文件中添加：

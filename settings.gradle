@@ -1,3 +1,4 @@
-rootProject.name = "MVPArch"
+rootProject.name = "ArchDroid"
 include ':app'
 include ':mvp'
+include ':mvp-ktx'
