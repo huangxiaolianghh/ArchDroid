@@ -80,8 +80,8 @@ public final class GlideLoader implements IImageLoader {
     /**
      * 获取RequestOptions
      *
-     * @param options
-     * @return
+     * @param options ImageOptions<?>
+     * @return RequestOptions
      */
     @SuppressLint("CheckResult")
     private RequestOptions getRequestOptions(ImageOptions<?> options) {
@@ -109,9 +109,8 @@ public final class GlideLoader implements IImageLoader {
     /**
      * 获取Transformation
      *
-     * @return
+     * @return Transformation<Bitmap>
      */
-
     private Transformation<Bitmap> wrapTransformation(ImageOptions<?> options, Transformation<Bitmap> transformations) {
         BitmapTransformation scaleFormation = null;
         if (options != null) {

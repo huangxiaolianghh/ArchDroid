@@ -1,13 +1,10 @@
 package com.huangxiaoliang.mvparchdemo.activity.mvp;
 
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.view.View;
 
 import com.huangxiaoliang.mvparchdemo.R;
 import com.huangxiaoliang.mvparchdemo.databinding.ActivityTestMvpBinding;
 import com.huangxiaoliang.mvparchdemo.util.HttpUtils;
-import com.huangxiaoliang.mvplib.manager.imageloader.ILoadCallback;
 import com.huangxiaoliang.mvplib.manager.imageloader.ImageLoaderFactory;
 import com.huangxiaoliang.mvplib.manager.log.UILog;
 import com.huangxiaoliang.mvplib.manager.toast.UIToast;

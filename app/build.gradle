@@ -119,5 +119,5 @@ dependencies {
 //    implementation rootProject.ext.dependencies.rxlifecycle
 //    implementation rootProject.ext.dependencies.FlycoRoundView_Lib
 
-    implementation project(':library')
+    implementation project(':mvp')
 }
