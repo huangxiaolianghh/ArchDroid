@@ -1,4 +1,4 @@
-# MVPArch
+# ArchDroid（mvp-ktx版本更新中）
 [![](https://jitpack.io/v/HHotHeart/MVPArch.svg)](https://jitpack.io/#HHotHeart/MVPArch)
 
 一个可有效提高Android开发效率的MVP框架
@@ -13,6 +13,7 @@
 - 沉浸式状态栏及状态栏颜色设置
 - 封装了Log、Toast，可自定义代理实现自己的Log、Toast
 - 封装了图片加载器、事件通知管理器，可通过配置切换
+- ktx版本更新中...
 
 
 ## 项目引入该库
